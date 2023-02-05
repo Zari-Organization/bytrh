@@ -24,7 +24,7 @@ class AuthTypeScreenScreen extends StatelessWidget {
           width: double.infinity,
           height: double.infinity,
           child: Image.asset(
-            AppImages.splash_background,
+            AppImages.background_white,
             fit: BoxFit.cover,
           ),
         ),

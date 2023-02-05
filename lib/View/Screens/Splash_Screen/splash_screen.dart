@@ -18,7 +18,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashViewState extends State<SplashScreen> {
   late Timer timer;
 
-  void _goNext() =>Get.offAllNamed(Routes.authTypeScreen);
+  void _goNext() =>Get.offAllNamed(Routes.onBoardingScreen);
 
   startDelay() {
     timer = Timer(const Duration(seconds: 3), _goNext);

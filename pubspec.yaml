@@ -19,6 +19,7 @@ dependencies:
   http: ^0.13.5
   flutter_svg: ^1.1.5
   flutter_custom_clippers: ^2.1.0
+  introduction_screen: ^3.1.4
 
 dev_dependencies:
   flutter_test:
