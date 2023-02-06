@@ -1,15 +1,21 @@
+import 'dart:developer';
+
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_icons.dart';
+import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../Logic/controllers/auth_controller.dart';
 import '../../../Routes/routes.dart';
 import '../../Widgets/auth_button.dart';
 import '../../Widgets/titled_textField.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen({Key? key}) : super(key: key);
+  final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,84 +33,119 @@ class SignUpScreen extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TitledTextField(
+                  controller: authController.registerClientNameController.value,
                   title: "الأسم",
                   hintText: "الأسم بالكامل ...",
                   fillColor: AppColors.GREY_Light_COLOR,
                   // controller: profileController.brandNameEnController.value,
                 ),
                 TitledTextField(
+                  controller:
+                      authController.registerClientPhoneController.value,
                   title: "رقم الجوال",
                   hintText: "رقم الجوال........",
                   fillColor: AppColors.GREY_Light_COLOR,
                   // controller: profileController.brandNameEnController.value,
                 ),
                 TitledTextField(
+                  controller:
+                      authController.registerClientEmailController.value,
                   title: "الإيميل",
                   hintText: "الإيميل......",
                   fillColor: AppColors.GREY_Light_COLOR,
                   // controller: profileController.brandNameEnController.value,
                 ),
-                TitledTextField(
-                  title: "كلمة المرور",
-                  hintText: "كلمة المرور........",
-                  fillColor: AppColors.GREY_Light_COLOR,
-                  suffixIcon: IconButton(
-                    splashRadius: 20,
-                    onPressed: () {},
-                    icon: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.remove_red_eye),
-                      color: AppColors.GREY_COLOR,
+                Obx(
+                  () => TitledTextField(
+                    obscureText: authController.isSecureRegisterPass.value,
+                    controller:
+                        authController.registerClientPasswordController.value,
+                    title: "كلمة المرور",
+                    hintText: "كلمة المرور........",
+                    fillColor: AppColors.GREY_Light_COLOR,
+                    suffixIcon: IconButton(
+                      splashRadius: 20,
+                      onPressed: () {
+                        authController.isSecureRegisterPass.value =
+                            !authController.isSecureRegisterPass.value;
+                      },
+                      icon:  Icon(authController.isSecureRegisterPass.value
+                            ? Icons.remove_red_eye
+                            : Icons.hide_source_rounded),
+                        color: AppColors.GREY_COLOR,
+
                     ),
-                  ),
-                  // controller: profileController.brandNameEnController.value,
-                ),
-                TitledTextField(
-                  title: "تأكيد كلمة المرور",
-                  hintText: "كلمة المرور........",
-                  fillColor: AppColors.GREY_Light_COLOR,
-                  suffixIcon: IconButton(
-                    splashRadius: 20,
-                    onPressed: () {},
-                    icon: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.remove_red_eye),
-                      color: AppColors.GREY_COLOR,
-                    ),
+                    // controller: profileController.brandNameEnController.value,
                   ),
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                      side: const BorderSide(),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
-                      value: true,
-                      onChanged: (_) {},
-                      // checkColor: AppColors.MAIN_COLOR,
-                      activeColor: AppColors.MAIN_COLOR,
+                Obx(
+                  () => TitledTextField(
+                    obscureText: authController.isSecureRegisterConfirmPass.value,
+                    controller: authController
+                        .registerClientPasswordConfirmController.value,
+                    title: "تأكيد كلمة المرور",
+                    hintText: "كلمة المرور........",
+                    fillColor: AppColors.GREY_Light_COLOR,
+                    suffixIcon: IconButton(
+                      splashRadius: 20,
+                      onPressed: () {
+                        authController.isSecureRegisterConfirmPass.value =
+                            !authController.isSecureRegisterConfirmPass.value;
+                      },
+                      icon: Icon(
+                            authController.isSecureRegisterConfirmPass.value
+                                ? Icons.remove_red_eye
+                                : Icons.hide_source_rounded),
+                        color: AppColors.GREY_COLOR,
+
                     ),
-                    const Text(
-                      "أوافق على",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "الشروط والأحكام",
-                        style: TextStyle(
-                            fontSize: 12, color: AppColors.MAIN_COLOR),
+                  ),
+                ),
+                Obx(
+                  () => Row(
+                    children: [
+                      Checkbox(
+                        side: const BorderSide(),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25)),
+                        value: authController.termsCheck.value,
+                        onChanged: (_) {
+                          authController.termsCheck.value =
+                              !authController.termsCheck.value;
+                        },
+                        // checkColor: AppColors.MAIN_COLOR,
+                        activeColor: AppColors.MAIN_COLOR,
                       ),
-                    )
-                  ],
+                      const Text(
+                        "أوافق على",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "الشروط والأحكام",
+                          style: TextStyle(
+                              fontSize: 12, color: AppColors.MAIN_COLOR),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 16),
-                CustomButton(
-                  title: "إنشاء حساب",
-                  backgroundColor: AppColors.MAIN_COLOR,
-                  foregroundColor: AppColors.WHITE_COLOR,
-                  overlayColor: AppColors.WHITE_COLOR,
-                  onPress: () {},
+                Obx(
+                  () => ConditionalBuilder(
+                    condition: !authController.isRegisterLoading.value,
+                    builder: (context) => CustomButton(
+                      title: "إنشاء حساب",
+                      backgroundColor: AppColors.MAIN_COLOR,
+                      foregroundColor: AppColors.WHITE_COLOR,
+                      overlayColor: AppColors.WHITE_COLOR,
+                      onPress: () {
+                        handleSignUpRequest(context);
+                      },
+                    ),
+                    fallback: (context) => const CustomCircleProgress(),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -177,5 +218,73 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  handleSignUpRequest(BuildContext context) {
+
+     if (authController.registerClientNameController.value.text == "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text("Enter_Name".tr),
+        ),
+      );
+    }
+    else if (authController.registerClientPhoneController.value.text == "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text("Enter_Mobile".tr),
+        ),
+      );
+    }
+    else if (authController.registerClientEmailController.value.text == "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text("Enter_Email".tr),
+        ),
+      );
+    } else if (authController.registerClientPasswordController.value.text ==
+            "" ||
+        authController.registerClientPasswordConfirmController.value.text ==
+            "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text("Enter_pass".tr),
+        ),
+      );
+    }
+   else  if (authController.registerClientPasswordController.value.text !=
+         authController.registerClientPasswordConfirmController.value.text) {
+       ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+           duration: const Duration(seconds: 2),
+           content: Text("password_does_not_match".tr),
+         ),
+       );
+     }
+    else if (!authController.termsCheck.value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text("Check_Terms".tr),
+        ),
+      );
+    }  else {
+      authController.register(
+        authController.registerClientEmailController.value.text,
+        authController.registerClientPhoneController.value.text,
+        "+20",
+        authController.registerClientPasswordController.value.text,
+        authController.registerClientNameController.value.text,
+        "MANUAL",
+        "en",
+        "ANDROID",
+        "GMS",
+        context,
+      );
+    }
   }
 }

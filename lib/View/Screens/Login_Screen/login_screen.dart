@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../Logic/controllers/auth_controller.dart';
 import '../../../Routes/routes.dart';
 import '../../Widgets/auth_button.dart';
+import '../../Widgets/custom_circle_progress.dart';
 import '../../Widgets/titled_textField.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -44,17 +45,14 @@ class LoginScreen extends StatelessWidget {
                     fillColor: AppColors.GREY_Light_COLOR,
                     suffixIcon: IconButton(
                       splashRadius: 20,
-                      onPressed: () {},
-                      icon: IconButton(
-                        onPressed: () {
-                          authController.isSecureLoginPass.value =
-                              !authController.isSecureLoginPass.value;
-                        },
-                        icon: Icon(authController.isSecureLoginPass.value
+                      onPressed: () {
+                        authController.isSecureLoginPass.value =
+                        !authController.isSecureLoginPass.value;
+                      },
+                      icon: Icon(authController.isSecureLoginPass.value
                             ? Icons.remove_red_eye
                             : Icons.hide_source_rounded),
                         color: AppColors.GREY_COLOR,
-                      ),
                     ),
                     // controller: profileController.brandNameEnController.value,
                   ),
@@ -93,11 +91,7 @@ class LoginScreen extends StatelessWidget {
                         handleLoginRequest(context);
                       },
                     ),
-                    fallback: (context) => const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.MAIN_COLOR,
-                      ),
-                    ),
+                    fallback: (context) => const CustomCircleProgress(),
                   ),
                 ),
                 const SizedBox(height: 16),

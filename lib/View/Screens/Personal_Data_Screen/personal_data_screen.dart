@@ -24,53 +24,56 @@ class PersonalDataScreen extends StatelessWidget {
         title: const Text("بياناتي الشخصية"),
         centerTitle: true,
       ),
-      body: Obx(() {
-        if (personalDataController.isLoading.value) {
-          return const CustomCircleProgress();
-        } else {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TitledTextField(
-                    title: "الأسم",
-                    hintText: personalDataController.clientData.value.clientName,
-                    fillColor: AppColors.GREY_Light_COLOR,
-                  ),
-                  TitledTextField(
-                    title: "رقم الجوال",
-                    hintText: personalDataController.clientData.value.clientPhone,
-                    fillColor: AppColors.GREY_Light_COLOR,
-                  ),
-                  TitledTextField(
-                    title: "الإيميل",
-                    hintText: personalDataController.clientData.value.clientEmail,
-                    fillColor: AppColors.GREY_Light_COLOR,
-                    // controller: profileController.brandNameEnController.value,
-                  ),
-                  TitledTextField(
-                    title: "المدينة الحالية",
-                    hintText: personalDataController.clientData.value.idClient.toString(),
-                    fillColor: AppColors.GREY_Light_COLOR,
-                    // controller: profileController.brandNameEnController.value,
-                  ),
-                  const SizedBox(height: 16),
-                  CustomButton(
-                    title: "حفظ",
-                    backgroundColor: AppColors.MAIN_COLOR,
-                    foregroundColor: AppColors.WHITE_COLOR,
-                    overlayColor: AppColors.WHITE_COLOR,
-                    onPress: () {},
-                  ),
-                  const SizedBox(height: 16),
-                ],
+      body: Obx(
+        () {
+          if (personalDataController.isLoading.value) {
+            return const CustomCircleProgress();
+          } else {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitledTextField(
+                      title: "الأسم",
+                      controller:
+                          personalDataController.userNameController.value,
+                      fillColor: AppColors.GREY_Light_COLOR,
+                    ),
+                    TitledTextField(
+                      title: "رقم الجوال",
+                      controller: personalDataController.phoneController.value,
+                      fillColor: AppColors.GREY_Light_COLOR,
+                    ),
+                    TitledTextField(
+                      title: "الإيميل",
+                      controller: personalDataController.emailController.value,
+                      fillColor: AppColors.GREY_Light_COLOR,
+                      // controller: profileController.brandNameEnController.value,
+                    ),
+                    TitledTextField(
+                      title: "المدينة الحالية",
+                      controller: personalDataController.cityController.value,
+                      fillColor: AppColors.GREY_Light_COLOR,
+                      // controller: profileController.brandNameEnController.value,
+                    ),
+                    const SizedBox(height: 16),
+                    CustomButton(
+                      title: "حفظ",
+                      backgroundColor: AppColors.MAIN_COLOR,
+                      foregroundColor: AppColors.WHITE_COLOR,
+                      overlayColor: AppColors.WHITE_COLOR,
+                      onPress: () {},
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
               ),
-            ),
-          );
-        }
-      }),
+            );
+          }
+        },
+      ),
     );
   }
 }

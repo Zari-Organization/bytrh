@@ -1,16 +1,16 @@
 // To parse this JSON data, do
 //
-//     final authModel = authModelFromJson(jsonString);
+//     final registerModel = registerModelFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-AuthModel authModelFromJson(String str) => AuthModel.fromJson(json.decode(str));
+RegisterModel registerModelFromJson(String str) => RegisterModel.fromJson(json.decode(str));
 
-String authModelToJson(AuthModel data) => json.encode(data.toJson());
+String registerModelToJson(RegisterModel data) => json.encode(data.toJson());
 
-class AuthModel {
-  AuthModel({
+class RegisterModel {
+  RegisterModel({
     required this.success,
     required this.apiMsg,
     required this.apiCode,
@@ -22,7 +22,7 @@ class AuthModel {
   int apiCode;
   Response? response;
 
-  factory AuthModel.fromJson(Map<String, dynamic> json) => AuthModel(
+  factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
     success: json["Success"],
     apiMsg: json["ApiMsg"],
     apiCode: json["ApiCode"],
@@ -56,7 +56,7 @@ class Response {
   String clientName;
   String clientEmail;
   String clientPicture;
-  int idCity;
+  dynamic idCity;
   String clientStatus;
   String accessToken;
 

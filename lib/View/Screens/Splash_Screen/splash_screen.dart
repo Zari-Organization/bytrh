@@ -7,6 +7,7 @@ import '../../../Routes/routes.dart';
 import '../../../Utils/app_colors.dart';
 import '../../../Utils/app_constants.dart';
 import '../../../Utils/app_images.dart';
+import 'dart:developer';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,7 +19,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashViewState extends State<SplashScreen> {
   late Timer timer;
 
-  void _goNext() =>Get.offAllNamed(Routes.onBoardingScreen);
+  void _goNext() => GetStorage().read<String>('AccessToken') == null
+      ? Get.offAllNamed(Routes.onBoardingScreen)
+      : Get.offAllNamed(Routes.mainScreen);
 
   startDelay() {
     timer = Timer(const Duration(seconds: 3), _goNext);
@@ -29,8 +32,8 @@ class _SplashViewState extends State<SplashScreen> {
     GetStorage().read<String>('AccessToken');
     GetStorage().read<String>('userName');
     if (kDebugMode) {
-      print(GetStorage().read<String>('AccessToken'));
-      print(GetStorage().read<String>('userName'));
+      log(GetStorage().read<String>('AccessToken').toString());
+      log(GetStorage().read<String>('userName').toString());
     }
     startDelay();
     super.initState();
