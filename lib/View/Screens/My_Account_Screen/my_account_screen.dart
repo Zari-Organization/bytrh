@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../Utils/app_colors.dart';
+
 class MyAccountScreen extends StatelessWidget {
   const MyAccountScreen({Key? key}) : super(key: key);
 
@@ -7,7 +9,9 @@ class MyAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Account Screen"),
+        backgroundColor: AppColors.MAIN_COLOR,
+        centerTitle: true,
+        title: Text("حسابي"),
       ),
     );
   }

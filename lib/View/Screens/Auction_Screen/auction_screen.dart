@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../Utils/app_colors.dart';
+
 class AuctionScreen extends StatelessWidget {
   const AuctionScreen({Key? key}) : super(key: key);
 
@@ -7,7 +9,9 @@ class AuctionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Auction Screen"),
+        backgroundColor: AppColors.MAIN_COLOR,
+        centerTitle: true,
+        title: Text("مزاد"),
       ),
     );
   }
