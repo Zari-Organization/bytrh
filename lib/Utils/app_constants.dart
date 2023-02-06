@@ -3,7 +3,7 @@ import 'package:get_storage/get_storage.dart';
 
 class AppConstants {
 
-  static const String apiUrl = "https://zariexpress.com";
+  static const String apiUrl = "https://bytrh.com";
 
   String UserTocken = GetStorage().read<String>('AccessToken')??"";
   static const String placeholder = 'assets/images/placeholder.jpg';

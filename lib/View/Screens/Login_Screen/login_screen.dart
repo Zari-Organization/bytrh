@@ -1,15 +1,17 @@
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_icons.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import '../../../Logic/controllers/auth_controller.dart';
 import '../../../Routes/routes.dart';
 import '../../Widgets/auth_button.dart';
 import '../../Widgets/titled_textField.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+  final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,49 +29,76 @@ class LoginScreen extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TitledTextField(
+                  controller: authController.loginUserNameController.value,
                   title: "رقم الجوال",
                   hintText: "رقم الجوال........",
                   fillColor: AppColors.GREY_Light_COLOR,
                   // controller: profileController.brandNameEnController.value,
                 ),
-                TitledTextField(
-                  title: "كلمة المرور",
-                  hintText: "كلمة المرور........",
-                  fillColor: AppColors.GREY_Light_COLOR,
-                  suffixIcon: IconButton(
-                    splashRadius: 20,
-                    onPressed: () {},
-                    icon: IconButton(
+                Obx(
+                  () => TitledTextField(
+                    obscureText: authController.isSecureLoginPass.value,
+                    controller: authController.loginPasswordController.value,
+                    title: "كلمة المرور",
+                    hintText: "كلمة المرور........",
+                    fillColor: AppColors.GREY_Light_COLOR,
+                    suffixIcon: IconButton(
+                      splashRadius: 20,
                       onPressed: () {},
-                      icon: const Icon(Icons.remove_red_eye),
-                      color: AppColors.GREY_COLOR,
+                      icon: IconButton(
+                        onPressed: () {
+                          authController.isSecureLoginPass.value =
+                              !authController.isSecureLoginPass.value;
+                        },
+                        icon: Icon(authController.isSecureLoginPass.value
+                            ? Icons.remove_red_eye
+                            : Icons.hide_source_rounded),
+                        color: AppColors.GREY_COLOR,
+                      ),
                     ),
+                    // controller: profileController.brandNameEnController.value,
                   ),
-                  // controller: profileController.brandNameEnController.value,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(onPressed: (){}, child: Column(
-                      children: [
-                        Text("نسيت كلمة المرور؟",style: TextStyle(fontSize: 12,color: AppColors.BLACK_COLOR
-                        ),),
-                        Container(
-                          color: AppColors.BLACK_COLOR,
-                          width: 80,
-                          height: 0.5,
-                        ),
-                      ],
-                    ))
+                    TextButton(
+                        onPressed: () {},
+                        child: Column(
+                          children: [
+                            const Text(
+                              "نسيت كلمة المرور؟",
+                              style: TextStyle(
+                                  fontSize: 12, color: AppColors.BLACK_COLOR),
+                            ),
+                            Container(
+                              color: AppColors.BLACK_COLOR,
+                              width: 80,
+                              height: 0.5,
+                            ),
+                          ],
+                        ))
                   ],
                 ),
                 const SizedBox(height: 16),
-                CustomButton(
-                  title: "تسجيل الدخول",
-                  backgroundColor: AppColors.MAIN_COLOR,
-                  foregroundColor: AppColors.WHITE_COLOR,
-                  overlayColor: AppColors.WHITE_COLOR,
-                  onPress: () {},
+                Obx(
+                  () => ConditionalBuilder(
+                    condition: !authController.isLogInLoading.value,
+                    builder: (context) => CustomButton(
+                      title: "تسجيل الدخول",
+                      backgroundColor: AppColors.MAIN_COLOR,
+                      foregroundColor: AppColors.WHITE_COLOR,
+                      overlayColor: AppColors.WHITE_COLOR,
+                      onPress: () {
+                        handleLoginRequest(context);
+                      },
+                    ),
+                    fallback: (context) => const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.MAIN_COLOR,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -124,7 +153,7 @@ class LoginScreen extends StatelessWidget {
                     const Text(
                       "ليس لديك حساب؟",
                       style:
-                      TextStyle(fontSize: 12, color: AppColors.BLACK_COLOR),
+                          TextStyle(fontSize: 12, color: AppColors.BLACK_COLOR),
                     ),
                     TextButton(
                       onPressed: () {
@@ -142,5 +171,33 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  handleLoginRequest(BuildContext context) {
+    if (authController.loginUserNameController.value.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text("Enter_Mobile".tr),
+        ),
+      );
+    } else if (authController.loginPasswordController.value.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text("Enter_Pass".tr),
+        ),
+      );
+    } else {
+      authController.login(
+        authController.loginUserNameController.value.text,
+        authController.loginPasswordController.value.text,
+        "MANUAL",
+        "ar",
+        "ANDROID",
+        "GMS",
+        context,
+      );
+    }
   }
 }
