@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Models/personal_data_model.dart';
-import '../../Services/personal_data_services.dart';
+import '../../../Models/personal_data_model.dart';
+import '../../../Services/personal_data_services.dart';
 
 class PersonalDataController extends GetxController {
   @override

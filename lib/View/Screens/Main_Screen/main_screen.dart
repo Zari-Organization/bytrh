@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../Logic/controllers/main_controller.dart';
-import '../../../Logic/controllers/personal_data_controller.dart';
+import '../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
 import '../../../Utils/app_colors.dart';
 import '../../../Utils/app_icons.dart';
 

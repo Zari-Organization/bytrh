@@ -14,7 +14,7 @@ class TitledTextField extends StatelessWidget {
     this.onChange,
     this.keyboardType,
     this.maxLines=1,
-    this.fillColor = const Color(0xffF9F9F9),
+    this.fillColor = AppColors.GREY_Light_COLOR,
     this.obscureText = false,
     this.enabled = true,
   }) : super(key: key);

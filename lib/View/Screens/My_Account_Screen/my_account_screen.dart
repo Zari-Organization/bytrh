@@ -4,7 +4,7 @@ import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Logic/controllers/personal_data_controller.dart';
+import '../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
 import '../../../Utils/app_colors.dart';
 import 'Widgets/custom_listTile.dart';
 
@@ -111,7 +111,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
             CustomListTile(
               icon: AppIcons.lock_icon,
               title: "تغيير كلمة المرور",
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routes.changePasswordScreen);
+              },
             ),
             CustomListTile(
               icon: AppIcons.setting_icon,

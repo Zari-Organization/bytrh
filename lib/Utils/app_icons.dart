@@ -21,4 +21,6 @@ class AppIcons {
   static const String setting_icon = "assets/icons/setting_icon.svg";
   static const String user_icon = "assets/icons/user_icon.svg";
   static const String wallet_icon = "assets/icons/wallet_icon.svg";
+  static const String show_pass_icon = "assets/icons/show_pass_icon.svg";
+  static const String hide_pass_icon = "assets/icons/hide_pass_icon.svg";
 }

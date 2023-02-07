@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../Logic/controllers/auth_controller.dart';
-import '../../../Logic/controllers/personal_data_controller.dart';
+import '../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
 import '../../../Routes/routes.dart';
 import '../../Widgets/auth_button.dart';
 import '../../Widgets/titled_textField.dart';
