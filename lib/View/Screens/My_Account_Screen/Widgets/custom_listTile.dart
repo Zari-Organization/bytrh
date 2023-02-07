@@ -9,6 +9,8 @@ class CustomListTile extends StatelessWidget {
     required this.icon,
     required this.title,
     this.onTap,
+    this.tileColor,
+    this.borderRadius,
     this.titleColor= AppColors.MAIN_COLOR,
     this.iconColor= AppColors.MAIN_COLOR,
   }) : super(key: key);
@@ -18,12 +20,22 @@ class CustomListTile extends StatelessWidget {
   Function()? onTap;
   Color? titleColor ;
   Color? iconColor ;
+  Color? tileColor ;
+  double? borderRadius ;
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius??0)
+      ),
       elevation: 0.2,
       child: ListTile(
+
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius??0)
+        ),
+        tileColor: tileColor,
         leading: SvgPicture.asset(
           icon,
           color: iconColor,

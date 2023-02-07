@@ -8,8 +8,9 @@ import '../View/Screens/Auth_Type_Screen/auth_type_screen.dart';
 import '../View/Screens/Login_Screen/login_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
 import '../View/Screens/My_Account_Screen/Screens/change_password_screen.dart';
+import '../View/Screens/My_Account_Screen/Screens/contactUs_screen.dart';
 import '../View/Screens/OnBoarding_Screen/onBoarding_screen.dart';
-import '../View/Screens/Personal_Data_Screen/personal_data_screen.dart';
+import '../View/Screens/My_Account_Screen/Screens/personal_data_screen.dart';
 import '../View/Screens/SignUp_Screen/signUp_screen.dart';
 import '../View/Screens/SignUp_Type_Screen/signUp_type_screen.dart';
 import '../View/Screens/Splash_Screen/splash_screen.dart';
@@ -26,6 +27,7 @@ class AppRoutes {
   static const mainScreen = Routes.mainScreen;
   static const personalDataScreen = Routes.personalDataScreen;
   static const changePasswordScreen = Routes.changePasswordScreen;
+  static const contactUsScreen = Routes.contactUsScreen;
 
 
   //getPages
@@ -74,6 +76,11 @@ class AppRoutes {
       page: () => ChangePasswordScreen(),
       binding: ChangePasswordBinding(),
     ),
+    GetPage(
+      name: Routes.contactUsScreen,
+      page: () => ContactUsScreen(),
+      // binding: ChangePasswordBinding(),
+    ),
   ];
 }
 
@@ -88,4 +95,5 @@ class Routes {
   static const personalDataScreen = '/personalDataScreen';
   static const mainScreen = '/mainScreen';
   static const changePasswordScreen = '/changePasswordScreen';
+  static const contactUsScreen = '/contactUsScreen';
 }

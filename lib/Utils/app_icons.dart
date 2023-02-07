@@ -23,4 +23,12 @@ class AppIcons {
   static const String wallet_icon = "assets/icons/wallet_icon.svg";
   static const String show_pass_icon = "assets/icons/show_pass_icon.svg";
   static const String hide_pass_icon = "assets/icons/hide_pass_icon.svg";
+  static const String square_email_icon = "assets/icons/square_email_icon.svg";
+  static const String square_facebook_icon = "assets/icons/square_facebook_icon.svg";
+  static const String square_instagram_icon = "assets/icons/square_instagram_icon.svg";
+  static const String square_location_icon = "assets/icons/square_location_icon.svg";
+  static const String square_message_icon = "assets/icons/square_message_icon.svg";
+  static const String square_phone_icon = "assets/icons/square_phone_icon.svg";
+  static const String square_whatsapp_icon = "assets/icons/square_whatsapp_icon.svg";
+  static const String square_youtube_icon = "assets/icons/square_youtube_icon.svg";
 }

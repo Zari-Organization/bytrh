@@ -139,7 +139,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   CustomListTile(
                     icon: AppIcons.call_icon,
                     title: "تواصل معنا",
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(Routes.contactUsScreen);
+                    },
                   ),
                   CustomListTile(
                     icon: AppIcons.logout_icon,
