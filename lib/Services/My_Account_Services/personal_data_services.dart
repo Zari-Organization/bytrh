@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import '../Models/personal_data_model.dart';
-import '../Utils/app_constants.dart';
+import '../../Models/personal_data_model.dart';
+import '../../Utils/app_constants.dart';
 
 class PersonalDataServices {
 

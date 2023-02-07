@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
+import '../../../Utils/app_alerts.dart';
 import '../../../Utils/app_colors.dart';
 import 'Widgets/custom_listTile.dart';
 
@@ -28,6 +29,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: AppColors.MAIN_COLOR,
         centerTitle: true,
         title: const Text("حسابي"),
@@ -41,23 +43,28 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 return const Card(
                   elevation: 0.2,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 30, horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                     child: CustomCircleProgress(),
                   ),
                 );
               } else {
                 return Card(
-                  elevation: 0.2,
+                  margin: EdgeInsets.zero,
+                  elevation: 2,
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 10),
                     title: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text("هلا",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
+                        const Text(
+                          "هلا",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 20),
+                        ),
                         const SizedBox(width: 10),
-                        Text(personalDataController.userNameController.value.text),
+                        Text(personalDataController
+                            .userNameController.value.text),
                       ],
                     ),
                     subtitle:
@@ -66,76 +73,85 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 );
               }
             }),
-            CustomListTile(
-              icon: AppIcons.user_icon,
-              title: "بياناتي الشخصية",
-              onTap: () {
-                Get.toNamed(Routes.personalDataScreen);
-              },
-            ),
-            CustomListTile(
-              icon: AppIcons.animals_icon,
-              title: "حيواناتي",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.calendar_icon,
-              title: "مواعيدي",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.box_icon,
-              title: "طلباتي",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.wallet_icon,
-              title: "المحفظة",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.location_icon,
-              title: "العناوين",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.favorite_icon,
-              title: "المنتجات المفضلة",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.category_icon,
-              title: "الفئات المفضلة",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.lock_icon,
-              title: "تغيير كلمة المرور",
-              onTap: () {
-                Get.toNamed(Routes.changePasswordScreen);
-              },
-            ),
-            CustomListTile(
-              icon: AppIcons.setting_icon,
-              title: "الإعدادت",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.Info_icon,
-              title: "حولنا",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.call_icon,
-              title: "تواصل معنا",
-              onTap: () {},
-            ),
-            CustomListTile(
-              icon: AppIcons.logout_icon,
-              iconColor: AppColors.RED_COLOR,
-              titleColor: AppColors.RED_COLOR,
-              title: "تسجيل خروج",
-              onTap: () {},
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+              child: Column(
+                children: [
+                  CustomListTile(
+                    icon: AppIcons.user_icon,
+                    title: "بياناتي الشخصية",
+                    onTap: () {
+                      Get.toNamed(Routes.personalDataScreen);
+                    },
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.animals_icon,
+                    title: "حيواناتي",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.calendar_icon,
+                    title: "مواعيدي",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.box_icon,
+                    title: "طلباتي",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.wallet_icon,
+                    title: "المحفظة",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.location_icon,
+                    title: "العناوين",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.favorite_icon,
+                    title: "المنتجات المفضلة",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.category_icon,
+                    title: "الفئات المفضلة",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.lock_icon,
+                    title: "تغيير كلمة المرور",
+                    onTap: () {
+                      Get.toNamed(Routes.changePasswordScreen);
+                    },
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.setting_icon,
+                    title: "الإعدادت",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.Info_icon,
+                    title: "حولنا",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.call_icon,
+                    title: "تواصل معنا",
+                    onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: AppIcons.logout_icon,
+                    iconColor: AppColors.RED_COLOR,
+                    titleColor: AppColors.RED_COLOR,
+                    title: "تسجيل خروج",
+                    onTap: () {
+                      AppAlerts().logoutPop(context);
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

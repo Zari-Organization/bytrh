@@ -16,7 +16,7 @@ const Map<String, String> ar = {
   "Categories":"الأقسام",
   "Settings":"الإعدادات",
   "Language":"اللغة",
-  "Change_Password":"تغيير الباسورد",
+  "Change_Password":"تغيير كلمة المرور",
   "About_us":"من نحن",
   'FollowUs': 'تابعنا',
   "Privacy_Policy":"سياسة الخصوصية",

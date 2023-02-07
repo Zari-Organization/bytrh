@@ -6,9 +6,10 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../Routes/routes.dart';
 import '../../../Services/My_Account_Services/change_password_services.dart';
+import '../../../Services/My_Account_Services/my_account_services.dart';
 import '../../../Utils/app_colors.dart';
 
-class ChangePasswordController extends GetxController {
+class MyAccountController extends GetxController {
   RxBool isLoading = false.obs;
   var oldPasswordController = TextEditingController().obs;
   var newPasswordController = TextEditingController().obs;
@@ -23,39 +24,31 @@ class ChangePasswordController extends GetxController {
     super.onInit();
   }
 
-  changePassword(String OldPassword, String NewPassword,
-      String PasswordConfirmation, BuildContext context) async {
+  logout(BuildContext context) async {
     try {
       isLoading(true);
-      var editData = await ChangePasswordServices.changePassword(
-        OldPassword,
-        NewPassword,
-        PasswordConfirmation,
-      );
-      if (editData["Success"]) {
-        // if (kDebugMode) {
-        //   print(
-        //     editData["Success"].toString(),
-        //   );
-        // }
+      var data = await MyAccountServices.logout();
+      if (data["Success"]) {
+        Get.back();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             backgroundColor: AppColors.MAIN_COLOR,
             content: Text(
-              "Password_changed".tr,
+              "تم تسجيل الخروج".tr,
             ),
           ),
         );
         GetStorage authBox = GetStorage();
         authBox.remove('AccessToken');
         void _goNext() => Get.offAllNamed(Routes.loginScreen);
-        Timer(const Duration(seconds: 2), _goNext);
+        Timer(const Duration(seconds: 1), _goNext);
       } else {
+        Get.back();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            duration: Duration(seconds: 2),
-            content: Text(editData["ApiMsg"].toString(),),
+            duration: const Duration(seconds: 2),
+            content: Text(data["ApiMsg"].toString(),),
           ),
         );
       }

@@ -49,10 +49,12 @@ class LoginScreen extends StatelessWidget {
                         authController.isSecureLoginPass.value =
                         !authController.isSecureLoginPass.value;
                       },
-                      icon: Icon(authController.isSecureLoginPass.value
-                            ? Icons.remove_red_eye
-                            : Icons.hide_source_rounded),
+                      icon:    SvgPicture.asset(
+                        authController.isSecureLoginPass.value
+                            ? AppIcons.hide_pass_icon
+                            : AppIcons.show_pass_icon,
                         color: AppColors.GREY_COLOR,
+                      ),
                     ),
                     // controller: profileController.brandNameEnController.value,
                   ),

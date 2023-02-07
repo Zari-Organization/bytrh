@@ -69,9 +69,12 @@ class SignUpScreen extends StatelessWidget {
                         authController.isSecureRegisterPass.value =
                             !authController.isSecureRegisterPass.value;
                       },
-                      icon:  Icon(authController.isSecureRegisterPass.value
-                            ? Icons.remove_red_eye
-                            : Icons.hide_source_rounded),
+                        icon:SvgPicture.asset(
+                          authController.isSecureRegisterPass.value
+                              ? AppIcons.hide_pass_icon
+                              : AppIcons.show_pass_icon,
+                          color: AppColors.GREY_COLOR,
+                        ),
                         color: AppColors.GREY_COLOR,
 
                     ),
@@ -92,10 +95,12 @@ class SignUpScreen extends StatelessWidget {
                         authController.isSecureRegisterConfirmPass.value =
                             !authController.isSecureRegisterConfirmPass.value;
                       },
-                      icon: Icon(
-                            authController.isSecureRegisterConfirmPass.value
-                                ? Icons.remove_red_eye
-                                : Icons.hide_source_rounded),
+                      icon:    SvgPicture.asset(
+                        authController.isSecureRegisterConfirmPass.value
+                            ? AppIcons.hide_pass_icon
+                            : AppIcons.show_pass_icon,
+                        color: AppColors.GREY_COLOR,
+                      ),
                         color: AppColors.GREY_COLOR,
 
                     ),

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import '../Utils/app_constants.dart';
+import '../../Utils/app_constants.dart';
 
 class ChangePasswordServices {
   static changePassword(
