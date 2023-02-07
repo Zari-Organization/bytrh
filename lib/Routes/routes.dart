@@ -57,7 +57,9 @@ class AppRoutes {
     GetPage(
       name: Routes.mainScreen,
       page: () => MainScreen(),
-      binding: MainBinding(),
+      bindings:[
+        MainBinding(),
+      ],
     ),
     GetPage(
       name: Routes.personalDataScreen,

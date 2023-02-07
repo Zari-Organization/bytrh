@@ -1,3 +1,4 @@
+import 'package:bytrh/Logic/controllers/personal_data_controller.dart';
 import 'package:get/get.dart';
 
 import '../../View/Screens/Auction_Screen/auction_screen.dart';
@@ -12,7 +13,7 @@ class MainController extends GetxController {
     const HomeScreen(),
     const ProductsScreen(),
     const AuctionScreen(),
-    const MyAccountScreen(),
+     MyAccountScreen(),
   ].obs;
 
   @override
