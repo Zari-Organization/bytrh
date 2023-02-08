@@ -123,6 +123,37 @@ class AuthController extends GetxController {
     }
   }
 
+  var googleRegisterClientPhoneController = TextEditingController().obs;
+  var googleRegisterClientPhoneCodeController = TextEditingController().obs;
+  var googleRegisterPhoneWithoutCodeController = TextEditingController().obs;
+
   static final _googleSignIn = GoogleSignIn();
-  Future<GoogleSignInAccount?> googleLogin() => _googleSignIn.signIn();
+  Future<GoogleSignInAccount?> googleLogin(BuildContext context) async{
+  var result= await _googleSignIn.signIn();
+  login(
+    result!.email,
+    result.id,
+    "MANUAL",
+    "ar",
+    "ANDROID",
+    "GMS",
+    context,
+  );
+  }
+  Future<GoogleSignInAccount?> googleSignUp(BuildContext context) async{
+    var result= await _googleSignIn.signIn();
+    register(
+      result!.email,
+      googleRegisterClientPhoneController.value.text,
+      googleRegisterClientPhoneCodeController.value.text,
+      result.id,
+      result.displayName!,
+      "MANUAL",
+      "en",
+      "ANDROID",
+      "GMS",
+      "1",
+      context,
+    );
+  }
 }

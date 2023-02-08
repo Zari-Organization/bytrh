@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../Routes/routes.dart';
 import '../../../Services/My_Account_Services/change_password_services.dart';
@@ -41,6 +42,8 @@ class MyAccountController extends GetxController {
         );
         GetStorage authBox = GetStorage();
         authBox.remove('AccessToken');
+         final _googleSignIn = GoogleSignIn();
+        _googleSignIn.disconnect();
         void _goNext() => Get.offAllNamed(Routes.loginScreen);
         Timer(const Duration(seconds: 1), _goNext);
       } else {

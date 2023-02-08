@@ -12,6 +12,7 @@ import '../View/Screens/Auth_Screens/Forget_Password_Screens/Screens/verify_rese
 import '../View/Screens/Auth_Screens/Login_Screen/login_screen.dart';
 import '../View/Screens/Auth_Screens/OnBoarding_Screen/onBoarding_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Screen/signUp_screen.dart';
+import '../View/Screens/Auth_Screens/SignUp_Screen/social_signUp_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Type_Screen/signUp_type_screen.dart';
 import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
@@ -37,6 +38,7 @@ class AppRoutes {
   static const verifyResetPassCodeScreen = Routes.verifyResetPassCodeScreen;
   static const newPassScreen = Routes.newPassScreen;
   static const verifyAccountScreen = Routes.verifyAccountScreen;
+  static const socialSignUpScreen = Routes.socialSignUpScreen;
 
   //getPages
   static final routes = [
@@ -115,6 +117,11 @@ class AppRoutes {
       page: () => VerifyAccountScreen(),
       binding: VerificationBinding(),
     ),
+    GetPage(
+      name: Routes.socialSignUpScreen,
+      page: () => SocialSignUpScreen(),
+      binding: AuthBinding(),
+    ),
   ];
 }
 
@@ -134,4 +141,5 @@ class Routes {
   static const verifyResetPassCodeScreen = '/verifyResetPassCodeScreen';
   static const newPassScreen = '/newPassScreen';
   static const verifyAccountScreen = '/verifyAccountScreen';
+  static const socialSignUpScreen = '/socialSignUpScreen';
 }

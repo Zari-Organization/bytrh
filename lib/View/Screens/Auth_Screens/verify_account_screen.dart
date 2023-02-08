@@ -52,6 +52,7 @@ class VerifyAccountScreen extends StatelessWidget {
 
                       keyboardType: TextInputType.number,
                       underlineColor: AppColors.MAIN_COLOR,
+                      underlineUnfocusedColor:Color(0xffEFEFF0) ,
                       length: 4,
                       cursorColor: AppColors.MAIN_COLOR,
                       onCompleted: (String value) {

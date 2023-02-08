@@ -172,7 +172,7 @@ class LoginScreen extends StatelessWidget {
                       padding: EdgeInsets.zero,
                     ),
                     IconButton(
-                      onPressed: googleSignIn,
+                      onPressed: () => googleSignIn(context),
                       icon: SvgPicture.asset(AppIcons.google_icon),
                       padding: EdgeInsets.zero,
                     ),
@@ -238,7 +238,7 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
-  Future googleSignIn() async {
-    await authController.googleLogin();
+  Future googleSignIn(context) async {
+    await authController.googleLogin(context);
   }
 }
