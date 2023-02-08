@@ -1,14 +1,18 @@
+import 'dart:developer';
+
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../../../Logic/controllers/auth_controller.dart';
-import '../../../Routes/routes.dart';
-import '../../Widgets/auth_button.dart';
-import '../../Widgets/custom_circle_progress.dart';
-import '../../Widgets/titled_textField.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import '../../../../Logic/controllers/auth_controller.dart';
+import '../../../../Routes/routes.dart';
+import '../../../../Utils/app_colors.dart';
+import '../../../Widgets/auth_button.dart';
+import '../../../Widgets/custom_circle_progress.dart';
+import '../../../Widgets/titled_textField.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -27,14 +31,49 @@ class LoginScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitledTextField(
-                  controller: authController.loginUserNameController.value,
-                  title: "رقم الجوال",
-                  hintText: "رقم الجوال........",
-                  fillColor: AppColors.GREY_Light_COLOR,
-                  // controller: profileController.brandNameEnController.value,
+                Text("رقم الجوال"),
+                const SizedBox(
+                  height: 10,
+                ),
+                IntlPhoneField(
+                  controller:
+                      authController.loginPhoneWithoutCodeController.value,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: AppColors.GREY_Light_COLOR,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  // style: TextStyle(color: AppColors.WHITE_COLOR),
+                  dropdownTextStyle: TextStyle(color: AppColors.BLACK_COLOR),
+                  cursorColor: AppColors.MAIN_COLOR,
+                  initialCountryCode: 'SA',
+                  onChanged: (phone) {
+                    if (phone.number.length == 1) {
+                      if (phone.number[0] == "0") {
+                        authController.loginPhoneWithoutCodeController.value
+                            .clear();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: const Duration(seconds: 2),
+                            content: Text("num_without_zero".tr),
+                          ),
+                        );
+                      }
+                    } else {
+                      authController.loginUserNameController.value.text =
+                          phone.completeNumber.toString();
+                      authController.loginClientPhoneCodeController.value.text =
+                          phone.countryCode.toString();
+                      log(authController
+                          .registerClientPhoneController.value.text);
+                    }
+                  },
                 ),
                 Obx(
                   () => TitledTextField(
@@ -47,9 +86,9 @@ class LoginScreen extends StatelessWidget {
                       splashRadius: 20,
                       onPressed: () {
                         authController.isSecureLoginPass.value =
-                        !authController.isSecureLoginPass.value;
+                            !authController.isSecureLoginPass.value;
                       },
-                      icon:    SvgPicture.asset(
+                      icon: SvgPicture.asset(
                         authController.isSecureLoginPass.value
                             ? AppIcons.hide_pass_icon
                             : AppIcons.show_pass_icon,
@@ -63,7 +102,9 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(Routes.forgetPasswordScreen);
+                        },
                         child: Column(
                           children: [
                             const Text(
@@ -131,7 +172,7 @@ class LoginScreen extends StatelessWidget {
                       padding: EdgeInsets.zero,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: googleSignIn,
                       icon: SvgPicture.asset(AppIcons.google_icon),
                       padding: EdgeInsets.zero,
                     ),
@@ -195,5 +236,9 @@ class LoginScreen extends StatelessWidget {
         context,
       );
     }
+  }
+
+  Future googleSignIn() async {
+    await authController.googleLogin();
   }
 }

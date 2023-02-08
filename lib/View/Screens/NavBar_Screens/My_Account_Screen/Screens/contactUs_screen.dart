@@ -1,9 +1,8 @@
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../Utils/app_icons.dart';
-import '../../../Widgets/auth_button.dart';
-import '../../../Widgets/titled_textField.dart';
+import '../../../../../Utils/app_icons.dart';
+import '../../../../Widgets/auth_button.dart';
+import '../../../../Widgets/titled_textField.dart';
 import '../Widgets/custom_listTile.dart';
 
 class ContactUsScreen extends StatelessWidget {
@@ -22,7 +21,7 @@ class ContactUsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomListTile(
                 borderRadius:10,
@@ -56,6 +55,8 @@ class ContactUsScreen extends StatelessWidget {
                 title: "المدينة المنورة",
                 onTap: () {},
               ),
+              const SizedBox(height: 16),
+              const Text("أو تواصل معنا من خلال إرسال رسالة.."),
               const SizedBox(height: 16),
               TitledTextField(
                 title: "الأسم",

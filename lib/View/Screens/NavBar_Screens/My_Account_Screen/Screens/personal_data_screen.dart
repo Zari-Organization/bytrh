@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../Logic/controllers/auth_controller.dart';
-import '../../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
-import '../../../../Routes/routes.dart';
-import '../../../Widgets/auth_button.dart';
-import '../../../Widgets/titled_textField.dart';
+import '../../../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
+import '../../../../Widgets/auth_button.dart';
+import '../../../../Widgets/titled_textField.dart';
+
 
 class PersonalDataScreen extends StatelessWidget {
   PersonalDataScreen({Key? key}) : super(key: key);

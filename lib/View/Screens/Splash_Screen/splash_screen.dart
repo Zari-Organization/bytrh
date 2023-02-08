@@ -33,7 +33,7 @@ class _SplashViewState extends State<SplashScreen> {
     GetStorage().read<String>('userName');
     if (kDebugMode) {
       log(GetStorage().read<String>('AccessToken').toString());
-      log(GetStorage().read<String>('userName').toString());
+      // log(GetStorage().read<String>('userName').toString());
     }
     startDelay();
     super.initState();

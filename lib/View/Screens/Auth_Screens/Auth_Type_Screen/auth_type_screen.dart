@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../../../Routes/routes.dart';
 import '../../../../Utils/app_colors.dart';
-import '../../../Routes/routes.dart';
-import '../../../Utils/app_constants.dart';
-import '../../../Utils/app_icons.dart';
-import '../../Widgets/auth_button.dart';
+import '../../../Widgets/auth_button.dart';
 
 class AuthTypeScreenScreen extends StatelessWidget {
   AuthTypeScreenScreen({Key? key}) : super(key: key);

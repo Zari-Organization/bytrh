@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../Logic/controllers/My_Account_Controllers/change_password_controller.dart';
-import '../../../../Utils/app_colors.dart';
-import '../../../../Utils/app_constants.dart';
-import '../../../../Utils/app_icons.dart';
-import '../../../Widgets/auth_button.dart';
-import '../../../Widgets/custom_circle_progress.dart';
-import '../../../Widgets/titled_textField.dart';
+import '../../../../../Logic/controllers/My_Account_Controllers/change_password_controller.dart';
+import '../../../../../Utils/app_colors.dart';
+import '../../../../../Utils/app_constants.dart';
+import '../../../../../Utils/app_icons.dart';
+import '../../../../Widgets/auth_button.dart';
+import '../../../../Widgets/custom_circle_progress.dart';
+import '../../../../Widgets/titled_textField.dart';
+
 
 class ChangePasswordScreen extends StatelessWidget {
   ChangePasswordScreen({Key? key}) : super(key: key);

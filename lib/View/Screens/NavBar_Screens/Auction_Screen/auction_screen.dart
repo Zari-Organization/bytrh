@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../Utils/app_colors.dart';
+import '../../../../Utils/app_colors.dart';
 
-class ProductsScreen extends StatelessWidget {
-  const ProductsScreen({Key? key}) : super(key: key);
+
+class AuctionScreen extends StatelessWidget {
+  const AuctionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class ProductsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.MAIN_COLOR,
         centerTitle: true,
-        title: Text("المنتجات"),
+        title: Text("مزاد"),
       ),
     );
   }

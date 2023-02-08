@@ -7,12 +7,14 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../../Logic/controllers/auth_controller.dart';
-import '../../../Routes/routes.dart';
-import '../../Widgets/auth_button.dart';
-import '../../Widgets/titled_textField.dart';
-
+import '../../../../Logic/controllers/auth_controller.dart';
+import '../../../../Routes/routes.dart';
+import '../../../../Utils/app_colors.dart';
+import '../../../Widgets/auth_button.dart';
+import '../../../Widgets/custom_circle_progress.dart';
+import '../../../Widgets/titled_textField.dart';
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
   final authController = Get.find<AuthController>();
@@ -30,7 +32,7 @@ class SignUpScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TitledTextField(
                   controller: authController.registerClientNameController.value,
@@ -39,14 +41,53 @@ class SignUpScreen extends StatelessWidget {
                   fillColor: AppColors.GREY_Light_COLOR,
                   // controller: profileController.brandNameEnController.value,
                 ),
-                TitledTextField(
-                  controller:
-                      authController.registerClientPhoneController.value,
-                  title: "رقم الجوال",
-                  hintText: "رقم الجوال........",
-                  fillColor: AppColors.GREY_Light_COLOR,
-                  // controller: profileController.brandNameEnController.value,
+                Text("رقم الجوال"),
+                const SizedBox(
+                  height: 10,
                 ),
+                IntlPhoneField(
+                  controller: authController.loginPhoneWithoutCodeController.value,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: AppColors.GREY_Light_COLOR,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  // style: TextStyle(color: AppColors.WHITE_COLOR),
+                  dropdownTextStyle: TextStyle(color: AppColors.BLACK_COLOR),
+                  cursorColor: AppColors.MAIN_COLOR,
+                  initialCountryCode: 'SA',
+                  onChanged: (phone) {
+
+                    if (phone.number.length == 1) {
+                      if (phone.number[0] == "0") {
+                        authController.loginPhoneWithoutCodeController.value.clear();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: const Duration(seconds: 2),
+                            content: Text("num_without_zero".tr),
+                          ),
+                        );
+                      }
+                    } else {
+                      authController.registerClientPhoneController.value.text = phone.completeNumber.toString();
+                      authController.registerClientPhoneCodeController.value.text = phone.countryCode.toString();
+                      log( authController.registerClientPhoneController.value.text);
+                    }
+
+                  },
+                ),
+                // TitledTextField(
+                //   controller:
+                //       authController.registerClientPhoneController.value,
+                //   title: "رقم الجوال",
+                //   hintText: "رقم الجوال........",
+                //   fillColor: AppColors.GREY_Light_COLOR,
+                //   // controller: profileController.brandNameEnController.value,
+                // ),
                 TitledTextField(
                   controller:
                       authController.registerClientEmailController.value,
@@ -281,13 +322,14 @@ class SignUpScreen extends StatelessWidget {
       authController.register(
         authController.registerClientEmailController.value.text,
         authController.registerClientPhoneController.value.text,
-        "+20",
+        authController.registerClientPhoneCodeController.value.text,
         authController.registerClientPasswordController.value.text,
         authController.registerClientNameController.value.text,
         "MANUAL",
         "en",
         "ANDROID",
         "GMS",
+        "1",
         context,
       );
     }

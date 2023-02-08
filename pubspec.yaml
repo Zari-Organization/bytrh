@@ -22,6 +22,11 @@ dependencies:
   introduction_screen: ^3.1.4
   conditional_builder_null_safety: ^0.0.6
   dio: ^4.0.6
+  intl_phone_field: ^3.1.0
+  flutter_verification_code:
+    git:
+      url: https://github.com/Nader15/custom_flutter_verification_code.git
+  google_sign_in: ^5.4.4
 
 dev_dependencies:
   flutter_test:

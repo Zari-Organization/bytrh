@@ -4,9 +4,9 @@ import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
-import '../../../Utils/app_alerts.dart';
-import '../../../Utils/app_colors.dart';
+import '../../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
+import '../../../../Utils/app_alerts.dart';
+import '../../../../Utils/app_colors.dart';
 import 'Widgets/custom_listTile.dart';
 
 class MyAccountScreen extends StatefulWidget {

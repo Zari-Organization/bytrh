@@ -2,14 +2,10 @@ import 'dart:io';
 import 'dart:math';
 import 'package:bytrh/Utils/app_images.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../../Utils/app_colors.dart';
-import '../../../Routes/routes.dart';
-import '../../../Utils/app_constants.dart';
-import '../../../Utils/app_icons.dart';
-import '../../Widgets/auth_button.dart';
+import '../../../../Routes/routes.dart';
+import '../../../Widgets/auth_button.dart';
 
 class SignUpTypeScreen extends StatelessWidget {
   SignUpTypeScreen({Key? key}) : super(key: key);

@@ -20,17 +20,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return IntroductionScreen(
       // 2. Pass that key to the `IntroductionScreen` `key` param
       key: _introKey,
+      // controlsPadding: EdgeInsets.zero,
+      bodyPadding: EdgeInsets.zero,
       pages: [
         PageViewModel(
             // title: '',
             titleWidget: SizedBox(),
             bodyWidget: Column(
               children: [
-                Image.asset(AppImages.OB_IMAGE1),
+                Image.asset(AppImages.OB_IMAGE1,fit: BoxFit.cover,),
                 SizedBox(height: 12),
                 Text("مرحبا"),
                 SizedBox(height: 12),
-                Text("مرحباً بك في_____ تعرف معنا على مميزات التطبيق الخاص بنا"),
+                Text("مرحباً بك في_____ تعرف معنا على ا على ا على مميزات التطبيق الخاص بنا"),
               ],
             ),),
         PageViewModel(
@@ -83,13 +85,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           Icon(Icons.arrow_forward_ios,size: 18),
         ],
       ),
-      skipStyle: TextButton.styleFrom(primary: Colors.red),
+
+      skipStyle: TextButton.styleFrom(primary: AppColors.GREY_COLOR),
       doneStyle: TextButton.styleFrom(primary: AppColors.MAIN_COLOR),
       nextStyle: TextButton.styleFrom(primary: AppColors.MAIN_COLOR),
-      backStyle: TextButton.styleFrom(primary: AppColors.GREY_COLOR),
+      // backStyle: TextButton.styleFrom(primary: AppColors.GREY_COLOR),
       showNextButton: true,
       showDoneButton: true,
-      showBackButton: true,
+      // showBackButton: true,
+      showSkipButton: true,
     );
   }
 }

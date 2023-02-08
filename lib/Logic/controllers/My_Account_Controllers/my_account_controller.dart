@@ -51,6 +51,8 @@ class MyAccountController extends GetxController {
             content: Text(data["ApiMsg"].toString(),),
           ),
         );
+        // GetStorage authBox = GetStorage();
+        // authBox.remove('AccessToken');
       }
     } finally {
       isLoading(false);

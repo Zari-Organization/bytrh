@@ -11,15 +11,15 @@ String registerModelToJson(RegisterModel data) => json.encode(data.toJson());
 
 class RegisterModel {
   RegisterModel({
-    required this.success,
-    required this.apiMsg,
-    required this.apiCode,
-    required this.response,
+     this.success,
+     this.apiMsg,
+     this.apiCode,
+     this.response,
   });
 
-  bool success;
-  String apiMsg;
-  int apiCode;
+  final success;
+  final apiMsg;
+  final apiCode;
   Response? response;
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
