@@ -80,7 +80,7 @@ class AboutUsScreen extends StatelessWidget {
                         iconColor: null,
                         title: "${myAccountController.aboutUsData.value.contactWhatsApp}",
                         onTap: ()async {
-                          myAccountController.launchWhatsApp(phone: myAccountController.aboutUsData.value.contactWhatsApp, message: 'Hello');
+                          myAccountController.launchWhatsApp(phone: myAccountController.aboutUsData.value.contactWhatsApp, message: 'Hi');
                         },
                       ),
                       CustomListTile(
