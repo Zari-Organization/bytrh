@@ -102,7 +102,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   CustomListTile(
                     icon: AppIcons.wallet_icon,
                     title: "المحفظة",
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(Routes.walletScreen);
+                    },
                   ),
                   CustomListTile(
                     icon: AppIcons.location_icon,

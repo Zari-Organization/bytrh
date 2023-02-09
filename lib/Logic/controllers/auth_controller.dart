@@ -1,6 +1,7 @@
 import 'package:bytrh/Logic/controllers/verification_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -155,5 +156,46 @@ class AuthController extends GetxController {
       "1",
       context,
     );
+  }
+
+
+  var facebookChecking = true.obs;
+  AccessToken? facebookAccessToken;
+  Map<String, dynamic>? facebookUserData;
+  checkIfFacebookLoggedIn() async {
+    final accessToken = await FacebookAuth.instance.accessToken;
+    facebookChecking.value = false;
+    if (accessToken != null) {
+      log("checkIfFacebookLoggedIn accessToken --> ${accessToken.toJson().toString()}");
+      final userData = await FacebookAuth.instance.getUserData();
+      facebookAccessToken = accessToken;
+      facebookUserData = userData;
+      log("checkIfFacebookLoggedIn facebookAccessToken --> ${facebookAccessToken!.toJson().toString()}");
+      log("checkIfFacebookLoggedIn accessToken --> ${facebookUserData.toString()}");
+    } else {
+      facebookLogin();
+    }
+  }
+  facebookLogin() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+
+    if (result.status == LoginStatus.success) {
+      facebookAccessToken = result.accessToken;
+      final userData = await FacebookAuth.instance.getUserData();
+      facebookUserData = userData;
+      log("facebookLogin facebookAccessToken --> ${facebookAccessToken!.toJson().toString()}");
+      log("facebookLogin facebookUserData --> ${facebookUserData.toString()}");
+      log("facebookLogin facebookUserData Email --> ${facebookUserData!['email']}");
+      log("facebookLogin facebookUserData Name --> ${facebookUserData!['name']}");
+    } else {
+      log(result.status.toString());
+      log(result.message.toString());
+    }
+      facebookChecking.value = false;
+  }
+  facebookLogout() async {
+    await FacebookAuth.instance.logOut();
+    facebookAccessToken = null;
+    facebookUserData = null;
   }
 }

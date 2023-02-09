@@ -31,4 +31,6 @@ class AppIcons {
   static const String square_phone_icon = "assets/icons/square_phone_icon.svg";
   static const String square_whatsapp_icon = "assets/icons/square_whatsapp_icon.svg";
   static const String square_youtube_icon = "assets/icons/square_youtube_icon.svg";
+  static const String points_icon = "assets/icons/points_icon.svg";
+  static const String discount_icon = "assets/icons/discount_icon.svg";
 }

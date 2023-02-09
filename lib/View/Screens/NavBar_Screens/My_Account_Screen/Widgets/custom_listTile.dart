@@ -11,6 +11,7 @@ class CustomListTile extends StatelessWidget {
     this.onTap,
     this.tileColor,
     this.borderRadius,
+    this.trailing,
     this.titleColor= AppColors.MAIN_COLOR,
     this.iconColor= AppColors.MAIN_COLOR,
   }) : super(key: key);
@@ -22,6 +23,7 @@ class CustomListTile extends StatelessWidget {
   Color? iconColor ;
   Color? tileColor ;
   double? borderRadius ;
+  Widget? trailing ;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class CustomListTile extends StatelessWidget {
             // fontWeight: FontWeight.bold,
           ),
         ),
+        trailing: trailing,
         onTap: onTap,
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../Logic/binding/My_Account_Bindings/change_password_binding.dart';
+import '../Logic/binding/Wallet_Bindings/wallet_binding.dart';
 import '../Logic/binding/auth_binding.dart';
 import '../Logic/binding/main_binding.dart';
 import '../Logic/binding/My_Account_Bindings/personal_data_binding.dart';
@@ -16,6 +17,9 @@ import '../View/Screens/Auth_Screens/SignUp_Screen/social_signUp_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Type_Screen/signUp_type_screen.dart';
 import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
+import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/card_gift_screen.dart';
+import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_payment_screen.dart';
+import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/change_password_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/contactUs_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/personal_data_screen.dart';
@@ -39,6 +43,9 @@ class AppRoutes {
   static const newPassScreen = Routes.newPassScreen;
   static const verifyAccountScreen = Routes.verifyAccountScreen;
   static const socialSignUpScreen = Routes.socialSignUpScreen;
+  static const walletScreen = Routes.walletScreen;
+  static const walletPaymentScreen = Routes.walletPaymentScreen;
+  static const cardGiftScreen = Routes.cardGiftScreen;
 
   //getPages
   static final routes = [
@@ -122,6 +129,21 @@ class AppRoutes {
       page: () => SocialSignUpScreen(),
       binding: AuthBinding(),
     ),
+    GetPage(
+      name: Routes.walletScreen,
+      page: () => WalletScreen(),
+      binding: WalletBinding(),
+    ),
+    GetPage(
+      name: Routes.walletPaymentScreen,
+      page: () => WalletPaymentScreen(),
+      binding: WalletBinding(),
+    ),
+    GetPage(
+      name: Routes.cardGiftScreen,
+      page: () => CardGiftScreen(),
+      binding: WalletBinding(),
+    ),
   ];
 }
 
@@ -142,4 +164,7 @@ class Routes {
   static const newPassScreen = '/newPassScreen';
   static const verifyAccountScreen = '/verifyAccountScreen';
   static const socialSignUpScreen = '/socialSignUpScreen';
+  static const walletScreen = '/walletScreen';
+  static const walletPaymentScreen = '/walletPaymentScreen';
+  static const cardGiftScreen = '/cardGiftScreen';
 }

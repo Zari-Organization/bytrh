@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_icons.dart';
@@ -162,15 +163,18 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        authController.facebookLogin();
+                      },
                       icon: SvgPicture.asset(AppIcons.facebook_icon),
                       padding: EdgeInsets.zero,
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset(AppIcons.apple_icon),
-                      padding: EdgeInsets.zero,
-                    ),
+                    if(Platform.isIOS)
+                      IconButton(
+                        onPressed: () {},
+                        icon: SvgPicture.asset(AppIcons.apple_icon),
+                        padding: EdgeInsets.zero,
+                      ),
                     IconButton(
                       onPressed: () => googleSignIn(context),
                       icon: SvgPicture.asset(AppIcons.google_icon),

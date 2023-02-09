@@ -62,6 +62,8 @@ class AuthServices {
             content: Text(decodedData["ApiMsg"].toString()),
           ),
         );
+        final _googleSignIn = GoogleSignIn();
+        _googleSignIn.disconnect();
       }
       return throw Exception(decodedData["ApiMsg"].toString());
     }
