@@ -73,4 +73,31 @@ class MyAccountServices {
       return throw Exception(decodedData['ApiMsg']);
     }
   }
+
+  sentToContactUs(
+      String UserName,
+      String Email,
+      String Message,
+      ) async {
+    var response = await http.post(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/contact'),
+      body: {
+        'UserName': UserName,
+        'Email': Email,
+        'Message': Message,
+      },
+      headers: {
+        'Accept': 'application/json',
+        // HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success'] ) {
+      log("Contact Us Api --> $decodedData");
+      return decodedData;
+    } else {
+      return decodedData;
+    }
+  }
 }

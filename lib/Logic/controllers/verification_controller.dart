@@ -61,7 +61,7 @@ class VerificationController extends GetxController {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           duration: const Duration(seconds: 2),
-          content: Text(verificationCode["apiMsgEn"].toString()),
+          content: Text(verificationCode["apiMsg"].toString()),
         ),
       );
     }
@@ -85,7 +85,7 @@ class VerificationController extends GetxController {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: const Duration(seconds: 2),
-            content: Text(codeConfirmation["ApiMsgEn"].toString()),
+            content: Text(codeConfirmation["ApiMsg"].toString()),
           ),
         );
       }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../Models/about_us_model.dart'as about_us_import;
 import '../../../Routes/routes.dart';
@@ -74,6 +75,89 @@ class MyAccountController extends GetxController {
       }
     } finally {
       isLoading(false);
+    }
+  }
+
+  Future<void> openMap(double? latitude, double? longitude,context) async {
+    if(latitude==null||longitude==null){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.WHITE_COLOR,
+          duration: const Duration(seconds: 2),
+          content: Text(
+            "Location_not_provided".tr,
+            style: const TextStyle(color: AppColors.BLACK_COLOR),
+          ),
+        ),
+      );
+    }else{
+      String googleUrl =
+          'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+      if (await launch(googleUrl)) {
+        await canLaunch(googleUrl);
+      }  else {
+        throw 'Could not open the map.';
+      }
+    }
+  }
+
+  void openEmail(String path) async {
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: path,
+    );
+    String  url = params.toString();
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print( 'Could not launch $url');
+    }
+  }
+
+  var isLoadingSendContactUs = false.obs;
+  var contactUserNameController = TextEditingController().obs;
+  var contactEmailController = TextEditingController().obs;
+  var contactMssgController = TextEditingController().obs;
+
+  sendToContactUs(
+      String UserName,
+      String Email,
+      String Message,
+      BuildContext context,
+      ) async {
+    try {
+      isLoadingSendContactUs(true);
+      var response = await MyAccountServices().sentToContactUs(
+        UserName,
+        Email,
+        Message,
+      );
+      if (response["Success"]) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            // backgroundColor: AppColors.GREEN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+        contactUserNameController.value.clear();
+        contactEmailController.value.clear();
+        contactMssgController.value.clear();
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            // backgroundColor: AppColors.GREEN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingSendContactUs(false);
     }
   }
 }

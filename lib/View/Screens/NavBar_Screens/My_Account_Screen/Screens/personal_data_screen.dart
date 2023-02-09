@@ -1,6 +1,7 @@
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -58,12 +59,28 @@ class PersonalDataScreen extends StatelessWidget {
                       // controller: profileController.brandNameEnController.value,
                     ),
                     const SizedBox(height: 16),
-                    CustomButton(
-                      title: "حفظ",
-                      backgroundColor: AppColors.MAIN_COLOR,
-                      foregroundColor: AppColors.WHITE_COLOR,
-                      overlayColor: AppColors.WHITE_COLOR,
-                      onPress: () {},
+                    ConditionalBuilder(
+                      condition: !personalDataController.isLoadingEditData.value,
+                      builder: (context) => SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child:  CustomButton(
+                          title: "حفظ",
+                          backgroundColor: AppColors.MAIN_COLOR,
+                          foregroundColor: AppColors.WHITE_COLOR,
+                          overlayColor: AppColors.WHITE_COLOR,
+                          onPress: () {
+                            personalDataController.editClientInfo(
+                              personalDataController.userNameController.value.text,
+                              // personalDataController.phoneController.value.text,
+                              personalDataController.emailController.value.text,
+                              personalDataController.cityController.value.text,
+                              context,
+                            );
+                          },
+                        ),
+                      ),
+                      fallback: (context) => const CustomCircleProgress(),
                     ),
                     const SizedBox(height: 16),
                   ],

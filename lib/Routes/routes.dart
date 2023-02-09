@@ -107,7 +107,7 @@ class AppRoutes {
     GetPage(
       name: Routes.contactUsScreen,
       page: () => ContactUsScreen(),
-      // binding: ChangePasswordBinding(),
+      binding: MyAccountBinding(),
     ),
     GetPage(
       name: Routes.forgetPasswordScreen,

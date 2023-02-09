@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Models/personal_data_model.dart';
@@ -7,11 +10,11 @@ class PersonalDataController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-  await getPersonalData();
+    await getPersonalData();
     userNameController.value.text = clientData.value.clientName;
     phoneController.value.text = clientData.value.clientPhone;
     emailController.value.text = clientData.value.clientEmail;
-    cityController.value.text = clientData.value.idClient.toString();
+    cityController.value.text = clientData.value.idCity.toString();
   }
 
   var isLoading = false.obs;
@@ -22,7 +25,6 @@ class PersonalDataController extends GetxController {
   var cityController = TextEditingController().obs;
 
   var clientData = PersonalDataResponse().obs;
-
 
   getPersonalData() async {
     try {
@@ -36,4 +38,52 @@ class PersonalDataController extends GetxController {
     }
   }
 
+  var isLoadingEditData = false.obs;
+
+
+  editClientInfo(
+    String ClientName,
+    String ClientEmail,
+    String IDCity,
+    // String ClientPhone,
+    // File? ClientPicture,
+    BuildContext context,
+  ) async {
+    try {
+      isLoadingEditData(true);
+      var editData = await PersonalDataServices.editClientInfo(
+        ClientName,
+        ClientEmail,
+        IDCity,
+        // ClientPhone,
+        // ClientPicture!,
+      );
+      if (editData["Success"]) {
+        log(editData["Success"].toString());
+        getPersonalData();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            // backgroundColor: AppColors.GREEN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(
+              "Data_updated".tr,
+            ),
+          ),
+        );
+        Get.back();
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            // backgroundColor: AppColors.GREEN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(
+              editData["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingEditData(false);
+    }
+  }
 }
