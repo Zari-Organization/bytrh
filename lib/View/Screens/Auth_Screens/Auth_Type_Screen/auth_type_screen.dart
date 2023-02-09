@@ -53,16 +53,16 @@ class AuthTypeScreenScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 40),
-              TextButton(onPressed: (){}, child: Column(
-                children: [
-                  Text("الدخول كضيف"),
-                  Container(
-                    color: AppColors.MAIN_COLOR,
-                    width: 80,
-                    height: 0.5,
-                  ),
-                ],
-              ))
+              // TextButton(onPressed: (){}, child: Column(
+              //   children: [
+              //     Text("الدخول كضيف"),
+              //     Container(
+              //       color: AppColors.MAIN_COLOR,
+              //       width: 80,
+              //       height: 0.5,
+              //     ),
+              //   ],
+              // ))
             ],
           ),
         )

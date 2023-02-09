@@ -1,6 +1,8 @@
+import 'package:bytrh/View/Screens/Auth_Screens/Policies_Screens/terms_screen.dart';
 import 'package:get/get.dart';
 
 import '../Logic/binding/My_Account_Bindings/change_password_binding.dart';
+import '../Logic/binding/My_Account_Bindings/myAccount_binding.dart';
 import '../Logic/binding/Wallet_Bindings/wallet_binding.dart';
 import '../Logic/binding/auth_binding.dart';
 import '../Logic/binding/main_binding.dart';
@@ -20,6 +22,7 @@ import '../View/Screens/Main_Screen/main_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/card_gift_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_payment_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_screen.dart';
+import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/aboutUs_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/change_password_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/contactUs_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/personal_data_screen.dart';
@@ -46,6 +49,8 @@ class AppRoutes {
   static const walletScreen = Routes.walletScreen;
   static const walletPaymentScreen = Routes.walletPaymentScreen;
   static const cardGiftScreen = Routes.cardGiftScreen;
+  static const aboutUsScreen = Routes.aboutUsScreen;
+  static const termsScreen = Routes.termsScreen;
 
   //getPages
   static final routes = [
@@ -144,6 +149,16 @@ class AppRoutes {
       page: () => CardGiftScreen(),
       binding: WalletBinding(),
     ),
+    GetPage(
+      name: Routes.aboutUsScreen,
+      page: () => AboutUsScreen(),
+      binding: MyAccountBinding(),
+    ),
+    GetPage(
+      name: Routes.termsScreen,
+      page: () => TermsScreen(),
+      binding: AuthBinding(),
+    ),
   ];
 }
 
@@ -167,4 +182,6 @@ class Routes {
   static const walletScreen = '/walletScreen';
   static const walletPaymentScreen = '/walletPaymentScreen';
   static const cardGiftScreen = '/cardGiftScreen';
+  static const aboutUsScreen = '/aboutUsScreen';
+  static const termsScreen = '/termsScreen';
 }

@@ -167,7 +167,9 @@ class SignUpScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 12),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(Routes.termsScreen);
+                        },
                         child: const Text(
                           "الشروط والأحكام",
                           style: TextStyle(

@@ -24,40 +24,46 @@ class PaymentMethodsWidget extends StatelessWidget {
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index) {
-            return Card(
-              shape: OutlineInputBorder(
-                borderSide:  const BorderSide(
-                  color: AppColors.GREY_Light_COLOR,
-                ),
-                borderRadius: BorderRadius.circular(17),
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  // tendersController.changePackageSelectedIndex(index);
-                },
+            return Obx(() {
+              return Card(
                 shape: OutlineInputBorder(
-                  borderSide: const BorderSide(
+                  borderSide:  const BorderSide(
                     color: AppColors.GREY_Light_COLOR,
                   ),
                   borderRadius: BorderRadius.circular(17),
                 ),
-                tileColor: AppColors.GREY_Light_COLOR,
-                leading: Checkbox(
-                  side: BorderSide(color: AppColors.GREY_COLOR),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  onTap: () {
+                    walletController.changePaymentMethodSelectedIndex(index);
+                  },
+                  shape: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: AppColors.GREY_Light_COLOR,
+                    ),
+                    borderRadius: BorderRadius.circular(17),
                   ),
-                  value: true,
-                  onChanged: (_) {},
-                  activeColor: AppColors.MAIN_COLOR,
+                  tileColor: AppColors.GREY_Light_COLOR,
+                  leading: Checkbox(
+                    side: BorderSide(color: AppColors.GREY_COLOR),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    value: walletController
+                        .paymentMethodSelectedIndex.value ==
+                        index
+                        ? true
+                        : false,
+                    onChanged: (_) {},
+                    activeColor: AppColors.MAIN_COLOR,
+                  ),
+                  title:  Text(
+                    "${walletController.paymentMethodsList[index].paymentMethod}",
+                    style: TextStyle(color: AppColors.BLACK_COLOR),
+                  ),
                 ),
-                title:  Text(
-                  "${walletController.paymentMethodsList[index].paymentMethod}",
-                  style: TextStyle(color: AppColors.BLACK_COLOR),
-                ),
-              ),
-            );
+              );
+            });
           },
           separatorBuilder: (context, index) => const SizedBox(height: 16)
           ,

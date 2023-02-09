@@ -16,6 +16,7 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    getTerms();
   }
 
   var isLogInLoading = false.obs;
@@ -197,5 +198,20 @@ class AuthController extends GetxController {
     await FacebookAuth.instance.logOut();
     facebookAccessToken = null;
     facebookUserData = null;
+  }
+
+  var isLoadingTerms = false.obs;
+  RxString? termsData = "".obs;
+
+  getTerms() async {
+    try {
+      isLoadingTerms(true);
+      var response = await AuthServices.getTerms();
+      if (response["Success"]) {
+        termsData!.value = response["Response"];
+      }
+    } finally {
+      isLoadingTerms(false);
+    }
   }
 }

@@ -121,4 +121,23 @@ class AuthServices {
       return throw Exception(jsonData["ApiMsg"].toString());
     }
   }
+
+  static  getTerms() async {
+    var response = await http.get(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/terms'),
+      headers: {
+        'Accept': 'application/json',
+        // HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("Terms Api --> $decodedData");
+
+      return decodedData;
+    } else {
+      return decodedData;
+    }
+  }
 }

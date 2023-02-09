@@ -28,6 +28,8 @@ dependencies:
       url: https://github.com/Nader15/custom_flutter_verification_code.git
   google_sign_in: ^5.4.4
   flutter_facebook_auth: ^5.0.7
+  url_launcher: ^6.0.20
+  webview_flutter: ^4.0.2
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../Models/about_us_model.dart'as about_us_import;
 import '../../../Routes/routes.dart';
 import '../../../Services/My_Account_Services/change_password_services.dart';
 import '../../../Services/My_Account_Services/my_account_services.dart';
@@ -23,6 +24,7 @@ class MyAccountController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    getAboutUs();
   }
 
   logout(BuildContext context) async {
@@ -56,6 +58,19 @@ class MyAccountController extends GetxController {
         );
         // GetStorage authBox = GetStorage();
         // authBox.remove('AccessToken');
+      }
+    } finally {
+      isLoading(false);
+    }
+  }
+  var aboutUsData = about_us_import.Response().obs;
+
+  getAboutUs() async {
+    try {
+      isLoading(true);
+      var response = await MyAccountServices.getAboutUs();
+      if (response.success) {
+        aboutUsData.value = response.response;
       }
     } finally {
       isLoading(false);

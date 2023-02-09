@@ -136,7 +136,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   CustomListTile(
                     icon: AppIcons.Info_icon,
                     title: "حولنا",
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(Routes.aboutUsScreen);
+                    },
                   ),
                   CustomListTile(
                     icon: AppIcons.call_icon,
