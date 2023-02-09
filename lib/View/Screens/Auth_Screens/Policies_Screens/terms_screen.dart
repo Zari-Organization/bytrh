@@ -14,7 +14,7 @@ class TermsScreen extends StatelessWidget {
       backgroundColor: AppColors.WHITE_COLOR,
       appBar: AppBar(
         backgroundColor: AppColors.MAIN_COLOR,
-        title: const Text("حولنا"),
+        title: const Text("الشروط والأحكام"),
         centerTitle: true,
       ),
       body: Obx(() {

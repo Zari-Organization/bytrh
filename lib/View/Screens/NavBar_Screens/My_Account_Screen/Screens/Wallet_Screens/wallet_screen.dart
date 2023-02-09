@@ -146,15 +146,15 @@ class WalletScreen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 16),
-                  CustomButton(
-                    title: "إهداء بطاقة لصديق",
-                    backgroundColor: AppColors.WHITE_COLOR,
-                    foregroundColor: AppColors.MAIN_COLOR,
-                    overlayColor: AppColors.MAIN_COLOR,
-                    onPress: () {
-                      Get.toNamed(Routes.cardGiftScreen);
-                    },
-                  ),
+                  // CustomButton(
+                  //   title: "إهداء بطاقة لصديق",
+                  //   backgroundColor: AppColors.WHITE_COLOR,
+                  //   foregroundColor: AppColors.MAIN_COLOR,
+                  //   overlayColor: AppColors.MAIN_COLOR,
+                  //   onPress: () {
+                  //     Get.toNamed(Routes.cardGiftScreen);
+                  //   },
+                  // ),
                 ],
               ),
             ),
