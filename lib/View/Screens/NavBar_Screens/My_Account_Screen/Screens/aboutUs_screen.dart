@@ -3,6 +3,7 @@ import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../../Logic/controllers/My_Account_Controllers/my_account_controller.dart';
 import '../../../../../Utils/app_icons.dart';
 import '../../../../Widgets/auth_button.dart';
@@ -43,7 +44,13 @@ class AboutUsScreen extends StatelessWidget {
                         icon: AppIcons.square_phone_icon,
                         iconColor: null,
                         title: "${myAccountController.aboutUsData.value.contactPhone}",
-                        onTap: () {},
+                        onTap: () {
+                          launchUrl(
+                            Uri.parse(
+                              "tel:${myAccountController.aboutUsData.value.contactPhone}",
+                            ),
+                          );
+                        },
                       ),
                       CustomListTile(
                         borderRadius: 10,
@@ -51,7 +58,10 @@ class AboutUsScreen extends StatelessWidget {
                         icon: AppIcons.square_email_icon,
                         iconColor: null,
                         title: "${myAccountController.aboutUsData.value.contactEmail}",
-                        onTap: () {},
+                        onTap: () {
+                          myAccountController.openEmail(myAccountController
+                              .aboutUsData.value.contactEmail);
+                        },
                       ),
                       CustomListTile(
                         borderRadius: 10,
@@ -59,7 +69,9 @@ class AboutUsScreen extends StatelessWidget {
                         icon: AppIcons.square_facebook_icon,
                         iconColor: null,
                         title: "${myAccountController.aboutUsData.value.contactFacebook}",
-                        onTap: () {},
+                        onTap: () {
+                          launchUrl(Uri.parse(myAccountController.aboutUsData.value.contactFacebook));
+                        },
                       ),
                       CustomListTile(
                         borderRadius: 10,
@@ -67,7 +79,9 @@ class AboutUsScreen extends StatelessWidget {
                         icon: AppIcons.square_whatsapp_icon,
                         iconColor: null,
                         title: "${myAccountController.aboutUsData.value.contactWhatsApp}",
-                        onTap: () {},
+                        onTap: ()async {
+                          myAccountController.launchWhatsApp(phone: myAccountController.aboutUsData.value.contactWhatsApp, message: 'Hello');
+                        },
                       ),
                       CustomListTile(
                         borderRadius: 10,
@@ -75,7 +89,9 @@ class AboutUsScreen extends StatelessWidget {
                         icon: AppIcons.square_instagram_icon,
                         iconColor: null,
                         title: "${myAccountController.aboutUsData.value.contactInstagram}",
-                        onTap: () {},
+                        onTap: () {
+                          launchUrl(Uri.parse(myAccountController.aboutUsData.value.contactInstagram));
+                        },
                       ),
                       CustomListTile(
                         borderRadius: 10,
@@ -83,7 +99,9 @@ class AboutUsScreen extends StatelessWidget {
                         icon: AppIcons.square_youtube_icon,
                         iconColor: null,
                         title: "${myAccountController.aboutUsData.value.contactYouTube}",
-                        onTap: () {},
+                        onTap: () {
+                          launchUrl(Uri.parse(myAccountController.aboutUsData.value.contactYouTube));
+                        },
                       ),
                       const SizedBox(height: 16),
                     ],
