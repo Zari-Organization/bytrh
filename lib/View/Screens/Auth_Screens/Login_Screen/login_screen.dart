@@ -162,29 +162,29 @@ class LoginScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                      onPressed: () {
-                        authController.facebookLogin();
-                      },
-                      icon: SvgPicture.asset(AppIcons.facebook_icon),
-                      padding: EdgeInsets.zero,
-                    ),
-                    if(Platform.isIOS)
-                      IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(AppIcons.apple_icon),
-                        padding: EdgeInsets.zero,
-                      ),
+                    // IconButton(
+                    //   onPressed: () {
+                    //     authController.facebookLogin();
+                    //   },
+                    //   icon: SvgPicture.asset(AppIcons.facebook_icon),
+                    //   padding: EdgeInsets.zero,
+                    // ),
+                    // if(Platform.isIOS)
+                    //   IconButton(
+                    //     onPressed: () {},
+                    //     icon: SvgPicture.asset(AppIcons.apple_icon),
+                    //     padding: EdgeInsets.zero,
+                    //   ),
                     IconButton(
                       onPressed: () => googleSignIn(context),
                       icon: SvgPicture.asset(AppIcons.google_icon),
                       padding: EdgeInsets.zero,
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset(AppIcons.twitter_icon),
-                      padding: EdgeInsets.zero,
-                    ),
+                    // IconButton(
+                    //   onPressed: () {},
+                    //   icon: SvgPicture.asset(AppIcons.twitter_icon),
+                    //   padding: EdgeInsets.zero,
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 16),

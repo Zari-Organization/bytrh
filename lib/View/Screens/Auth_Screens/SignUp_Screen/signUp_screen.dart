@@ -220,17 +220,17 @@ class SignUpScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset(AppIcons.facebook_icon),
-                      padding: EdgeInsets.zero,
-                    ),
-                    if(Platform.isIOS)
-                      IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(AppIcons.apple_icon),
-                        padding: EdgeInsets.zero,
-                      ),
+                    // IconButton(
+                    //   onPressed: () {},
+                    //   icon: SvgPicture.asset(AppIcons.facebook_icon),
+                    //   padding: EdgeInsets.zero,
+                    // ),
+                    // if(Platform.isIOS)
+                    //   IconButton(
+                    //     onPressed: () {},
+                    //     icon: SvgPicture.asset(AppIcons.apple_icon),
+                    //     padding: EdgeInsets.zero,
+                    //   ),
                     IconButton(
                       onPressed: () {
                         Get.toNamed(Routes.socialSignUpScreen);
@@ -238,11 +238,11 @@ class SignUpScreen extends StatelessWidget {
                       icon: SvgPicture.asset(AppIcons.google_icon),
                       padding: EdgeInsets.zero,
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset(AppIcons.twitter_icon),
-                      padding: EdgeInsets.zero,
-                    ),
+                    // IconButton(
+                    //   onPressed: () {},
+                    //   icon: SvgPicture.asset(AppIcons.twitter_icon),
+                    //   padding: EdgeInsets.zero,
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 16),

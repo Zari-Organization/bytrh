@@ -32,18 +32,24 @@ class AboutUsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text("${myAccountController.aboutUsData.value.aboutUsTitle}"),
+                      Text(
+                          "${myAccountController.aboutUsData.value.aboutUsTitle}"),
                       const SizedBox(height: 16),
-                      Text("${myAccountController.aboutUsData.value.aboutUsBody}"),
+                      Text(
+                          "${myAccountController.aboutUsData.value.aboutUsBody}"),
                       const SizedBox(height: 16),
-                      Text("تقدر تتواصل معنا",style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(
+                        "تقدر تتواصل معنا",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(height: 16),
                       CustomListTile(
                         borderRadius: 10,
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_phone_icon,
                         iconColor: null,
-                        title: "${myAccountController.aboutUsData.value.contactPhone}",
+                        title:
+                            "${myAccountController.aboutUsData.value.contactPhone}",
                         onTap: () {
                           launchUrl(
                             Uri.parse(
@@ -57,7 +63,8 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_email_icon,
                         iconColor: null,
-                        title: "${myAccountController.aboutUsData.value.contactEmail}",
+                        title:
+                            "${myAccountController.aboutUsData.value.contactEmail}",
                         onTap: () {
                           myAccountController.openEmail(myAccountController
                               .aboutUsData.value.contactEmail);
@@ -68,9 +75,11 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_facebook_icon,
                         iconColor: null,
-                        title: "${myAccountController.aboutUsData.value.contactFacebook}",
+                        title:
+                            "${myAccountController.aboutUsData.value.contactFacebook}",
                         onTap: () {
-                          launchUrl(Uri.parse(myAccountController.aboutUsData.value.contactFacebook));
+                          launchUrl(Uri.parse(myAccountController
+                              .aboutUsData.value.contactFacebook));
                         },
                       ),
                       CustomListTile(
@@ -78,9 +87,13 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_whatsapp_icon,
                         iconColor: null,
-                        title: "${myAccountController.aboutUsData.value.contactWhatsApp}",
-                        onTap: ()async {
-                          myAccountController.launchWhatsApp(phone: myAccountController.aboutUsData.value.contactWhatsApp, message: 'Hi');
+                        title:
+                            "${myAccountController.aboutUsData.value.contactWhatsApp}",
+                        onTap: () async {
+                          myAccountController.launchWhatsApp(
+                              phone: myAccountController
+                                  .aboutUsData.value.contactWhatsApp,
+                              message: 'Hi');
                         },
                       ),
                       CustomListTile(
@@ -88,9 +101,11 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_instagram_icon,
                         iconColor: null,
-                        title: "${myAccountController.aboutUsData.value.contactInstagram}",
+                        title:
+                            "${myAccountController.aboutUsData.value.contactInstagram}",
                         onTap: () {
-                          launchUrl(Uri.parse(myAccountController.aboutUsData.value.contactInstagram));
+                          launchUrl(Uri.parse(myAccountController
+                              .aboutUsData.value.contactInstagram));
                         },
                       ),
                       CustomListTile(
@@ -98,9 +113,11 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_youtube_icon,
                         iconColor: null,
-                        title: "${myAccountController.aboutUsData.value.contactYouTube}",
+                        title:
+                            "${myAccountController.aboutUsData.value.contactYouTube}",
                         onTap: () {
-                          launchUrl(Uri.parse(myAccountController.aboutUsData.value.contactYouTube));
+                          launchUrl(Uri.parse(myAccountController
+                              .aboutUsData.value.contactYouTube));
                         },
                       ),
                       const SizedBox(height: 16),
