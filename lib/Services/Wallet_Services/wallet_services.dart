@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as dioImport;
 
 import '../../Models/Wallet_Models/my_wallet_model.dart';
+import '../../Models/Wallet_Models/payment_methods_model.dart';
 import '../../Utils/app_constants.dart';
 
 class WalletServices {
@@ -28,4 +29,25 @@ class WalletServices {
       return throw Exception(decodedData['ApiMsg']);
     }
   }
+
+  static Future<PaymentMethodsModel> getPaymentMethods() async {
+    var response = await http.get(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/payment/methods'),
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    log("Payment Methods Api --> $decodedData");
+    if (decodedData['Success'] == true) {
+      log("Payment Methods Api --> $decodedData");
+
+      return paymentMethodsModelFromJson(jsonData);
+    } else {
+      return throw Exception(decodedData['ApiMsg']);
+    }
+  }
+
 }

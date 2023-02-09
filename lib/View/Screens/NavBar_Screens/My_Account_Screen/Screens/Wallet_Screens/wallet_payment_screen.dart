@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../Logic/controllers/Wallet_Controllers/wallet_controllers.dart';
 import '../../../../../Widgets/auth_button.dart';
 import '../../../../../Widgets/titled_textField.dart';
+import 'Widgets/payment_methods_widget.dart';
 
 class WalletPaymentScreen extends StatelessWidget {
   WalletPaymentScreen({Key? key}) : super(key: key);
-
+  final walletController = Get.find<WalletController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,49 +40,7 @@ class WalletPaymentScreen extends StatelessWidget {
                   style: TextStyle(color: AppColors.BLACK_COLOR, fontSize: 16),
                 ),
                 const SizedBox(height: 16),
-                ListView.separated(
-                  itemCount: 2,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shape: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: AppColors.GREY_Light_COLOR,
-                        ),
-                        borderRadius: BorderRadius.circular(17),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        onTap: () {
-                          // tendersController.changePackageSelectedIndex(index);
-                        },
-                        shape: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: AppColors.GREY_Light_COLOR,
-                          ),
-                          borderRadius: BorderRadius.circular(17),
-                        ),
-                        tileColor: AppColors.GREY_Light_COLOR,
-                        leading: Checkbox(
-                          side: BorderSide(color: AppColors.GREY_COLOR),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          value: true,
-                          onChanged: (_) {},
-                          activeColor: AppColors.MAIN_COLOR,
-                        ),
-                        title: const Text(
-                          "أبل باي",
-                          style: TextStyle(color: AppColors.BLACK_COLOR),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(height: 16)
-                  ,
-                ),
+                PaymentMethodsWidget(),
                 const SizedBox(height: 50),
                 CustomButton(
                   title: "دفع الآن",

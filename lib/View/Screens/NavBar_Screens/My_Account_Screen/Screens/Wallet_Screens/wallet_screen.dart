@@ -16,7 +16,7 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (walletController.isLoading.value) {
+      if (walletController.isLoadingMyWallet.value) {
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
@@ -53,7 +53,7 @@ class WalletScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              walletController.myWalletData.value.clientName,
+                              "${walletController.myWalletData.value.clientName}",
                               style: const TextStyle(
                                 color: AppColors.WHITE_COLOR,
                                 fontSize: 17,
