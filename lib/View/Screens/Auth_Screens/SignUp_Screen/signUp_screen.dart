@@ -312,14 +312,15 @@ class SignUpScreen extends StatelessWidget {
           content: Text("Enter_Name".tr),
         ),
       );
-    } else if (authController.cityID.value == "") {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: const Duration(seconds: 2),
-          content: Text("من فضلك ادخل الدولة والمدينة".tr),
-        ),
-      );
     }
+    // else if (authController.cityID.value == "") {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       duration: const Duration(seconds: 2),
+    //       content: Text("من فضلك ادخل الدولة والمدينة".tr),
+    //     ),
+    //   );
+    // }
     else if (authController.registerClientPhoneController.value.text == "") {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -370,9 +371,12 @@ class SignUpScreen extends StatelessWidget {
         "ar",
         "ANDROID",
         "GMS",
-        authController.cityID.value,
+        authController.cityID.value == ""
+            ? authController.defaultCity.value
+            : authController.cityID.value,
         context,
       );
+      log(authController.defaultCity.value);
     }
   }
 }

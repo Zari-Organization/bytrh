@@ -18,15 +18,18 @@ import 'My_Account_Controllers/personal_data_controller.dart';
 
 class AuthController extends GetxController {
   final personalDataController = Get.find<PersonalDataController>();
+
   Future? setClientCity() {
-    idCountry.value = personalDataController.countryIDController.value;
+    // idCountry.value = personalDataController.countryIDController.value;
+    idCountry.value = defaultCountry.value;
+    log(defaultCountry.value);
   }
 
   @override
   void onInit() async {
     super.onInit();
+    await getCountries();
     await setClientCity();
-    getCountries();
     await getCities();
     getTerms();
   }
