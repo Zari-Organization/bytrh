@@ -45,6 +45,7 @@ class PersonalDataScreen extends StatelessWidget {
                       title: "رقم الجوال",
                       controller: personalDataController.phoneController.value,
                       fillColor: AppColors.GREY_Light_COLOR,
+                      textDirection: TextDirection.ltr,
                     ),
                     TitledTextField(
                       title: "الإيميل",

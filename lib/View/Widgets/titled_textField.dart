@@ -14,6 +14,7 @@ class TitledTextField extends StatelessWidget {
     this.onChange,
     this.keyboardType,
     this.maxLines=1,
+    this.textDirection,
     this.fillColor = AppColors.GREY_Light_COLOR,
     this.obscureText = false,
     this.enabled = true,
@@ -26,6 +27,7 @@ class TitledTextField extends StatelessWidget {
   Function()? onPress;
   Function(String)? onChange;
   TextInputType? keyboardType;
+  TextDirection? textDirection;
   int maxLines;
   TextStyle? titleStyle;
   Color? fillColor;
@@ -43,6 +45,7 @@ class TitledTextField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          textDirection: textDirection,
           maxLines: maxLines,
           enabled: enabled,
           keyboardType: keyboardType,

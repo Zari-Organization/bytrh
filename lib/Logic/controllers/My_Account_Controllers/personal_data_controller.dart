@@ -14,7 +14,7 @@ class PersonalDataController extends GetxController {
     userNameController.value.text = clientData.value.clientName;
     phoneController.value.text = clientData.value.clientPhone;
     emailController.value.text = clientData.value.clientEmail;
-    cityController.value.text = clientData.value.idCity.toString();
+    cityController.value.text = clientData.value.cityName;
   }
 
   var isLoading = false.obs;

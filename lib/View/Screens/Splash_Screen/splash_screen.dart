@@ -19,9 +19,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashViewState extends State<SplashScreen> {
   late Timer timer;
 
-  void _goNext() => GetStorage().read<String>('AccessToken') == null
-      ? Get.offAllNamed(Routes.onBoardingScreen)
-      : Get.offAllNamed(Routes.mainScreen);
+  void _goNext() {
+    if (GetStorage().read<String>('AccessToken') == null) {
+      Get.offAllNamed(Routes.authTypeScreen);
+    } else {
+      Get.offAllNamed(Routes.mainScreen);
+    }
+  }
 
   startDelay() {
     timer = Timer(const Duration(seconds: 3), _goNext);
@@ -29,10 +33,11 @@ class _SplashViewState extends State<SplashScreen> {
 
   @override
   void initState() {
+    GetStorage().read<bool>('onBoarding');
     GetStorage().read<String>('AccessToken');
-    GetStorage().read<String>('userName');
     if (kDebugMode) {
       log(GetStorage().read<String>('AccessToken').toString());
+      log(GetStorage().read<bool>('onBoarding').toString());
       // log(GetStorage().read<String>('userName').toString());
     }
     startDelay();
@@ -53,13 +58,20 @@ class _SplashViewState extends State<SplashScreen> {
               fit: BoxFit.cover,
             ),
           ),
-      Center(child:Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Baytrh",style: TextStyle(color: Color(0xffF2B705),fontSize: 40),),
-          Text("بيطرة",style: TextStyle(color: Color(0xffF2B705),fontSize: 30),),
-        ],
-      )),
+          Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Baytrh",
+                style: TextStyle(color: Color(0xffF2B705), fontSize: 40),
+              ),
+              Text(
+                "بيطرة",
+                style: TextStyle(color: Color(0xffF2B705), fontSize: 30),
+              ),
+            ],
+          )),
           // Center(
           //   child: Hero(
           //     tag: 'logo',

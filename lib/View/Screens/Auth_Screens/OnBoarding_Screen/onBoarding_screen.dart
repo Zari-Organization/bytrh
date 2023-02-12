@@ -3,6 +3,7 @@ import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -14,6 +15,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   // 1. Define a `GlobalKey` as part of the parent widget's state
   final _introKey = GlobalKey<IntroductionScreenState>();
   String _status = 'Waiting...';
+  final authBox = GetStorage();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authBox.write('onBoarding', true);
+  }
 
   @override
   Widget build(BuildContext context) {

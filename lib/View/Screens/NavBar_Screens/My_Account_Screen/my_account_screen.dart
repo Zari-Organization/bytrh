@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bytrh/Routes/routes.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
@@ -153,6 +155,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                     titleColor: AppColors.RED_COLOR,
                     title: "تسجيل خروج",
                     onTap: () {
+                      // log("hello");
                       AppAlerts().logoutPop(context);
                     },
                   ),

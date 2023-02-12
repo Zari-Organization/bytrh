@@ -123,8 +123,7 @@ class SignUpScreen extends StatelessWidget {
                     // controller: profileController.brandNameEnController.value,
                   ),
                 ),
-                Obx(
-                  () => TitledTextField(
+                Obx(() => TitledTextField(
                     obscureText: authController.isSecureRegisterConfirmPass.value,
                     controller: authController
                         .registerClientPasswordConfirmController.value,
@@ -137,14 +136,13 @@ class SignUpScreen extends StatelessWidget {
                         authController.isSecureRegisterConfirmPass.value =
                             !authController.isSecureRegisterConfirmPass.value;
                       },
-                      icon:    SvgPicture.asset(
+                      icon: SvgPicture.asset(
                         authController.isSecureRegisterConfirmPass.value
                             ? AppIcons.hide_pass_icon
                             : AppIcons.show_pass_icon,
                         color: AppColors.GREY_COLOR,
                       ),
                         color: AppColors.GREY_COLOR,
-
                     ),
                   ),
                 ),
@@ -157,8 +155,7 @@ class SignUpScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25)),
                         value: authController.termsCheck.value,
                         onChanged: (_) {
-                          authController.termsCheck.value =
-                              !authController.termsCheck.value;
+                          authController.termsCheck.value = !authController.termsCheck.value;
                         },
                         // checkColor: AppColors.MAIN_COLOR,
                         activeColor: AppColors.MAIN_COLOR,
@@ -250,9 +247,7 @@ class SignUpScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "لديك حساب بالفعل؟",
-                      style:
-                          TextStyle(fontSize: 12, color: AppColors.BLACK_COLOR),
+                      "لديك حساب بالفعل؟", style: TextStyle(fontSize: 12, color: AppColors.BLACK_COLOR),
                     ),
                     TextButton(
                       onPressed: () {
@@ -269,7 +264,7 @@ class SignUpScreen extends StatelessWidget {
               ],
             ),
           ),
-        ));
+        ),);
   }
 
   handleSignUpRequest(BuildContext context) {
