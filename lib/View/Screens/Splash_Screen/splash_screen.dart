@@ -30,7 +30,7 @@ class _SplashViewState extends State<SplashScreen> {
   }
 
   startDelay() {
-    timer = Timer(const Duration(seconds: 3), _goNext);
+    timer = Timer(const Duration(hours: 3), _goNext);
   }
 
   @override
@@ -61,19 +61,27 @@ class _SplashViewState extends State<SplashScreen> {
             ),
           ),
           Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Baytrh",
-                style: TextStyle(color: Color(0xffF2B705), fontSize: 40),
-              ),
-              Text(
-                "بيطرة",
-                style: TextStyle(color: Color(0xffF2B705), fontSize: 30),
-              ),
-            ],
-          )),
+              child: CircleAvatar(
+                radius: 70,
+                backgroundImage: AssetImage(
+                  AppImages.bytrh_logo,
+                ),
+              )
+          ),
+          // Center(
+          //     child: Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text(
+          //       "Baytrh",
+          //       style: TextStyle(color: Color(0xffF2B705), fontSize: 40),
+          //     ),
+          //     Text(
+          //       "بيطرة",
+          //       style: TextStyle(color: Color(0xffF2B705), fontSize: 30),
+          //     ),
+          //   ],
+          // )),
           // Center(
           //   child: Hero(
           //     tag: 'logo',

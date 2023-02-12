@@ -3,6 +3,7 @@
 
 class AppImages {
   static const String bytrh_logo = "assets/images/bytrh_logo.jpeg";
+  static const String bytrh_logo2 = "assets/images/bytrh_logo2.png";
   static const String splash_background = "assets/images/splash_background.png";
   static const String background_white = "assets/images/background_white.png";
   static const String OB_IMAGE1 = "assets/images/OB_IMAGE1.png";

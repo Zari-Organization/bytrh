@@ -6,6 +6,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../Logic/controllers/My_Account_Controllers/my_account_controller.dart';
 import '../../../../../Utils/app_icons.dart';
+import '../../../../../Utils/app_images.dart';
 import '../../../../Widgets/auth_button.dart';
 import '../../../../Widgets/titled_textField.dart';
 import '../Widgets/custom_listTile.dart';
@@ -32,6 +33,15 @@ class AboutUsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(
+                        child: CircleAvatar(
+                          radius: 70,
+                          backgroundImage: AssetImage(
+                            AppImages.bytrh_logo,
+                          ),
+                        )
+                      ),
+                      const SizedBox(height: 16),
                       Text(
                           "${myAccountController.aboutUsData.value.aboutUsTitle}"),
                       const SizedBox(height: 16),
