@@ -137,6 +137,10 @@ class AuthController extends GetxController {
     }
   }
 
+  var countryNameController = "".obs;
+  var cityNameController = "".obs;
+  var cityID = "".obs;
+
   var googleRegisterClientPhoneController = TextEditingController().obs;
   var googleRegisterClientPhoneCodeController = TextEditingController().obs;
   var googleRegisterPhoneWithoutCodeController = TextEditingController().obs;
