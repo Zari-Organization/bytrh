@@ -30,7 +30,7 @@ class _SplashViewState extends State<SplashScreen> {
   }
 
   startDelay() {
-    timer = Timer(const Duration(hours: 3), _goNext);
+    timer = Timer(const Duration(seconds: 3), _goNext);
   }
 
   @override

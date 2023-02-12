@@ -2,7 +2,7 @@
     package="com.zari.bytrh"
     xmlns:tools="http://schemas.android.com/tools">
    <application
-        android:label="Baytrh"
+        android:label="Bytrh"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
