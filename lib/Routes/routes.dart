@@ -97,7 +97,10 @@ class AppRoutes {
     GetPage(
       name: Routes.personalDataScreen,
       page: () => PersonalDataScreen(),
-      binding: PersonalDataBinding(),
+      bindings: [
+        AuthBinding(),
+        PersonalDataBinding(),
+      ],
     ),
     GetPage(
       name: Routes.changePasswordScreen,

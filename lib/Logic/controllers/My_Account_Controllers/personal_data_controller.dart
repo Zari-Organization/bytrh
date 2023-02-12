@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../Models/personal_data_model.dart';
 import '../../../Services/My_Account_Services/personal_data_services.dart';
 
@@ -14,7 +15,9 @@ class PersonalDataController extends GetxController {
     userNameController.value.text = clientData.value.clientName;
     phoneController.value.text = clientData.value.clientPhone;
     emailController.value.text = clientData.value.clientEmail;
-    cityController.value.text = clientData.value.cityName;
+    countryNameController.value = clientData.value.countryName;
+    cityNameController.value = clientData.value.cityName;
+    countryIDController.value = clientData.value.iDCountry.toString();
   }
 
   var isLoading = false.obs;
@@ -22,7 +25,11 @@ class PersonalDataController extends GetxController {
   var userNameController = TextEditingController().obs;
   var phoneController = TextEditingController().obs;
   var emailController = TextEditingController().obs;
-  var cityController = TextEditingController().obs;
+  var countryNameController = "".obs;
+  var cityNameController = "".obs;
+  var countryIDController = ''.obs;
+  var cityID = ''.obs;
+
 
   var clientData = PersonalDataResponse().obs;
 
@@ -45,8 +52,7 @@ class PersonalDataController extends GetxController {
     String ClientName,
     String ClientEmail,
     String IDCity,
-    // String ClientPhone,
-    // File? ClientPicture,
+    File? ClientPicture,
     BuildContext context,
   ) async {
     try {
@@ -55,8 +61,7 @@ class PersonalDataController extends GetxController {
         ClientName,
         ClientEmail,
         IDCity,
-        // ClientPhone,
-        // ClientPicture!,
+        ClientPicture!,
       );
       if (editData["Success"]) {
         log(editData["Success"].toString());
@@ -85,5 +90,12 @@ class PersonalDataController extends GetxController {
     } finally {
       isLoadingEditData(false);
     }
+  }
+  final ImagePicker _picker = ImagePicker();
+  Rx<File?> profileImageFile = File("").obs;
+
+  void getProfileImage() async {
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    profileImageFile.value = File(pickedFile!.path);
   }
 }

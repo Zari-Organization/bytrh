@@ -24,10 +24,7 @@ class PersonalDataServices {
     var jsonData = response.body;
     var decodedData = jsonDecode(jsonData);
     if (decodedData['Success']) {
-      if (kDebugMode) {
-        print("Personal Data Api --> $decodedData");
-      }
-
+      log("Personal Data Api --> $decodedData");
       return personalDataModelFromJson(jsonData);
     } else {
       return throw Exception(decodedData['ApiMsg']);
@@ -38,19 +35,17 @@ class PersonalDataServices {
       String ClientName,
       String ClientEmail,
       String IDCity,
-      // String ClientPhone,
-      // File? ClientPicture,
+      File? ClientPicture,
       ) async {
-    // final profileController = Get.find<PersonalDataController>();
+    final personalDataController = Get.find<PersonalDataController>();
     dioImport.Dio dio = dioImport.Dio();
     dioImport.FormData formData = dioImport.FormData.fromMap({
       'ClientName': ClientName,
       'ClientEmail': ClientEmail,
-      'IDCity': "1",
-      // 'ClientPhone': ClientPhone,
-      // "ClientPicture": profileController
-      //     .profileImageFile.value!.path.isNotEmpty?await dioImport.MultipartFile.fromFile("${ClientPicture!.path}",
-      //     filename: "${ClientPicture.path.split('/').last}"):ClientPicture,
+      'IDCity': IDCity,
+      "ClientPicture": personalDataController
+          .profileImageFile.value!.path.isNotEmpty?await dioImport.MultipartFile.fromFile("${ClientPicture!.path}",
+          filename: "${ClientPicture.path.split('/').last}"):ClientPicture,
 
     });
     var response = await dio.post(

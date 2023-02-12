@@ -33,4 +33,5 @@ class AppIcons {
   static const String square_youtube_icon = "assets/icons/square_youtube_icon.svg";
   static const String points_icon = "assets/icons/points_icon.svg";
   static const String discount_icon = "assets/icons/discount_icon.svg";
+  static const String camera_icon = "assets/icons/camera_icon.svg";
 }

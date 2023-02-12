@@ -10,6 +10,8 @@ import 'package:dio/dio.dart' as dioImport;
 import '../Logic/controllers/verification_controller.dart';
 import '../Models/Auth_Models/login_model.dart';
 import '../Models/Auth_Models/register_model.dart';
+import '../Models/Location_Models/cities_model.dart';
+import '../Models/Location_Models/countries_model.dart';
 import '../Routes/routes.dart';
 import '../Utils/app_constants.dart';
 
@@ -138,6 +140,32 @@ class AuthServices {
       return decodedData;
     } else {
       return decodedData;
+    }
+  }
+  static Future<CountriesModel> getCountries() async {
+    var response = await http.get(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/countries'),
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("Countries Api --> $decodedData");
+      return countriesModelFromJson(jsonData);
+    } else {
+      return throw Exception("Failed to load Countries");
+    }
+  }
+  static Future<CitiesModel> getCities(String idCountry) async {
+    var response = await http.get(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/cities/$idCountry'),
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("Cities Api --> $decodedData");
+      return citiesModelFromJson(jsonData);
+    } else {
+      return throw Exception("Failed to load Cities");
     }
   }
 }

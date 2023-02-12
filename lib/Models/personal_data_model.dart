@@ -45,9 +45,11 @@ class PersonalDataResponse {
      this.clientName,
      this.clientEmail,
      this.clientPicture,
+     this.iDCountry,
      this.idCity,
      this.clientStatus,
      this.accessToken,
+     this.countryName,
      this.cityName,
   });
 
@@ -57,7 +59,9 @@ class PersonalDataResponse {
   final clientName;
   final clientEmail;
   final clientPicture;
+  final countryName;
   final cityName;
+  final iDCountry;
   final idCity;
   final clientStatus;
   final accessToken;
@@ -69,7 +73,9 @@ class PersonalDataResponse {
     clientName: json["ClientName"],
     clientEmail: json["ClientEmail"],
     clientPicture: json["ClientPicture"],
+    iDCountry: json["IDCountry"],
     idCity: json["IDCity"],
+    countryName: json["CountryName"],
     cityName: json["CityName"],
     clientStatus: json["ClientStatus"],
     accessToken: json["AccessToken"],
@@ -82,7 +88,9 @@ class PersonalDataResponse {
     "ClientName": clientName,
     "ClientEmail": clientEmail,
     "ClientPicture": clientPicture,
+    "CountryName": countryName,
     "CityName": cityName,
+    "IDCountry": iDCountry,
     "IDCity": idCity,
     "ClientStatus": clientStatus,
     "AccessToken": accessToken,

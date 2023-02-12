@@ -7,15 +7,27 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../Models/Auth_Models/login_model.dart';
 import '../../Models/Auth_Models/register_model.dart';
+import '../../Models/Location_Models/countries_model.dart' as countries_import;
+import '../../Models/Location_Models/cities_model.dart' as cities_import;
 import '../../Routes/routes.dart';
 import '../../Services/auth_services.dart';
 import '../../Utils/app_colors.dart';
 import 'dart:developer';
 
+import 'My_Account_Controllers/personal_data_controller.dart';
+
 class AuthController extends GetxController {
+  final personalDataController = Get.find<PersonalDataController>();
+  Future? setClientCity() {
+    idCountry.value = personalDataController.countryIDController.value;
+  }
+
   @override
   void onInit() async {
     super.onInit();
+    await setClientCity();
+    getCountries();
+    await getCities();
     getTerms();
   }
 
@@ -130,20 +142,22 @@ class AuthController extends GetxController {
   var googleRegisterPhoneWithoutCodeController = TextEditingController().obs;
 
   static final _googleSignIn = GoogleSignIn();
-  Future<GoogleSignInAccount?> googleLogin(BuildContext context) async{
-  var result= await _googleSignIn.signIn();
-  login(
-    result!.email,
-    result.id,
-    "MANUAL",
-    "ar",
-    "ANDROID",
-    "GMS",
-    context,
-  );
+
+  Future<GoogleSignInAccount?> googleLogin(BuildContext context) async {
+    var result = await _googleSignIn.signIn();
+    login(
+      result!.email,
+      result.id,
+      "MANUAL",
+      "ar",
+      "ANDROID",
+      "GMS",
+      context,
+    );
   }
-  Future<GoogleSignInAccount?> googleSignUp(BuildContext context) async{
-    var result= await _googleSignIn.signIn();
+
+  Future<GoogleSignInAccount?> googleSignUp(BuildContext context) async {
+    var result = await _googleSignIn.signIn();
     register(
       result!.email,
       googleRegisterClientPhoneController.value.text,
@@ -159,10 +173,10 @@ class AuthController extends GetxController {
     );
   }
 
-
   var facebookChecking = true.obs;
   AccessToken? facebookAccessToken;
   Map<String, dynamic>? facebookUserData;
+
   checkIfFacebookLoggedIn() async {
     final accessToken = await FacebookAuth.instance.accessToken;
     facebookChecking.value = false;
@@ -177,6 +191,7 @@ class AuthController extends GetxController {
       facebookLogin();
     }
   }
+
   facebookLogin() async {
     final LoginResult result = await FacebookAuth.instance.login();
 
@@ -192,8 +207,9 @@ class AuthController extends GetxController {
       log(result.status.toString());
       log(result.message.toString());
     }
-      facebookChecking.value = false;
+    facebookChecking.value = false;
   }
+
   facebookLogout() async {
     await FacebookAuth.instance.logOut();
     facebookAccessToken = null;
@@ -212,6 +228,41 @@ class AuthController extends GetxController {
       }
     } finally {
       isLoadingTerms(false);
+    }
+  }
+
+  var isLoadingCountries = false.obs;
+  var countriesList = <countries_import.Country>[].obs;
+  var defaultCountry = ''.obs;
+
+  getCountries() async {
+    var countries = await AuthServices.getCountries();
+    try {
+      isLoadingCountries(true);
+      if (countries.response.countries.isNotEmpty) {
+        countriesList.addAll(countries.response.countries);
+        defaultCountry.value = countries.response.idCountry.toString();
+      }
+    } finally {
+      isLoadingCountries(false);
+    }
+  }
+
+  var idCountry = ''.obs;
+  var isLoadingCities = false.obs;
+  var citiesList = <cities_import.Country>[].obs;
+  var defaultCity = ''.obs;
+
+  getCities() async {
+    var cities = await AuthServices.getCities(idCountry.value);
+    try {
+      isLoadingCities(true);
+      if (cities.response.countries.isNotEmpty) {
+        citiesList.addAll(cities.response.countries);
+        defaultCity.value = cities.response.idCity.toString();
+      }
+    } finally {
+      isLoadingCities(false);
     }
   }
 }

@@ -76,13 +76,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
               }
             }),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
                 children: [
                   CustomListTile(
                     icon: AppIcons.user_icon,
                     title: "بياناتي الشخصية",
-                    onTap: () {
+                    onTap: () async {
+                       personalDataController.onInit();
                       Get.toNamed(Routes.personalDataScreen);
                     },
                   ),
