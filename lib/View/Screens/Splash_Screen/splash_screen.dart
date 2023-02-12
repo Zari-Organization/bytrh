@@ -20,7 +20,9 @@ class _SplashViewState extends State<SplashScreen> {
   late Timer timer;
 
   void _goNext() {
-    if (GetStorage().read<String>('AccessToken') == null) {
+    if (GetStorage().read<bool>('onBoarding') == null) {
+      Get.offAllNamed(Routes.onBoardingScreen);
+    } else if (GetStorage().read<String>('AccessToken') == null) {
       Get.offAllNamed(Routes.authTypeScreen);
     } else {
       Get.offAllNamed(Routes.mainScreen);
