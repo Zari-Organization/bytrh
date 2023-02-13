@@ -18,6 +18,7 @@ class TitledTextField extends StatelessWidget {
     this.fillColor = AppColors.GREY_Light_COLOR,
     this.obscureText = false,
     this.enabled = true,
+    this.validator
   }) : super(key: key);
   final String title;
   String? hintText;
@@ -33,6 +34,7 @@ class TitledTextField extends StatelessWidget {
   Color? fillColor;
   bool obscureText;
   bool enabled;
+  String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class TitledTextField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          validator: validator,
           textDirection: textDirection,
           maxLines: maxLines,
           enabled: enabled,
