@@ -282,7 +282,8 @@ class SignUpScreen extends StatelessWidget {
                   //   ),
                   IconButton(
                     onPressed: () {
-                      Get.toNamed(Routes.socialSignUpScreen);
+                      authController.googleSignUp(context);
+                      // Get.toNamed(Routes.socialSignUpScreen);
                     },
                     icon: SvgPicture.asset(AppIcons.google_icon),
                     padding: EdgeInsets.zero,

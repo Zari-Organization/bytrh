@@ -50,15 +50,15 @@ class Response {
     required this.accessToken,
   });
 
-  int idClient;
-  String clientPhone;
-  String clientPhoneFlag;
-  String clientName;
-  String clientEmail;
-  String clientPicture;
-  dynamic idCity;
-  String clientStatus;
-  String accessToken;
+  final idClient;
+  final clientPhone;
+  final clientPhoneFlag;
+  final clientName;
+  final clientEmail;
+  final clientPicture;
+  final idCity;
+  final clientStatus;
+  final accessToken;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     idClient: json["IDClient"],

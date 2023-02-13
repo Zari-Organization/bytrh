@@ -52,14 +52,14 @@ class Response {
   });
 
   int idClient;
-  String clientPhone;
-  String clientPhoneFlag;
-  String clientName;
-  String clientEmail;
-  String clientPicture;
-  int idCity;
-  String clientStatus;
-  String accessToken;
+  final clientPhone;
+  final clientPhoneFlag;
+  final clientName;
+  final clientEmail;
+  final clientPicture;
+  final idCity;
+  final clientStatus;
+  final accessToken;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         idClient: json["IDClient"],

@@ -124,19 +124,31 @@ class AuthController extends GetxController {
           IDCity,
           context);
       if (registerModel.success == true) {
-        final verificationController = Get.find<VerificationController>();
-        verificationController.phoneController.value.text = ClientPhone;
-        verificationController.accessToken.value =
-            "Bearer ${registerModel.response!.accessToken}";
-        log(" Auth Controller -->${verificationController.accessToken.value}");
-        verificationController.sendCodeToVerifyAccount(
-            verificationController.phoneController.value.text, context);
+        log("registerModel success --> ${registerModel.success}");
+        if (LoginBy != "MANUAL") {
+          final authBox = GetStorage();
+          await authBox.write('AccessToken', "Bearer ${registerModel.response!.accessToken}");
+          GetStorage().read<String>('AccessToken')!;
+          Get.offAllNamed(Routes.mainScreen);
+        } else {
+          final verificationController = Get.find<VerificationController>();
+          verificationController.phoneController.value.text = ClientPhone;
+          verificationController.accessToken.value =
+          "Bearer ${registerModel.response!.accessToken}";
+          log("Auth Controller -->${verificationController.accessToken.value}");
+          verificationController.sendCodeToVerifyAccount(
+            verificationController.phoneController.value.text,
+            context,
+          );
+        }
         // authBox.write(
         //     'AccessToken', "Bearer ${registerModel.response!.accessToken}");
         // authBox.write('userName', registerModel.response!.clientName);
         // GetStorage().read<String>('AccessToken')!;
         // Get.offAllNamed(Routes.mainScreen);
-      } else {}
+      } else {
+        log("registerModel Error  --> ${registerModel.success}");
+      }
     } finally {
       isRegisterLoading(false);
     }
@@ -154,10 +166,13 @@ class AuthController extends GetxController {
 
 // creating firebase instance
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<String?> signInwithGoogle() async {
     try {
-      final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
@@ -168,8 +183,8 @@ class AuthController extends GetxController {
       // throw e;
     }
   }
-  Future<void> newGoogleLogin(BuildContext context) async {
 
+  Future<void> newGoogleLogin(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn(
         // scopes: [
         //   'email',
@@ -202,19 +217,18 @@ class AuthController extends GetxController {
     }
   }
 
-
   static final _googleSignIn = GoogleSignIn(
-    // scopes: [
-    //   'email',
-    //   'https://www.googleapis.com/auth/contacts.readonly',
-    // ],
-  );
+      // scopes: [
+      //   'email',
+      //   'https://www.googleapis.com/auth/contacts.readonly',
+      // ],
+      );
 
   Future<GoogleSignInAccount?> googleLogin(BuildContext context) async {
     var result = await _googleSignIn.signIn();
     log(result.toString());
     login(
-      result!.email,
+      result!.id,
       result.id,
       "GOOGLE",
       "ar",
@@ -226,17 +240,18 @@ class AuthController extends GetxController {
 
   Future<GoogleSignInAccount?> googleSignUp(BuildContext context) async {
     var result = await _googleSignIn.signIn();
+    log(result.toString());
     register(
-      result!.email,
-      googleRegisterClientPhoneController.value.text,
-      googleRegisterClientPhoneCodeController.value.text,
-      result.id,
-      result.displayName!,
+      "",
+      "",
+      "",
+      result!.id,
+      result.displayName??"",
       "GOOGLE",
-      "en",
+      "ar",
       "ANDROID",
       "GMS",
-      "1",
+      cityID.value == "" ? defaultCity.value : cityID.value,
       context,
     );
   }

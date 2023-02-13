@@ -109,7 +109,7 @@ class AuthServices {
     );
 
     var jsonData = response.data;
-    log(jsonData.toString());
+    log("service --> ${jsonData.toString()}");
     if (jsonData['Success'] == true) {
       verificationController.verifyLogin.value =false;
       return RegisterModel.fromJson(jsonData);

@@ -13,8 +13,8 @@ class PersonalDataController extends GetxController {
     super.onInit();
     await getPersonalData();
     userNameController.value.text = clientData.value.clientName;
-    phoneController.value.text = clientData.value.clientPhone;
-    emailController.value.text = clientData.value.clientEmail;
+    phoneController.value.text = clientData.value.clientPhone??"";
+    emailController.value.text = clientData.value.clientEmail??"";
     countryNameController.value = clientData.value.countryName;
     cityNameController.value = clientData.value.cityName;
     countryIDController.value = clientData.value.iDCountry.toString();

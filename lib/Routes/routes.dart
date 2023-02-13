@@ -15,7 +15,6 @@ import '../View/Screens/Auth_Screens/Forget_Password_Screens/Screens/verify_rese
 import '../View/Screens/Auth_Screens/Login_Screen/login_screen.dart';
 import '../View/Screens/Auth_Screens/OnBoarding_Screen/onBoarding_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Screen/signUp_screen.dart';
-import '../View/Screens/Auth_Screens/SignUp_Screen/social_signUp_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Type_Screen/signUp_type_screen.dart';
 import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
@@ -45,7 +44,6 @@ class AppRoutes {
   static const verifyResetPassCodeScreen = Routes.verifyResetPassCodeScreen;
   static const newPassScreen = Routes.newPassScreen;
   static const verifyAccountScreen = Routes.verifyAccountScreen;
-  static const socialSignUpScreen = Routes.socialSignUpScreen;
   static const walletScreen = Routes.walletScreen;
   static const walletPaymentScreen = Routes.walletPaymentScreen;
   static const cardGiftScreen = Routes.cardGiftScreen;
@@ -133,11 +131,6 @@ class AppRoutes {
       binding: VerificationBinding(),
     ),
     GetPage(
-      name: Routes.socialSignUpScreen,
-      page: () => SocialSignUpScreen(),
-      binding: AuthBinding(),
-    ),
-    GetPage(
       name: Routes.walletScreen,
       page: () => WalletScreen(),
       binding: WalletBinding(),
@@ -181,7 +174,6 @@ class Routes {
   static const verifyResetPassCodeScreen = '/verifyResetPassCodeScreen';
   static const newPassScreen = '/newPassScreen';
   static const verifyAccountScreen = '/verifyAccountScreen';
-  static const socialSignUpScreen = '/socialSignUpScreen';
   static const walletScreen = '/walletScreen';
   static const walletPaymentScreen = '/walletPaymentScreen';
   static const cardGiftScreen = '/cardGiftScreen';
