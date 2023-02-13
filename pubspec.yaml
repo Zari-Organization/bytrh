@@ -22,7 +22,9 @@ dependencies:
   introduction_screen: ^3.1.4
   conditional_builder_null_safety: ^0.0.6
   dio: ^4.0.6
-  intl_phone_field: ^3.1.0
+  intl_phone_field:
+    git:
+      url: https://github.com/Zari-Organization/custom_intl_phone_field.git
   flutter_verification_code:
     git:
       url: https://github.com/Nader15/custom_flutter_verification_code.git
