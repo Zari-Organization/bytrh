@@ -260,5 +260,7 @@ class LoginScreen extends StatelessWidget {
 
   Future googleSignIn(context) async {
     await authController.googleLogin(context);
+    // await authController.newGoogleLogin(context);
+    // await authController.signInwithGoogle();
   }
 }

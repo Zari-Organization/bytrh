@@ -1,4 +1,5 @@
 import 'package:bytrh/Logic/controllers/verification_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -44,13 +45,15 @@ class AuthController extends GetxController {
   var loginPhoneWithoutCodeController = TextEditingController().obs;
   final authBox = GetStorage();
 
-  Future login(String UserName,
-      String Password,
-      String LoginBy,
-      String ClientAppLanguage,
-      String ClientDeviceType,
-      String ClientMobileService,
-      BuildContext context,) async {
+  Future login(
+    String UserName,
+    String Password,
+    String LoginBy,
+    String ClientAppLanguage,
+    String ClientDeviceType,
+    String ClientMobileService,
+    BuildContext context,
+  ) async {
     try {
       isLogInLoading(true);
       LoginModel loginModel = await AuthServices().loginAPI(
@@ -93,17 +96,19 @@ class AuthController extends GetxController {
   var registerClientDeviceTypeController = TextEditingController().obs;
   var registerClientMobileServiceController = TextEditingController().obs;
 
-  Future register(String ClientEmail,
-      String ClientPhone,
-      String ClientPhoneFlag,
-      String ClientPassword,
-      String ClientName,
-      String LoginBy,
-      String ClientAppLanguage,
-      String ClientDeviceType,
-      String ClientMobileService,
-      String IDCity,
-      BuildContext context,) async {
+  Future register(
+    String ClientEmail,
+    String ClientPhone,
+    String ClientPhoneFlag,
+    String ClientPassword,
+    String ClientName,
+    String LoginBy,
+    String ClientAppLanguage,
+    String ClientDeviceType,
+    String ClientMobileService,
+    String IDCity,
+    BuildContext context,
+  ) async {
     try {
       isRegisterLoading(true);
       RegisterModel registerModel = await AuthServices().registerAPI(
@@ -122,7 +127,7 @@ class AuthController extends GetxController {
         final verificationController = Get.find<VerificationController>();
         verificationController.phoneController.value.text = ClientPhone;
         verificationController.accessToken.value =
-        "Bearer ${registerModel.response!.accessToken}";
+            "Bearer ${registerModel.response!.accessToken}";
         log(" Auth Controller -->${verificationController.accessToken.value}");
         verificationController.sendCodeToVerifyAccount(
             verificationController.phoneController.value.text, context);
@@ -145,7 +150,65 @@ class AuthController extends GetxController {
   var googleRegisterClientPhoneCodeController = TextEditingController().obs;
   var googleRegisterPhoneWithoutCodeController = TextEditingController().obs;
 
-  static final _googleSignIn = GoogleSignIn();
+  // function to implement the google signin
+
+// creating firebase instance
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  Future<String?> signInwithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      await auth.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      log(e.message.toString());
+      // throw e;
+    }
+  }
+  Future<void> newGoogleLogin(BuildContext context) async {
+
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+        // scopes: [
+        //   'email',
+        //   'https://www.googleapis.com/auth/contacts.readonly',
+        // ],
+        );
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+    log("new google ${googleSignInAccount.toString()}");
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      log("googleSignInAuthentication --> ${googleSignInAuthentication.accessToken.toString()}");
+      final AuthCredential authCredential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken);
+      log("authCredential --> ${authCredential.accessToken.toString()}");
+      // Getting users credential
+      try {
+        // UserCredential result = await auth.signInWithCredential(authCredential);
+        final authResult = await auth.signInWithCredential(authCredential);
+        log("result --> ${authResult.user.toString()}");
+        // User? user = result.user;
+        // if (result != null) {
+        //   log("user --> ${user.toString()}");
+        // }
+      } catch (e) {
+        log("Error: $e");
+      }
+    }
+  }
+
+
+  static final _googleSignIn = GoogleSignIn(
+    // scopes: [
+    //   'email',
+    //   'https://www.googleapis.com/auth/contacts.readonly',
+    // ],
+  );
 
   Future<GoogleSignInAccount?> googleLogin(BuildContext context) async {
     var result = await _googleSignIn.signIn();
@@ -186,37 +249,29 @@ class AuthController extends GetxController {
     final accessToken = await FacebookAuth.instance.accessToken;
     facebookChecking.value = false;
     if (accessToken != null) {
-      log("checkIfFacebookLoggedIn accessToken --> ${accessToken.toJson()
-          .toString()}");
+      log("checkIfFacebookLoggedIn accessToken --> ${accessToken.toJson().toString()}");
       final userData = await FacebookAuth.instance.getUserData();
       facebookAccessToken = accessToken;
       facebookUserData = userData;
-      log(
-          "checkIfFacebookLoggedIn facebookAccessToken --> ${facebookAccessToken!
-              .toJson().toString()}");
-      log("checkIfFacebookLoggedIn accessToken --> ${facebookUserData
-          .toString()}");
+      log("checkIfFacebookLoggedIn facebookAccessToken --> ${facebookAccessToken!.toJson().toString()}");
+      log("checkIfFacebookLoggedIn accessToken --> ${facebookUserData.toString()}");
     } else {
       facebookLogin();
     }
   }
 
   facebookLogin() async {
-    final LoginResult result = await FacebookAuth.instance.login(
-        permissions: const ['email', 'public_profile']
-    );
+    final LoginResult result = await FacebookAuth.instance
+        .login(permissions: const ['email', 'public_profile']);
 
     if (result.status == LoginStatus.success) {
       facebookAccessToken = result.accessToken;
       final userData = await FacebookAuth.instance.getUserData();
       facebookUserData = userData;
-      log("facebookLogin facebookAccessToken --> ${facebookAccessToken!.toJson()
-          .toString()}");
+      log("facebookLogin facebookAccessToken --> ${facebookAccessToken!.toJson().toString()}");
       log("facebookLogin facebookUserData --> ${facebookUserData.toString()}");
-      log(
-          "facebookLogin facebookUserData Email --> ${facebookUserData!['email']}");
-      log(
-          "facebookLogin facebookUserData Name --> ${facebookUserData!['name']}");
+      log("facebookLogin facebookUserData Email --> ${facebookUserData!['email']}");
+      log("facebookLogin facebookUserData Name --> ${facebookUserData!['name']}");
     } else {
       log(result.status.toString());
       log(result.message.toString());

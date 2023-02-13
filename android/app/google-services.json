@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "19205980163",
+    "project_id": "on-time-74859",
+    "storage_bucket": "on-time-74859.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19205980163:android:3f771b19a808732be54e36",
+        "android_client_info": {
+          "package_name": "com.zari.bytrh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19205980163-njcf3kvckvgk6obsnqfqv4rl9vb2t2vv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNOcpw1FXkYFyU8H1aj3sdEWEhnuiTXwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19205980163-ftg43daeihtun8t1pe90t56qtqvcsba8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "19205980163-n3d5copbhuiet7npl006fg8hhl1vc3d0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zari.bytrh"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
