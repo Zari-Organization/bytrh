@@ -200,7 +200,9 @@ class AuthController extends GetxController {
   }
 
   facebookLogin() async {
-    final LoginResult result = await FacebookAuth.instance.login();
+    final LoginResult result = await FacebookAuth.instance.login(
+        permissions: const ['email', 'public_profile']
+    );
 
     if (result.status == LoginStatus.success) {
       facebookAccessToken = result.accessToken;
@@ -215,6 +217,22 @@ class AuthController extends GetxController {
       log(result.message.toString());
     }
     facebookChecking.value = false;
+  }
+  facebookLogin2() async {
+    final LoginResult result = await FacebookAuth.instance.login(
+      permissions: ['public_profile', 'email', 'pages_show_list', 'pages_messaging', 'pages_manage_metadata'],
+    );
+    if (result.status == LoginStatus.success) {
+      final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
+      if (accessToken != null) {
+        log(accessToken.toJson().toString());
+        log("user is logged");
+        //
+      }
+    } else {
+      log(result.status.toString());
+      log(result.message.toString());
+    }
   }
 
   facebookLogout() async {
@@ -241,7 +259,6 @@ class AuthController extends GetxController {
   var isLoadingCountries = false.obs;
   var countriesList = <countries_import.Country>[].obs;
   var defaultCountry = ''.obs;
-
   getCountries() async {
     var countries = await AuthServices.getCountries();
     try {
@@ -249,6 +266,7 @@ class AuthController extends GetxController {
       if (countries.response.countries.isNotEmpty) {
         countriesList.addAll(countries.response.countries);
         defaultCountry.value = countries.response.idCountry.toString();
+        countryNameController.value = countries.response.countryName;
       }
     } finally {
       isLoadingCountries(false);
@@ -267,6 +285,7 @@ class AuthController extends GetxController {
       if (cities.response.countries.isNotEmpty) {
         citiesList.addAll(cities.response.countries);
         defaultCity.value = cities.response.idCity.toString();
+        cityNameController.value = cities.response.cityName;
       }
     } finally {
       isLoadingCities(false);

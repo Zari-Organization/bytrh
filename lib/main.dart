@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Baytrh',
+      title: 'Bytrh',
       translations: Translation(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

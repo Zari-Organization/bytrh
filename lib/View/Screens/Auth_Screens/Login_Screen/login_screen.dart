@@ -163,8 +163,10 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     // IconButton(
-                    //   onPressed: () {
-                    //     authController.facebookLogin();
+                    //   onPressed: () async{
+                    //     // authController.facebookLogin();
+                    //     authController.facebookLogin2();
+                    //     // await FacebookAuth.instance.logOut();
                     //   },
                     //   icon: SvgPicture.asset(AppIcons.facebook_icon),
                     //   padding: EdgeInsets.zero,

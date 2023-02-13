@@ -41,19 +41,23 @@ class Response {
   Response({
     required this.countries,
     required this.idCountry,
+    required this.countryName,
   });
 
   List<Country> countries;
   int idCountry;
+  String countryName;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     countries: List<Country>.from(json["Countries"].map((x) => Country.fromJson(x))),
     idCountry: json["IDCountry"],
+    countryName: json["CountryName"],
   );
 
   Map<String, dynamic> toJson() => {
     "Countries": List<dynamic>.from(countries.map((x) => x.toJson())),
     "IDCountry": idCountry,
+    "CountryName": countryName,
   };
 }
 
