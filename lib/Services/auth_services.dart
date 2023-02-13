@@ -168,4 +168,17 @@ class AuthServices {
       return throw Exception("Failed to load Cities");
     }
   }
+  static Future getLocation() async {
+    var response = await http.get(
+      Uri.parse("http://ip-api.com/json"),
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['status']=="success") {
+      log("Location Api --> $decodedData");
+      return decodedData;
+    } else {
+      return decodedData;
+    }
+  }
 }

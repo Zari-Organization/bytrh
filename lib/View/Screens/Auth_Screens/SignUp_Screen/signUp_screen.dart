@@ -75,43 +75,56 @@ class SignUpScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Text("رقم الجوال"),
-              const SizedBox(height: 10),
-              IntlPhoneField(
-                controller:
-                    authController.loginPhoneWithoutCodeController.value,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.GREY_Light_COLOR,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                // style: TextStyle(color: AppColors.WHITE_COLOR),
-                dropdownTextStyle: TextStyle(color: AppColors.BLACK_COLOR),
-                cursorColor: AppColors.MAIN_COLOR,
-                initialCountryCode: 'SA',
-                onChanged: (phone) {
-                  if (phone.number.length == 1) {
-                    if (phone.number[0] == "0") {
-                      authController.loginPhoneWithoutCodeController.value
-                          .clear();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          duration: const Duration(seconds: 2),
-                          content: Text("num_without_zero".tr),
-                        ),
-                      );
-                    }
-                  } else {
-                    authController.registerClientPhoneController.value.text =
-                        phone.completeNumber.toString();
-                    authController.registerClientPhoneCodeController.value
-                        .text = phone.countryCode.toString();
-                    log(authController
-                        .registerClientPhoneController.value.text);
+              Obx(
+                    () {
+                  if(authController.isLoadingLocation.value){
+                    return const SizedBox();
+                  }else{
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("رقم الجوال"),
+                        const SizedBox(height: 10),
+                        IntlPhoneField(
+                          controller:
+                          authController.loginPhoneWithoutCodeController.value,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: AppColors.GREY_Light_COLOR,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          // style: TextStyle(color: AppColors.WHITE_COLOR),
+                          dropdownTextStyle: TextStyle(color: AppColors.BLACK_COLOR),
+                          cursorColor: AppColors.MAIN_COLOR,
+                          initialCountryCode: authController.locationCountryCode.value,
+                          onChanged: (phone) {
+                            if (phone.number.length == 1) {
+                              if (phone.number[0] == "0") {
+                                authController.loginPhoneWithoutCodeController.value
+                                    .clear();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: const Duration(seconds: 2),
+                                    content: Text("num_without_zero".tr),
+                                  ),
+                                );
+                              }
+                            } else {
+                              authController.registerClientPhoneController.value.text =
+                                  phone.completeNumber.toString();
+                              authController.registerClientPhoneCodeController.value
+                                  .text = phone.countryCode.toString();
+                              log(authController
+                                  .registerClientPhoneController.value.text);
+                            }
+                          },
+                        )
+                      ],
+                    );
                   }
                 },
               ),

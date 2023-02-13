@@ -28,6 +28,7 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    await getLocation();
     await getCountries();
     await setClientCity();
     await getCities();
@@ -43,15 +44,13 @@ class AuthController extends GetxController {
   var loginPhoneWithoutCodeController = TextEditingController().obs;
   final authBox = GetStorage();
 
-  Future login(
-    String UserName,
-    String Password,
-    String LoginBy,
-    String ClientAppLanguage,
-    String ClientDeviceType,
-    String ClientMobileService,
-    BuildContext context,
-  ) async {
+  Future login(String UserName,
+      String Password,
+      String LoginBy,
+      String ClientAppLanguage,
+      String ClientDeviceType,
+      String ClientMobileService,
+      BuildContext context,) async {
     try {
       isLogInLoading(true);
       LoginModel loginModel = await AuthServices().loginAPI(
@@ -94,19 +93,17 @@ class AuthController extends GetxController {
   var registerClientDeviceTypeController = TextEditingController().obs;
   var registerClientMobileServiceController = TextEditingController().obs;
 
-  Future register(
-    String ClientEmail,
-    String ClientPhone,
-    String ClientPhoneFlag,
-    String ClientPassword,
-    String ClientName,
-    String LoginBy,
-    String ClientAppLanguage,
-    String ClientDeviceType,
-    String ClientMobileService,
-    String IDCity,
-    BuildContext context,
-  ) async {
+  Future register(String ClientEmail,
+      String ClientPhone,
+      String ClientPhoneFlag,
+      String ClientPassword,
+      String ClientName,
+      String LoginBy,
+      String ClientAppLanguage,
+      String ClientDeviceType,
+      String ClientMobileService,
+      String IDCity,
+      BuildContext context,) async {
     try {
       isRegisterLoading(true);
       RegisterModel registerModel = await AuthServices().registerAPI(
@@ -125,7 +122,7 @@ class AuthController extends GetxController {
         final verificationController = Get.find<VerificationController>();
         verificationController.phoneController.value.text = ClientPhone;
         verificationController.accessToken.value =
-            "Bearer ${registerModel.response!.accessToken}";
+        "Bearer ${registerModel.response!.accessToken}";
         log(" Auth Controller -->${verificationController.accessToken.value}");
         verificationController.sendCodeToVerifyAccount(
             verificationController.phoneController.value.text, context);
@@ -152,6 +149,7 @@ class AuthController extends GetxController {
 
   Future<GoogleSignInAccount?> googleLogin(BuildContext context) async {
     var result = await _googleSignIn.signIn();
+    log(result.toString());
     login(
       result!.email,
       result.id,
@@ -188,12 +186,16 @@ class AuthController extends GetxController {
     final accessToken = await FacebookAuth.instance.accessToken;
     facebookChecking.value = false;
     if (accessToken != null) {
-      log("checkIfFacebookLoggedIn accessToken --> ${accessToken.toJson().toString()}");
+      log("checkIfFacebookLoggedIn accessToken --> ${accessToken.toJson()
+          .toString()}");
       final userData = await FacebookAuth.instance.getUserData();
       facebookAccessToken = accessToken;
       facebookUserData = userData;
-      log("checkIfFacebookLoggedIn facebookAccessToken --> ${facebookAccessToken!.toJson().toString()}");
-      log("checkIfFacebookLoggedIn accessToken --> ${facebookUserData.toString()}");
+      log(
+          "checkIfFacebookLoggedIn facebookAccessToken --> ${facebookAccessToken!
+              .toJson().toString()}");
+      log("checkIfFacebookLoggedIn accessToken --> ${facebookUserData
+          .toString()}");
     } else {
       facebookLogin();
     }
@@ -208,19 +210,29 @@ class AuthController extends GetxController {
       facebookAccessToken = result.accessToken;
       final userData = await FacebookAuth.instance.getUserData();
       facebookUserData = userData;
-      log("facebookLogin facebookAccessToken --> ${facebookAccessToken!.toJson().toString()}");
+      log("facebookLogin facebookAccessToken --> ${facebookAccessToken!.toJson()
+          .toString()}");
       log("facebookLogin facebookUserData --> ${facebookUserData.toString()}");
-      log("facebookLogin facebookUserData Email --> ${facebookUserData!['email']}");
-      log("facebookLogin facebookUserData Name --> ${facebookUserData!['name']}");
+      log(
+          "facebookLogin facebookUserData Email --> ${facebookUserData!['email']}");
+      log(
+          "facebookLogin facebookUserData Name --> ${facebookUserData!['name']}");
     } else {
       log(result.status.toString());
       log(result.message.toString());
     }
     facebookChecking.value = false;
   }
+
   facebookLogin2() async {
     final LoginResult result = await FacebookAuth.instance.login(
-      permissions: ['public_profile', 'email', 'pages_show_list', 'pages_messaging', 'pages_manage_metadata'],
+      permissions: [
+        'public_profile',
+        'email',
+        'pages_show_list',
+        'pages_messaging',
+        'pages_manage_metadata'
+      ],
     );
     if (result.status == LoginStatus.success) {
       final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
@@ -259,6 +271,7 @@ class AuthController extends GetxController {
   var isLoadingCountries = false.obs;
   var countriesList = <countries_import.Country>[].obs;
   var defaultCountry = ''.obs;
+
   getCountries() async {
     var countries = await AuthServices.getCountries();
     try {
@@ -289,6 +302,22 @@ class AuthController extends GetxController {
       }
     } finally {
       isLoadingCities(false);
+    }
+  }
+
+  var locationCountryCode = ''.obs;
+  var isLoadingLocation = false.obs;
+
+  getLocation() async {
+    try {
+      isLoadingLocation(true);
+      var response = await AuthServices.getLocation();
+      if (response['status'] == "success") {
+        locationCountryCode.value = await response['countryCode'];
+        log("CC Api ---> ${locationCountryCode.value}");
+      }
+    } finally {
+      isLoadingLocation(false);
     }
   }
 }
