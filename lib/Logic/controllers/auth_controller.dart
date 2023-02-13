@@ -155,7 +155,7 @@ class AuthController extends GetxController {
     login(
       result!.email,
       result.id,
-      "MANUAL",
+      "GOOGLE",
       "ar",
       "ANDROID",
       "GMS",
@@ -171,7 +171,7 @@ class AuthController extends GetxController {
       googleRegisterClientPhoneCodeController.value.text,
       result.id,
       result.displayName!,
-      "MANUAL",
+      "GOOGLE",
       "en",
       "ANDROID",
       "GMS",
