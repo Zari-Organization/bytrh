@@ -39,6 +39,7 @@ class ContactUsScreen extends StatelessWidget {
                         iconColor: null,
                         title:
                             "${myAccountController.aboutUsData.value.contactPhone}",
+                        textDirection: TextDirection.ltr,
                         onTap: () {
                           launchUrl(
                             Uri.parse(
@@ -54,6 +55,7 @@ class ContactUsScreen extends StatelessWidget {
                         iconColor: null,
                         title:
                             "${myAccountController.aboutUsData.value.contactEmail}",
+                        textDirection: TextDirection.ltr,
                         onTap: () {
                           myAccountController.openEmail(myAccountController
                               .aboutUsData.value.contactEmail);

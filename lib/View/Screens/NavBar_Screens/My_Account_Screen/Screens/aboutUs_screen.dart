@@ -58,8 +58,8 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_phone_icon,
                         iconColor: null,
-                        title:
-                            "${myAccountController.aboutUsData.value.contactPhone}",
+                        title: "${myAccountController.aboutUsData.value.contactPhone}",
+                        textDirection: TextDirection.ltr,
                         onTap: () {
                           launchUrl(
                             Uri.parse(
@@ -73,8 +73,8 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_email_icon,
                         iconColor: null,
-                        title:
-                            "${myAccountController.aboutUsData.value.contactEmail}",
+                        title: "${myAccountController.aboutUsData.value.contactEmail}",
+                        textDirection: TextDirection.ltr,
                         onTap: () {
                           myAccountController.openEmail(myAccountController
                               .aboutUsData.value.contactEmail);
@@ -85,8 +85,8 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_facebook_icon,
                         iconColor: null,
-                        title:
-                            "${myAccountController.aboutUsData.value.contactFacebook}",
+                        title: "${myAccountController.aboutUsData.value.contactFacebook}",
+                        textDirection: TextDirection.ltr,
                         onTap: () {
                           launchUrl(Uri.parse(myAccountController
                               .aboutUsData.value.contactFacebook));
@@ -97,8 +97,8 @@ class AboutUsScreen extends StatelessWidget {
                         tileColor: AppColors.GREY_Light_COLOR,
                         icon: AppIcons.square_whatsapp_icon,
                         iconColor: null,
-                        title:
-                            "${myAccountController.aboutUsData.value.contactWhatsApp}",
+                        title: "${myAccountController.aboutUsData.value.contactWhatsApp}",
+                        textDirection: TextDirection.ltr,
                         onTap: () async {
                           myAccountController.launchWhatsApp(
                               phone: myAccountController
@@ -113,6 +113,7 @@ class AboutUsScreen extends StatelessWidget {
                         iconColor: null,
                         title:
                             "${myAccountController.aboutUsData.value.contactInstagram}",
+                        textDirection: TextDirection.ltr,
                         onTap: () {
                           launchUrl(Uri.parse(myAccountController
                               .aboutUsData.value.contactInstagram));
@@ -125,6 +126,7 @@ class AboutUsScreen extends StatelessWidget {
                         iconColor: null,
                         title:
                             "${myAccountController.aboutUsData.value.contactYouTube}",
+                        textDirection: TextDirection.ltr,
                         onTap: () {
                           launchUrl(Uri.parse(myAccountController
                               .aboutUsData.value.contactYouTube));

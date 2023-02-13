@@ -12,6 +12,7 @@ class CustomListTile extends StatelessWidget {
     this.tileColor,
     this.borderRadius,
     this.trailing,
+    this.textDirection = TextDirection.rtl,
     this.titleColor= AppColors.MAIN_COLOR,
     this.iconColor= AppColors.MAIN_COLOR,
   }) : super(key: key);
@@ -24,6 +25,7 @@ class CustomListTile extends StatelessWidget {
   Color? tileColor ;
   double? borderRadius ;
   Widget? trailing ;
+  TextDirection textDirection;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,6 @@ class CustomListTile extends StatelessWidget {
       ),
       elevation: 0.2,
       child: ListTile(
-
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius??0)
         ),
@@ -42,11 +43,16 @@ class CustomListTile extends StatelessWidget {
           icon,
           color: iconColor,
         ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: titleColor,
-            // fontWeight: FontWeight.bold,
+        title: Directionality(
+          textDirection: textDirection,
+          child: Text(
+            title,
+            style: TextStyle(
+              color: titleColor,
+              // fontSize: 16,
+              overflow: TextOverflow.ellipsis
+              // fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         trailing: trailing,
