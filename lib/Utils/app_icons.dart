@@ -34,4 +34,6 @@ class AppIcons {
   static const String points_icon = "assets/icons/points_icon.svg";
   static const String discount_icon = "assets/icons/discount_icon.svg";
   static const String camera_icon = "assets/icons/camera_icon.svg";
+  static const String term_consultation_icon = "assets/icons/term_consultation_icon.svg";
+  static const String instant_consultation_icon = "assets/icons/instant_consultation_icon.svg";
 }
