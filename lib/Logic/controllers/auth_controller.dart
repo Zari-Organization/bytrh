@@ -126,14 +126,15 @@ class AuthController extends GetxController {
         log("registerModel success --> ${registerModel.success}");
         if (LoginBy != "MANUAL") {
           final authBox = GetStorage();
-          await authBox.write('AccessToken', "Bearer ${registerModel.response!.accessToken}");
+          await authBox.write(
+              'AccessToken', "Bearer ${registerModel.response!.accessToken}");
           GetStorage().read<String>('AccessToken')!;
           Get.offAllNamed(Routes.mainScreen);
         } else {
           final verificationController = Get.find<VerificationController>();
           verificationController.phoneController.value.text = ClientPhone;
           verificationController.accessToken.value =
-          "Bearer ${registerModel.response!.accessToken}";
+              "Bearer ${registerModel.response!.accessToken}";
           log("Auth Controller -->${verificationController.accessToken.value}");
           verificationController.sendCodeToVerifyAccount(
             verificationController.phoneController.value.text,
@@ -245,7 +246,7 @@ class AuthController extends GetxController {
       "",
       "",
       result!.id,
-      result.displayName??"",
+      result.displayName ?? "",
       "GOOGLE",
       "ar",
       "ANDROID",
@@ -322,4 +323,6 @@ class AuthController extends GetxController {
       isLoadingLocation(false);
     }
   }
+
+
 }

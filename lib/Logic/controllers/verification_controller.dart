@@ -163,15 +163,41 @@ class VerificationController extends GetxController {
       final authController = Get.find<AuthController>();
       var codeConfirmation = await VerificationServices().confirmCodeToResetPass(userPhone, code);
       if (codeConfirmation["Success"] == true) {
+        log("AndLogin Controller");
         authController.login(
           authController.loginUserNameController.value.text,
           authController.loginPasswordController.value.text,
-          "MANUAL",
+          "GOOGLE",
           "ar",
           "ANDROID",
           "GMS",
           context,
         );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 2),
+            content: Text(codeConfirmation["ApiMsg"].toString()),
+          ),
+        );
+      }
+    }
+  }
+  var verifyEdit =false.obs;
+  confirmCodeToVerifyAccountAfterEdit(String userPhone, String code, context) async {
+    if (verificationResetPassCode.isEmpty ||
+        verificationResetPassCode.value.length < 4) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          duration: Duration(seconds: 2),
+          content: Text("Enter verification Code!"),
+        ),
+      );
+    } else {
+      var codeConfirmation = await VerificationServices().confirmCodeToResetPass(userPhone, code);
+      if (codeConfirmation["Success"] == true) {
+        log("Edit Controller");
+        Get.offAllNamed(Routes.loginScreen);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -197,6 +223,7 @@ class VerificationController extends GetxController {
     } else {
       var codeConfirmation = await VerificationServices().confirmCodeToResetPass(userPhone, code);
       if (codeConfirmation["Success"] == true) {
+        log("AndRegister Controller");
         final authBox = GetStorage();
         authBox.write('AccessToken', accessToken.value);
         log(" Verify Controller -->${accessToken.value}");

@@ -72,11 +72,8 @@ class VerificationServices {
       );
       var jsonData = json.decode(data.body);
       var decodedData = jsonDecode(data.body);
-      log(decodedData.toString());
       if (decodedData['Success'] == true) {
-        if (kDebugMode) {
-          print(decodedData);
-        }
+        log("verify services --> ${decodedData.toString()}");
         return decodedData;
       } else {
         return decodedData;

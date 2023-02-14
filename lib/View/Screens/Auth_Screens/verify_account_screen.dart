@@ -34,7 +34,7 @@ class VerifyAccountScreen extends StatelessWidget {
                 const SizedBox(height: 45),
                 Text(
                   "enter_code".tr,
-                  style:  const TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                   ),
                 ),
@@ -49,30 +49,43 @@ class VerifyAccountScreen extends StatelessWidget {
                         fontSize: 20.0,
                         color: AppColors.MAIN_COLOR,
                       ),
-
                       keyboardType: TextInputType.number,
                       underlineColor: AppColors.MAIN_COLOR,
-                      underlineUnfocusedColor:Color(0xffEFEFF0) ,
+                      underlineUnfocusedColor: Color(0xffEFEFF0),
                       length: 4,
                       cursorColor: AppColors.MAIN_COLOR,
                       onCompleted: (String value) {
                         verificationController.verificationResetPassCode.value =
                             value;
-                      if(verificationController.verifyLogin.value){
-                        verificationController.confirmCodeToVerifyAccountAndLogin(
-                          verificationController.phoneController.value.text,
-                          verificationController.verificationResetPassCode.value,
-                          context,
-                        );
-                      }
-                      else{
-                        verificationController.confirmCodeToVerifyAccountAndRegister(
-                          verificationController.phoneController.value.text,
+                        log('verifyEdit in Verify Screen --> ${verificationController.verifyEdit.value}');
+                        if (verificationController.verifyEdit.value) {
                           verificationController
-                              .verificationResetPassCode.value,
-                          context,
-                        );
-                      }
+                              .confirmCodeToVerifyAccountAfterEdit(
+                            verificationController.phoneController.value.text,
+                            verificationController
+                                .verificationResetPassCode.value,
+                            context,
+                          );
+                        } else {
+                          if (verificationController.verifyLogin.value) {
+                            verificationController
+                                .confirmCodeToVerifyAccountAndLogin(
+                              verificationController.phoneController.value.text,
+                              verificationController
+                                  .verificationResetPassCode.value,
+                              context,
+                            );
+                          } else if (!verificationController
+                              .verifyLogin.value) {
+                            verificationController
+                                .confirmCodeToVerifyAccountAndRegister(
+                              verificationController.phoneController.value.text,
+                              verificationController
+                                  .verificationResetPassCode.value,
+                              context,
+                            );
+                          }
+                        }
                       },
                       onEditing: (bool value) {},
                     ),
@@ -94,27 +107,41 @@ class VerifyAccountScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        if(verificationController.verifyLogin.value){
-                          verificationController.confirmCodeToVerifyAccountAndLogin(
+                        if (verificationController.verifyEdit.value) {
+                          verificationController
+                              .confirmCodeToVerifyAccountAfterEdit(
                             verificationController.phoneController.value.text,
                             verificationController
                                 .verificationResetPassCode.value,
                             context,
                           );
-                        }
-                        else{
-                          verificationController.confirmCodeToVerifyAccountAndRegister(
-                            verificationController.phoneController.value.text,
-                            verificationController.verificationResetPassCode.value,
-                            context,
-                          );
+                        } else {
+                          if (verificationController.verifyLogin.value) {
+                            verificationController
+                                .confirmCodeToVerifyAccountAndLogin(
+                              verificationController.phoneController.value.text,
+                              verificationController
+                                  .verificationResetPassCode.value,
+                              context,
+                            );
+                          } else if (!verificationController
+                              .verifyLogin.value) {
+                            verificationController
+                                .confirmCodeToVerifyAccountAndRegister(
+                              verificationController.phoneController.value.text,
+                              verificationController
+                                  .verificationResetPassCode.value,
+                              context,
+                            );
+                          }
                         }
                       },
                       child: Text("confirm".tr),
                     ),
                   ),
                   fallback: (context) => const Center(
-                    child: CircularProgressIndicator(color: AppColors.MAIN_COLOR),
+                    child:
+                        CircularProgressIndicator(color: AppColors.MAIN_COLOR),
                   ),
                 ),
                 const SizedBox(height: 25),

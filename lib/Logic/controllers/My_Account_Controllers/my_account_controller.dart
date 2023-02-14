@@ -58,8 +58,12 @@ class MyAccountController extends GetxController {
             content: Text(data["ApiMsg"].toString(),),
           ),
         );
-        // GetStorage authBox = GetStorage();
-        // authBox.remove('AccessToken');
+        GetStorage authBox = GetStorage();
+        authBox.remove('AccessToken');
+        final _googleSignIn = GoogleSignIn();
+        _googleSignIn.disconnect();
+        void _goNext() => Get.offAllNamed(Routes.loginScreen);
+        Timer(const Duration(seconds: 1), _goNext);
       }
     } finally {
       isLoading(false);
