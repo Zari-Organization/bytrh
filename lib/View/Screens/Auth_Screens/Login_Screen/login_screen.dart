@@ -185,12 +185,12 @@ class LoginScreen extends StatelessWidget {
                     //   icon: SvgPicture.asset(AppIcons.facebook_icon),
                     //   padding: EdgeInsets.zero,
                     // ),
-                    // if(Platform.isIOS)
-                    //   IconButton(
-                    //     onPressed: () {},
-                    //     icon: SvgPicture.asset(AppIcons.apple_icon),
-                    //     padding: EdgeInsets.zero,
-                    //   ),
+                    if(Platform.isIOS)
+                      IconButton(
+                        onPressed: () {},
+                        icon: SvgPicture.asset(AppIcons.apple_icon),
+                        padding: EdgeInsets.zero,
+                      ),
                     IconButton(
                       onPressed: () => googleSignIn(context),
                       icon: SvgPicture.asset(AppIcons.google_icon),

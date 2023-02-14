@@ -2,7 +2,6 @@ import 'package:bytrh/Logic/controllers/verification_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -254,73 +253,6 @@ class AuthController extends GetxController {
       cityID.value == "" ? defaultCity.value : cityID.value,
       context,
     );
-  }
-
-  var facebookChecking = true.obs;
-  AccessToken? facebookAccessToken;
-  Map<String, dynamic>? facebookUserData;
-
-  checkIfFacebookLoggedIn() async {
-    final accessToken = await FacebookAuth.instance.accessToken;
-    facebookChecking.value = false;
-    if (accessToken != null) {
-      log("checkIfFacebookLoggedIn accessToken --> ${accessToken.toJson().toString()}");
-      final userData = await FacebookAuth.instance.getUserData();
-      facebookAccessToken = accessToken;
-      facebookUserData = userData;
-      log("checkIfFacebookLoggedIn facebookAccessToken --> ${facebookAccessToken!.toJson().toString()}");
-      log("checkIfFacebookLoggedIn accessToken --> ${facebookUserData.toString()}");
-    } else {
-      facebookLogin();
-    }
-  }
-
-  facebookLogin() async {
-    final LoginResult result = await FacebookAuth.instance
-        .login(permissions: const ['email', 'public_profile']);
-
-    if (result.status == LoginStatus.success) {
-      facebookAccessToken = result.accessToken;
-      final userData = await FacebookAuth.instance.getUserData();
-      facebookUserData = userData;
-      log("facebookLogin facebookAccessToken --> ${facebookAccessToken!.toJson().toString()}");
-      log("facebookLogin facebookUserData --> ${facebookUserData.toString()}");
-      log("facebookLogin facebookUserData Email --> ${facebookUserData!['email']}");
-      log("facebookLogin facebookUserData Name --> ${facebookUserData!['name']}");
-    } else {
-      log(result.status.toString());
-      log(result.message.toString());
-    }
-    facebookChecking.value = false;
-  }
-
-  facebookLogin2() async {
-    final LoginResult result = await FacebookAuth.instance.login(
-      permissions: [
-        'public_profile',
-        'email',
-        'pages_show_list',
-        'pages_messaging',
-        'pages_manage_metadata'
-      ],
-    );
-    if (result.status == LoginStatus.success) {
-      final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
-      if (accessToken != null) {
-        log(accessToken.toJson().toString());
-        log("user is logged");
-        //
-      }
-    } else {
-      log(result.status.toString());
-      log(result.message.toString());
-    }
-  }
-
-  facebookLogout() async {
-    await FacebookAuth.instance.logOut();
-    facebookAccessToken = null;
-    facebookUserData = null;
   }
 
   var isLoadingTerms = false.obs;

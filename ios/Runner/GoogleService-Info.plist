@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>801518603098-oiqcihfo742982c4e84kb6ho5rfv9qmd.apps.googleusercontent.com</string>
+	<string>19205980163-n3d5copbhuiet7npl006fg8hhl1vc3d0.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.801518603098-oiqcihfo742982c4e84kb6ho5rfv9qmd</string>
+	<string>com.googleusercontent.apps.19205980163-n3d5copbhuiet7npl006fg8hhl1vc3d0</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCt9Rsqcfyui5YqcAVr5qNE6Q8EH9uXtt8</string>
+	<string>AIzaSyAuKmeFu0Ur5Cntnoz9pd4XNthrzkzEmoI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>801518603098</string>
+	<string>19205980163</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.zari.bytrh</string>
 	<key>PROJECT_ID</key>
-	<string>zari-on-time</string>
+	<string>on-time-74859</string>
 	<key>STORAGE_BUCKET</key>
-	<string>zari-on-time.appspot.com</string>
+	<string>on-time-74859.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:801518603098:ios:6c6e9aed25370f9d640163</string>
+	<string>1:19205980163:ios:b33d9d8beb98037de54e36</string>
 </dict>
 </plist>
