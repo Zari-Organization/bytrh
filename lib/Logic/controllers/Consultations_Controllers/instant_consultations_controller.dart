@@ -2,18 +2,14 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
-import '../../../Models/Consultations_Models/animals_category_model.dart'
-    as animals_category_import;
-import '../../../Models/Consultations_Models/consultations_cart_model.dart'
-    as consultations_cart_import;
-import '../../../Models/Consultations_Models/consultations_doctor_profile_model.dart'
-    as consultations_doctor_profile_import;
-import '../../../Models/Consultations_Models/consultations_doctor_reservation_time_model.dart'
-    as consultations_doctor_reservation_time_import;
-import '../../../Models/Consultations_Models/consultations_doctors_model.dart'
-    as consultations_doctors_import;
+import '../../../Models/Consultations_Models/animals_category_model.dart' as animals_category_import;
+import '../../../Models/Consultations_Models/consultations_cart_model.dart' as consultations_cart_import;
+import '../../../Models/Consultations_Models/consultations_doctor_profile_model.dart' as consultations_doctor_profile_import;
+import '../../../Models/Consultations_Models/consultations_doctor_reservation_time_model.dart' as consultations_doctor_reservation_time_import;
+import '../../../Models/Consultations_Models/consultations_doctors_model.dart' as consultations_doctors_import;
 import '../../../Models/Location_Models/areas_model.dart' as areas_import;
 import '../../../Routes/routes.dart';
 import '../../../Services/Consultations_Services/consultations_services.dart';
@@ -49,6 +45,8 @@ class InstantConsultationsController extends GetxController
       DoctorName: areaTextFieldValue.value,
       IDArea: selectedAreaValue.value,
       IDAnimalCategory: selectedAnimalsCategoryValue.value,
+      ClientLatitude: userLatitude.value,
+      ClientLongitude: userLongitude.value,
     );
     try {
       isLoadingConsultationsDoctors(true);
@@ -69,15 +67,14 @@ class InstantConsultationsController extends GetxController
   setDataDoctorProfile(String id, String serviceKey) async {
     IDDoctor.value = id;
     doctorServiceKey.value = serviceKey;
-    await getConsultationsDoctorProfile();
+     getConsultationsDoctorProfile();
     await Get.toNamed(Routes.consultationsDoctorProfileScreen);
   }
 
   getConsultationsDoctorProfile() async {
     try {
       isLoadingConsultationsDoctorProfile(true);
-      var profileResponse =
-          await ConsultationsServices.getConsultationsDoctorProfile(
+      var profileResponse = await ConsultationsServices.getConsultationsDoctorProfile(
               IDDoctor.value, doctorServiceKey.value);
       if (profileResponse.success) {
         consultationsDoctorProfileData.value = profileResponse.response;
@@ -93,9 +90,9 @@ class InstantConsultationsController extends GetxController
   var selectedAreaValue = ''.obs;
 
   getAreas() async {
-    var areas = await ConsultationsServices.getAreA(idCity.value);
     try {
       isLoadingAreas(true);
+      var areas = await ConsultationsServices.getAreA(idCity.value);
       if (areas.response.isNotEmpty) {
         areasList.value = areas.response;
       }
@@ -109,9 +106,9 @@ class InstantConsultationsController extends GetxController
   var selectedAnimalsCategoryValue = ''.obs;
 
   getAnimalsCategory() async {
-    var animalsCategory = await ConsultationsServices.getAnimalsCategory();
     try {
       isLoadingAnimalsCategory(true);
+      var animalsCategory = await ConsultationsServices.getAnimalsCategory();
       if (animalsCategory.response.isNotEmpty) {
         animalsCategoryList.value = animalsCategory.response;
       }
@@ -156,11 +153,11 @@ class InstantConsultationsController extends GetxController
   var consultationsCartList = <consultations_cart_import.Response>[].obs;
 
   getConsultationsCart() async {
-    var response = await ConsultationsServices.getConsultationsCart(
-      ConsultType: "URGENT",
-    );
     try {
       isLoadingConsultationsCart(true);
+      var response = await ConsultationsServices.getConsultationsCart(
+        ConsultType: "URGENT",
+      );
       if (response.response.isNotEmpty) {
         consultationsCartList.value = response.response;
       }
@@ -171,7 +168,7 @@ class InstantConsultationsController extends GetxController
 
   setConsultationsDoctorReservationTime(String id) async {
     idConsult.value = id;
-    getConsultationsDoctorReservationTime();
+     getConsultationsDoctorReservationTime();
     await Get.toNamed(Routes.instantsConsultationsDoctorReservationTimeScreen);
   }
 
@@ -193,12 +190,12 @@ class InstantConsultationsController extends GetxController
   }
 
   getConsultationsDoctorReservationTime() async {
-    var response =
-        await ConsultationsServices.getConsultationsDoctorReservationTime(
-      IDConsult: idConsult.value,
-    );
     try {
       isLoadingConsultationsDoctorReservationTime(true);
+      var response =
+      await ConsultationsServices.getConsultationsDoctorReservationTime(
+        IDConsult: idConsult.value,
+      );
       if (response.success) {
         consultationsDoctorReservationTimeData.value = response.response;
         if (response.response.consultTime!.isNotEmpty) {
@@ -243,4 +240,43 @@ class InstantConsultationsController extends GetxController
       isLoadingSelectConsultationTime(false);
     }
   }
+
+  var isLoadingLocation = false.obs;
+
+  Future<Position> getGeoLocationPosition() async {
+    try{
+      isLoadingLocation(true);
+      bool serviceEnabled;
+      LocationPermission permission;
+      // Test if location services are enabled.
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        // Location services are not enabled don't continue
+        // accessing the position and request users of the
+        // App to enable the location services.
+        await Geolocator.openLocationSettings();
+        return Future.error('Location services are disabled.');
+      }
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+
+          return Future.error('Location permissions are denied');
+        }
+      }
+      if (permission == LocationPermission.deniedForever) {
+        // Permissions are denied forever, handle appropriately.
+        return Future.error(
+            'Location permissions are permanently denied, we cannot request permissions.');
+      }
+      // When we reach here, permissions are granted and we can
+      // continue accessing the position of the device.
+      return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    }finally{
+      isLoadingLocation(false);
+    }
+  }
+  var userLatitude = ''.obs;
+  var userLongitude = ''.obs;
 }

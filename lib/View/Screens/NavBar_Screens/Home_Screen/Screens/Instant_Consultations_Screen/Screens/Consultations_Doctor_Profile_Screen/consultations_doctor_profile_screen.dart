@@ -38,11 +38,12 @@ class ConsultationsDoctorProfileScreen extends StatelessWidget {
             centerTitle: true,
             actions: [
               IconButton(
-                onPressed: () async {
-                  await instantConsultationsController.getConsultationsCart();
-                  await Get.toNamed(Routes.instantsConsultationsCartScreen);
-                },
-                icon: Icon(Icons.shopping_cart),
+                  splashRadius: 25,
+                  onPressed: () async {
+                    await instantConsultationsController.getConsultationsCart();
+                    await Get.toNamed(Routes.instantsConsultationsCartScreen);
+                  },
+                  icon: SvgPicture.asset(AppIcons.cart_icon),
               )
             ],
           ),

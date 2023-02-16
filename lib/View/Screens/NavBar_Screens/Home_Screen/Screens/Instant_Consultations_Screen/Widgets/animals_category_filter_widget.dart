@@ -3,7 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
+import '../../../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 
 class AnimalsCategoryWidgetFilter extends StatelessWidget {
   AnimalsCategoryWidgetFilter({Key? key}) : super(key: key);
@@ -47,8 +47,7 @@ class AnimalsCategoryWidgetFilter extends StatelessWidget {
                 value: instantConsultationsController
                     .selectedAnimalsCategoryValue.value,
                 onChanged: (value) {
-                  instantConsultationsController
-                      .selectedAnimalsCategoryValue.value = value as String;
+                  instantConsultationsController.selectedAnimalsCategoryValue.value = value as String;
                   instantConsultationsController.getConsultationsDoctors();
                 },
                 // buttonHeight: 40,

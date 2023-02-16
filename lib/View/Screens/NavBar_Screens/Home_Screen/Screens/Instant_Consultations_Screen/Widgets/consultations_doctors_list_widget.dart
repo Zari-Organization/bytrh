@@ -4,9 +4,9 @@ import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
-import '../../../../../../../../../Routes/routes.dart';
-import '../../../../../../../../../Utils/app_colors.dart';
+import '../../../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
+import '../../../../../../../Routes/routes.dart';
+import '../../../../../../../Utils/app_colors.dart';
 
 class ConsultationsDoctorsListWidget extends StatelessWidget {
   ConsultationsDoctorsListWidget({Key? key}) : super(key: key);

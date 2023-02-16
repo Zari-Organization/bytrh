@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
-import '../../../../../../../../../Utils/app_colors.dart';
+import '../../../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
+import '../../../../../../../Utils/app_colors.dart';
 
 class AreaTextFieldWidget extends StatelessWidget {
   AreaTextFieldWidget({Key? key}) : super(key: key);

@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:bytrh/Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../Routes/routes.dart';
+import '../../Widgets/consultations_cart_icon.dart';
 import 'Screens/Location_Screen/location_screen.dart';
 import 'Screens/Area_Screen/area_screen.dart';
 
@@ -23,15 +27,7 @@ class InstantConsultationsScreen extends StatelessWidget {
           backgroundColor: AppColors.MAIN_COLOR,
           centerTitle: true,
           title: Text("إستشارة فورية"),
-          actions: [
-            IconButton(
-              onPressed: () async {
-                await instantConsultationsController.getConsultationsCart();
-                await Get.toNamed(Routes.instantsConsultationsCartScreen);
-              },
-              icon: Icon(Icons.shopping_cart),
-            )
-          ],
+          actions: [ConsultationsCartIcon()],
         ),
         body: Column(
           children: [
@@ -42,6 +38,19 @@ class InstantConsultationsScreen extends StatelessWidget {
               indicatorColor: AppColors.MAIN_COLOR,
               labelStyle: TextStyle(fontSize: 20),
               unselectedLabelStyle: TextStyle(fontSize: 17),
+              onTap: (index) async {
+                if (index == 0) {
+                  instantConsultationsController.userLatitude.value = '';
+                  instantConsultationsController.userLongitude.value = '';
+                } else {
+                  Position position = await instantConsultationsController
+                      .getGeoLocationPosition();
+                  instantConsultationsController.userLatitude.value =
+                      position.latitude.toString();
+                  instantConsultationsController.userLongitude.value =
+                      position.longitude.toString();
+                }
+              },
               tabs: [
                 Tab(child: Text("المنطقة")),
                 Tab(child: Text("الموقع")),

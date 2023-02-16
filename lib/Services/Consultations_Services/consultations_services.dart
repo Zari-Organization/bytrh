@@ -25,6 +25,8 @@ class ConsultationsServices {
     required   String DoctorName,
     required  String IDArea,
     required  String IDAnimalCategory,
+    required  String ClientLatitude,
+    required  String ClientLongitude,
 }
   ) async {
     var response = await http.post(
@@ -33,8 +35,8 @@ class ConsultationsServices {
         'DoctorName': DoctorName,
         'IDArea': IDArea,
         'IDAnimalCategory': IDAnimalCategory,
-        'ClientLatitude': "",
-        'ClientLongitude': "",
+        'ClientLatitude': ClientLatitude,
+        'ClientLongitude': ClientLongitude,
         'Service': service,
       },
     );

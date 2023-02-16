@@ -23,7 +23,7 @@ class InstantsConsultationsDoctorReservationTimeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (instantConsultationsController
-          .isLoadingConsultationsDoctorProfile.value) {
+          .isLoadingConsultationsDoctorReservationTime.value) {
         return Scaffold(
           backgroundColor: AppColors.WHITE_COLOR,
           appBar: AppBar(
@@ -40,26 +40,29 @@ class InstantsConsultationsDoctorReservationTimeScreen extends StatelessWidget {
             backgroundColor: AppColors.MAIN_COLOR,
             title: const Text("اختر الوقت"),
             centerTitle: true,
-            actions: [
-              IconButton(
-                onPressed: () async {
-                  await instantConsultationsController.getConsultationsCart();
-                  await Get.toNamed(Routes.instantsConsultationsCartScreen);
-                },
-                icon: Icon(Icons.shopping_cart),
-              )
-            ],
           ),
           bottomSheet: ConditionalBuilder(
             condition: !instantConsultationsController
-                .isLoadingConsultationsDoctorReservationTime.value,
+                .isLoadingSelectConsultationTime.value,
             builder: (context) => Container(
               color: AppColors.WHITE_COLOR,
               padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  instantConsultationsController.selectConsultationTime(context);
+                  if(instantConsultationsController.timeId.value==''){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: Duration(seconds: 2),
+                        // backgroundColor: AppColors.MAIN_COLOR,
+                        content: Text(
+                          "اختر موعد للتأكيد".tr,
+                        ),
+                      ),
+                    );
+                  }else{
+                    instantConsultationsController.selectConsultationTime(context);
+                  }
                 },
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all(
@@ -240,7 +243,9 @@ class InstantsConsultationsDoctorReservationTimeScreen extends StatelessWidget {
                                       index
                                       ? true
                                       : false,
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    instantConsultationsController.changeTimeSelectedIndex(index);
+                                  },
                                   activeColor: AppColors.MAIN_COLOR,
                                 ),
                                 title: Text(

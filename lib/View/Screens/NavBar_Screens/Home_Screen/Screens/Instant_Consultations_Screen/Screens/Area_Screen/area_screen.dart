@@ -3,11 +3,10 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../Widgets/filter_button.dart';
-import 'Widgets/animals_category_filter_widget.dart';
+import '../../Widgets/animals_category_filter_widget.dart';
 import 'Widgets/area_filter_widget.dart';
-import 'Widgets/area_textField_widget.dart';
-import 'Widgets/consultations_doctors_list_widget.dart';
+import '../../Widgets/area_textField_widget.dart';
+import '../../Widgets/consultations_doctors_list_widget.dart';
 
 class AreaScreen extends StatelessWidget {
   AreaScreen({Key? key}) : super(key: key);
@@ -19,6 +18,7 @@ class AreaScreen extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
@@ -30,65 +30,6 @@ class AreaScreen extends StatelessWidget {
             ),
             Row(
               children: [
-                // Expanded(child:    DropdownButton(
-                //
-                //   // Initial Value
-                //   value: "Item 1",
-                //
-                //   // Down Arrow Icon
-                //   icon: const Icon(Icons.keyboard_arrow_down),
-                //
-                //   // Array list of items
-                //   items: [
-                //     'Item 1',
-                //     'Item 2',
-                //     'Item 3',
-                //     'Item 4',
-                //     'Item 5',
-                //   ].map((String items) {
-                //     return DropdownMenuItem(
-                //       value: items,
-                //       child: Text(items),
-                //     );
-                //   }).toList(),
-                //   // After selecting the desired option,it will
-                //   // change button value to selected value
-                //   onChanged: (String? newValue) {
-                //     // dropdownvalue = newValue!;
-                //   },
-                // ),),
-                // Expanded(child: FilterButton(title: "أختر المنطقة"),),
-                // DropdownButton<String>(
-                //   items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                //     return DropdownMenuItem<String>(
-                //       value: value,
-                //       child: Text(value),
-                //     );
-                //   }).toList(),
-                //   onChanged: (_) {},
-                // ),
-                // Expanded(child: DropdownButton(
-                //   hint:Text('Dropdown'),
-                //   isExpanded: true,
-                //   iconSize: 30.0,
-                //   style: TextStyle(color: Colors.blue),
-                //   items: ['One', 'Two', 'Three'].map(
-                //         (val) {
-                //       return DropdownMenuItem<String>(
-                //         value: val,
-                //         child: Text(val),
-                //       );
-                //     },
-                //   ).toList(),
-                //   onChanged: (val) {
-                //     // setState(
-                //     //       () {
-                //     //     _dropDownValue = val;
-                //     //   },
-                //     // );
-                //   },
-                // ),),
-
                 Expanded(
                   child: AreaWidgetFilter(),
                 ),
@@ -100,6 +41,11 @@ class AreaScreen extends StatelessWidget {
             ),
             AreaTextFieldWidget(),
             SizedBox(height: 30),
+            Text(
+              "الأطباء المتاحون الآن",
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+            ),
+            SizedBox(height: 16),
             ConsultationsDoctorsListWidget(),
           ],
         ),
