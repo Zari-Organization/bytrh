@@ -233,5 +233,67 @@ class AppAlerts {
       return result;
     }
   }
+  Future<bool>? consultationsCreatedSuccessfullyPop() async {
+    final result = await Get.defaultDialog(
+      contentPadding: EdgeInsets.zero,
+      titlePadding: EdgeInsets.zero,
+      title: "",
+      content: Column(
+        children: [
+          Text(
+            "تم إرسال طلب إستشارتك",
+            style: const TextStyle(
+              color: AppColors.MAIN_COLOR,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 20),
+          Image.asset(
+            AppImages.saudi_man_image
+          ),
+        ],
+      ),
+      cancel: const SizedBox(),
+      confirm: const SizedBox(),
+      confirmTextColor: AppColors.WHITE_COLOR,
+    );
+    if (result == null) {
+      return false;
+    } else {
+      return result;
+    }
+  }
+  Future<bool>? selectDoctorTimeCreatedSuccessfullyPop() async {
+    final result = await Get.defaultDialog(
+      contentPadding: EdgeInsets.zero,
+      titlePadding: EdgeInsets.zero,
+      title: "",
+      content: Column(
+        children: [
+          Text(
+            "تم الطلب بنجاح",
+            style: const TextStyle(
+              color: AppColors.MAIN_COLOR,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 20),
+          Image.asset(
+            AppImages.saudi_man_image
+          ),
+        ],
+      ),
+      cancel: const SizedBox(),
+      confirm: const SizedBox(),
+      confirmTextColor: AppColors.WHITE_COLOR,
+    );
+    if (result == null) {
+      return false;
+    } else {
+      return result;
+    }
+  }
 
 }

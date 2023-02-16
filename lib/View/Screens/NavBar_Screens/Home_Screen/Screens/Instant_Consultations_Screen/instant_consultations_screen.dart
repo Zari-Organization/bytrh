@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../Routes/routes.dart';
 import 'Screens/Location_Screen/location_screen.dart';
 import 'Screens/Area_Screen/area_screen.dart';
 
@@ -22,6 +23,15 @@ class InstantConsultationsScreen extends StatelessWidget {
           backgroundColor: AppColors.MAIN_COLOR,
           centerTitle: true,
           title: Text("إستشارة فورية"),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await instantConsultationsController.getConsultationsCart();
+                await Get.toNamed(Routes.instantsConsultationsCartScreen);
+              },
+              icon: Icon(Icons.shopping_cart),
+            )
+          ],
         ),
         body: Column(
           children: [

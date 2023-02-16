@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -28,13 +29,13 @@ class ChangePasswordServices {
     var decodedData = jsonDecode(jsonData);
     if (decodedData["Success"]) {
       if (kDebugMode) {
-        print("Edit Password Api Success --> $decodedData");
+        log("Edit Password Api Success --> $decodedData");
       }
 
       return decodedData;
     }else if(!decodedData["Success"]){
       if (kDebugMode) {
-        print("Edit Password Api Error --> $decodedData");
+        log("Edit Password Api Error --> $decodedData");
       }
       return decodedData;
     } else {

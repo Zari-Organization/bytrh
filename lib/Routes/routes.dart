@@ -19,7 +19,9 @@ import '../View/Screens/Auth_Screens/SignUp_Screen/signUp_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Type_Screen/signUp_type_screen.dart';
 import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
-import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Consultations_Doctor_Profile_Screen/consultations_doctor_profile_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Consultations_Doctor_Profile_Screen/consultations_doctor_profile_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Consultations_Doctor_Profile_Screen/instants_consultations_doctor_reservation_time_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Instant_Consultations_Cart_Screen/instant_consultations_cart_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/instant_consultations_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/card_gift_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_payment_screen.dart';
@@ -55,6 +57,10 @@ class AppRoutes {
   static const instantConsultationsScreen = Routes.instantConsultationsScreen;
   static const consultationsDoctorProfileScreen =
       Routes.consultationsDoctorProfileScreen;
+  static const instantsConsultationsCartScreen =
+      Routes.instantsConsultationsCartScreen;
+  static const instantsConsultationsDoctorReservationTimeScreen =
+      Routes.instantsConsultationsDoctorReservationTimeScreen;
 
   //getPages
   static final routes = [
@@ -170,6 +176,16 @@ class AppRoutes {
       page: () => ConsultationsDoctorProfileScreen(),
       binding: InstantConsultationsBinding(),
     ),
+    GetPage(
+      name: Routes.instantsConsultationsCartScreen,
+      page: () => InstantsConsultationsCartScreen(),
+      binding: InstantConsultationsBinding(),
+    ),
+    GetPage(
+      name: Routes.instantsConsultationsDoctorReservationTimeScreen,
+      page: () => InstantsConsultationsDoctorReservationTimeScreen(),
+      binding: InstantConsultationsBinding(),
+    ),
   ];
 }
 
@@ -197,4 +213,8 @@ class Routes {
   static const instantConsultationsScreen = '/instantConsultationsScreen';
   static const consultationsDoctorProfileScreen =
       '/consultationsDoctorProfileScreen';
+  static const instantsConsultationsCartScreen =
+      '/instantsConsultationsCartScreen';
+  static const instantsConsultationsDoctorReservationTimeScreen =
+      '/instantsConsultationsDoctorReservationTimeScreen';
 }

@@ -1,16 +1,19 @@
+import 'package:bytrh/Utils/app_alerts.dart';
 import 'package:bytrh/Utils/app_icons.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
-import '../../../../../../Utils/app_colors.dart';
-import '../../../../../Widgets/custom_circle_progress.dart';
+import 'package:bytrh/Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
+
+import '../../../../../../../../Routes/routes.dart';
+import '../../../../../../../../Utils/app_colors.dart';
+import '../../../../../../../Widgets/custom_circle_progress.dart';
 
 class ConsultationsDoctorProfileScreen extends StatelessWidget {
   ConsultationsDoctorProfileScreen({Key? key}) : super(key: key);
-  final instantConsultationsController =
-      Get.find<InstantConsultationsController>();
+  final instantConsultationsController = Get.find<InstantConsultationsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +36,58 @@ class ConsultationsDoctorProfileScreen extends StatelessWidget {
             backgroundColor: AppColors.MAIN_COLOR,
             title: const Text("صفحة الدكتور"),
             centerTitle: true,
+            actions: [
+              IconButton(
+                onPressed: () async {
+                  await instantConsultationsController.getConsultationsCart();
+                  await Get.toNamed(Routes.instantsConsultationsCartScreen);
+                },
+                icon: Icon(Icons.shopping_cart),
+              )
+            ],
           ),
-          bottomSheet: Container(
-            color: AppColors.WHITE_COLOR,
-            padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () async {},
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(vertical: 15),
-                ),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+          bottomSheet: ConditionalBuilder(
+            condition: !instantConsultationsController
+                .isLoadingRequestConsultation.value,
+            builder: (context) => Container(
+              color: AppColors.WHITE_COLOR,
+              padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  instantConsultationsController.requestConsultation(
+                    instantConsultationsController
+                        .consultationsDoctorProfileData.value.idDoctor
+                        .toString(),
+                    context,
+                  );
+                },
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(vertical: 15),
                   ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  backgroundColor:
+                      MaterialStateProperty.all(AppColors.MAIN_COLOR),
+                  foregroundColor:
+                      MaterialStateProperty.all(AppColors.WHITE_COLOR),
                 ),
-                backgroundColor: MaterialStateProperty.all(AppColors.MAIN_COLOR),
-                foregroundColor: MaterialStateProperty.all(AppColors.WHITE_COLOR),
+                child: Text(
+                  "طلب إستشارة",
+                  style: const TextStyle(color: AppColors.WHITE_COLOR),
+                ),
               ),
-              child: Text(
-                "طلب إستشارة",
-                style: const TextStyle(color: AppColors.WHITE_COLOR),
+            ),
+            fallback: (context) => Container(
+              padding: EdgeInsets.symmetric(vertical: 50),
+              color: AppColors.WHITE_COLOR,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [CustomCircleProgress()],
               ),
             ),
           ),
@@ -79,9 +112,10 @@ class ConsultationsDoctorProfileScreen extends StatelessWidget {
                                 backgroundColor: AppColors.MAIN_COLOR,
                                 backgroundImage: NetworkImage(
                                   instantConsultationsController
-                                      .consultationsDoctorProfileData
-                                      .value
-                                      .doctorPicture??"",
+                                          .consultationsDoctorProfileData
+                                          .value
+                                          .doctorPicture ??
+                                      "",
                                 ),
                               ),
                               const SizedBox(
@@ -137,7 +171,7 @@ class ConsultationsDoctorProfileScreen extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        "${instantConsultationsController.consultationsDoctorProfileData.value.doctorPricing??""}",
+                                        "${instantConsultationsController.consultationsDoctorProfileData.value.doctorPricing ?? ""}",
                                         style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
@@ -215,9 +249,10 @@ class ConsultationsDoctorProfileScreen extends StatelessWidget {
                             color: AppColors.GREY_Light_COLOR),
                         child: Text(
                           instantConsultationsController
-                              .consultationsDoctorProfileData
-                              .value
-                              .doctorBiography??"",
+                                  .consultationsDoctorProfileData
+                                  .value
+                                  .doctorBiography ??
+                              "",
                           style: TextStyle(color: AppColors.GREY_COLOR),
                         ),
                       ),
