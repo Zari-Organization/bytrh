@@ -251,7 +251,7 @@ class AuthController extends GetxController {
       "ar",
       "ANDROID",
       "GMS",
-      cityID.value == "" ? defaultCity.value : cityID.value,
+      defaultCity.value,
       context,
     );
   }

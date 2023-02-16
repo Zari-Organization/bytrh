@@ -42,7 +42,8 @@ class PersonalDataController extends GetxController {
       var profileResponse = await PersonalDataServices.getPersonalData();
       if (profileResponse.success) {
         clientData.value = profileResponse.response;
-        await getCountryFlag(clientData.value.clientPhoneFlag);
+        log("Client Data Controller --> ${clientData.value.clientName}");
+        await getCountryFlag(clientData.value.clientPhoneFlag ?? "+966");
         log("Country Flag --> ${countryFlag.value}");
       }
     } finally {
@@ -51,7 +52,6 @@ class PersonalDataController extends GetxController {
   }
 
   var isLoadingEditData = false.obs;
-
 
   editClientInfo(
     String ClientName,
@@ -65,29 +65,27 @@ class PersonalDataController extends GetxController {
     try {
       isLoadingEditData(true);
       var editData = await PersonalDataServices.editClientInfo(
-        ClientName,
-        ClientEmail,
-        ClientPhone,
-        ClientPhoneFlag,
-        IDCity,
-        ClientPicture!,
-        context
-      );
+          ClientName,
+          ClientEmail,
+          ClientPhone,
+          ClientPhoneFlag,
+          IDCity,
+          ClientPicture!,
+          context);
       if (editData["Success"]) {
         if (editData['ApiCode'] == 18) {
           final verificationController = Get.find<VerificationController>();
           verificationController.phoneController.value.text = ClientPhone;
-          verificationController.verifyEdit.value =true;
+          verificationController.verifyEdit.value = true;
           verificationController.sendCodeToVerifyAccount(
-              verificationController.phoneController.value.text,
-              context);
+              verificationController.phoneController.value.text, context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               duration: const Duration(seconds: 2),
               content: Text(editData["ApiMsg"].toString()),
             ),
           );
-        }else{
+        } else {
           log(editData["Success"].toString());
           getPersonalData();
           ScaffoldMessenger.of(context).showSnackBar(
