@@ -19,6 +19,7 @@ import '../View/Screens/Auth_Screens/SignUp_Screen/signUp_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Type_Screen/signUp_type_screen.dart';
 import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Consultations_Doctor_Profile_Screen/consultations_doctor_profile_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/instant_consultations_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/card_gift_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_payment_screen.dart';
@@ -52,6 +53,8 @@ class AppRoutes {
   static const aboutUsScreen = Routes.aboutUsScreen;
   static const termsScreen = Routes.termsScreen;
   static const instantConsultationsScreen = Routes.instantConsultationsScreen;
+  static const consultationsDoctorProfileScreen =
+      Routes.consultationsDoctorProfileScreen;
 
   //getPages
   static final routes = [
@@ -159,9 +162,13 @@ class AppRoutes {
       binding: AuthBinding(),
     ),
     GetPage(
-      name: Routes.instantConsultationsScreen,
-      page: () => InstantConsultationsScreen(),
-      binding: InstantConsultationsBinding()
+        name: Routes.instantConsultationsScreen,
+        page: () => InstantConsultationsScreen(),
+        binding: InstantConsultationsBinding()),
+    GetPage(
+      name: Routes.consultationsDoctorProfileScreen,
+      page: () => ConsultationsDoctorProfileScreen(),
+      binding: InstantConsultationsBinding(),
     ),
   ];
 }
@@ -188,4 +195,6 @@ class Routes {
   static const aboutUsScreen = '/aboutUsScreen';
   static const termsScreen = '/termsScreen';
   static const instantConsultationsScreen = '/instantConsultationsScreen';
+  static const consultationsDoctorProfileScreen =
+      '/consultationsDoctorProfileScreen';
 }

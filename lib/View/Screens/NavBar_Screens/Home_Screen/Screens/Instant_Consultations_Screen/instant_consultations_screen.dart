@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import 'Widgets/doctors_widget.dart';
-import 'Widgets/specialization_widget.dart';
+import 'Screens/Location_Screen/location_screen.dart';
+import 'Screens/Area_Screen/area_screen.dart';
 
 class InstantConsultationsScreen extends StatelessWidget {
   InstantConsultationsScreen({Key? key}) : super(key: key);
@@ -33,8 +33,8 @@ class InstantConsultationsScreen extends StatelessWidget {
               labelStyle: TextStyle(fontSize: 20),
               unselectedLabelStyle: TextStyle(fontSize: 17),
               tabs: [
-                Tab(child: Text("التخصص")),
-                Tab(child: Text("الأطباء")),
+                Tab(child: Text("المنطقة")),
+                Tab(child: Text("الموقع")),
               ],
             ),
             Expanded(
@@ -42,8 +42,8 @@ class InstantConsultationsScreen extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 controller: instantConsultationsController.tabController.value,
                 children: [
-                  SpecializationWidget(),
-                  DoctorsWidget(),
+                  AreaScreen(),
+                  LocationScreen(),
                 ],
               ),
             ),

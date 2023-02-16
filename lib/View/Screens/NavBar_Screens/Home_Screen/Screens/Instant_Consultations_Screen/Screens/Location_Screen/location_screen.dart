@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class DoctorsWidget extends StatelessWidget {
-  const DoctorsWidget({Key? key}) : super(key: key);
+import '../../Widgets/filter_button.dart';
+
+class LocationScreen extends StatelessWidget {
+  const LocationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +17,46 @@ class DoctorsWidget extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 8,
-                ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
                       "https://images.unsplash.com/photo-1644675272883-0c4d582528d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"),
                 ),
                 SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilterButton(title: "أختر التصنيف"),
+                ),
+                Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(color: AppColors.BLACK_COLOR, height: .8),
+                    cursorColor: AppColors.MAIN_COLOR,
+                    // textAlign: TextAlign.end,
+                    decoration: InputDecoration(
+                        fillColor: AppColors.GREY_Light_COLOR,
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10)),
+                        hintText: 'أبحث عن دكتور .....',
+                        suffixIcon: Icon(
+                          Icons.search,
+                          color: AppColors.MAIN_COLOR,
+                        ),
+                        hintStyle: TextStyle(
+                            color: AppColors.GREY_COLOR, fontSize: 13)),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
                 Text(
                   "الأطباء المتاحون الآن",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
@@ -36,7 +67,7 @@ class DoctorsWidget extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   separatorBuilder: (BuildContext context, int index) =>
-                  const SizedBox(height: 16),
+                      const SizedBox(height: 16),
                   itemBuilder: (BuildContext context, index) {
                     return InkWell(
                       child: Card(
@@ -89,9 +120,9 @@ class DoctorsWidget extends StatelessWidget {
           ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(vertical: 40,horizontal: 16),
+          padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
           width: double.infinity,
-          child:  ElevatedButton(
+          child: ElevatedButton(
             onPressed: () async {},
             style: ButtonStyle(
               padding: MaterialStateProperty.all(
@@ -102,15 +133,12 @@ class DoctorsWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              backgroundColor:
-              MaterialStateProperty.all(AppColors.MAIN_COLOR),
-              foregroundColor: MaterialStateProperty.all(
-                  AppColors.WHITE_COLOR),
+              backgroundColor: MaterialStateProperty.all(AppColors.MAIN_COLOR),
+              foregroundColor: MaterialStateProperty.all(AppColors.WHITE_COLOR),
             ),
             child: Text(
               "طلب إستشارة",
-              style: const TextStyle(
-                  color: AppColors.WHITE_COLOR),
+              style: const TextStyle(color: AppColors.WHITE_COLOR),
             ),
           ),
         ),
