@@ -45,6 +45,7 @@ class Response {
      this.doctorPricing,
      this.doctorBiography,
      this.location,
+    this.consultCountDown,
   });
 
   final idDoctor;
@@ -53,6 +54,7 @@ class Response {
   final doctorPricing;
   final doctorBiography;
   final location;
+  ConsultCountDown? consultCountDown;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     idDoctor: json["IDDoctor"],
@@ -61,6 +63,7 @@ class Response {
     doctorPricing: json["DoctorPricing"],
     doctorBiography: json["DoctorBiography"],
     location: json["Location"],
+    consultCountDown: ConsultCountDown.fromJson(json["ConsultCountDown"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -70,5 +73,29 @@ class Response {
     "DoctorPricing": doctorPricing,
     "DoctorBiography": doctorBiography,
     "Location": location,
+    "ConsultCountDown": consultCountDown!.toJson(),
+  };
+}
+class ConsultCountDown {
+  ConsultCountDown({
+     this.days,
+     this.hours,
+     this.minutes,
+  });
+
+  final days;
+  final hours;
+  final minutes;
+
+  factory ConsultCountDown.fromJson(Map<String, dynamic> json) => ConsultCountDown(
+    days: json["Days"],
+    hours: json["Hours"],
+    minutes: json["Minutes"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "Days": days,
+    "Hours": hours,
+    "Minutes": minutes,
   };
 }

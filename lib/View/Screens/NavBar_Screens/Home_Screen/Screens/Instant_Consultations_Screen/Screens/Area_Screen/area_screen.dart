@@ -20,14 +20,6 @@ class AreaScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                  "https://images.unsplash.com/photo-1644675272883-0c4d582528d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"),
-            ),
-            SizedBox(
-              height: 16,
-            ),
             Row(
               children: [
                 Expanded(
@@ -40,6 +32,14 @@ class AreaScreen extends StatelessWidget {
               ],
             ),
             AreaTextFieldWidget(),
+            SizedBox(
+              height: 16,
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                  "https://images.unsplash.com/photo-1644675272883-0c4d582528d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"),
+            ),
             SizedBox(height: 30),
             Text(
               "الأطباء المتاحون الآن",

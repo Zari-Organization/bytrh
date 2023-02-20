@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>19205980163-n3d5copbhuiet7npl006fg8hhl1vc3d0.apps.googleusercontent.com</string>
+	<string>897217225951-hu8eesdpt6uupj1hqcv9vcpq6ecu1ki7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.19205980163-n3d5copbhuiet7npl006fg8hhl1vc3d0</string>
+	<string>com.googleusercontent.apps.897217225951-hu8eesdpt6uupj1hqcv9vcpq6ecu1ki7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAuKmeFu0Ur5Cntnoz9pd4XNthrzkzEmoI</string>
+	<string>AIzaSyCvxQOs6BZVYdrEJAIRUpyrwnKDrQHDj8g</string>
 	<key>GCM_SENDER_ID</key>
-	<string>19205980163</string>
+	<string>897217225951</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.zari.bytrh</string>
 	<key>PROJECT_ID</key>
-	<string>on-time-74859</string>
+	<string>bytrhnotfication</string>
 	<key>STORAGE_BUCKET</key>
-	<string>on-time-74859.appspot.com</string>
+	<string>bytrhnotfication.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:19205980163:ios:b33d9d8beb98037de54e36</string>
+	<string>1:897217225951:ios:4df4496c8ff605600f756a</string>
 </dict>
 </plist>

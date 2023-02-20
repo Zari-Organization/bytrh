@@ -70,6 +70,10 @@
     <string>This app needs access to location when open to show nearby doctors</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>This app needs access to location when in the background to show nearby doctors</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>microphone</string>
+    <key>NSCameraUsageDescription</key>
+    <string>camera</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>

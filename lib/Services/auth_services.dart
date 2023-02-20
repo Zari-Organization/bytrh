@@ -23,6 +23,7 @@ class AuthServices {
       String ClientAppLanguage,
       String ClientDeviceType,
       String ClientMobileService,
+      String ClientDeviceToken,
       context) async {
     final verificationController = Get.find<VerificationController>();
     var data = await http.post(
@@ -34,6 +35,7 @@ class AuthServices {
         'ClientAppLanguage': ClientAppLanguage,
         'ClientDeviceType': ClientDeviceType,
         'ClientMobileService': ClientMobileService,
+        'ClientDeviceToken': ClientDeviceToken,
       },
     );
     var jsonData = json.decode(data.body);

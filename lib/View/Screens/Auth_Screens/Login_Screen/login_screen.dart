@@ -7,6 +7,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../../../Logic/controllers/auth_controller.dart';
 import '../../../../Routes/routes.dart';
@@ -253,6 +254,7 @@ class LoginScreen extends StatelessWidget {
         "ar",
         "ANDROID",
         "GMS",
+        GetStorage().read('DeviceToken'),
         context,
       );
     }

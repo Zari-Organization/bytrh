@@ -171,6 +171,7 @@ class VerificationController extends GetxController {
           "ar",
           "ANDROID",
           "GMS",
+          GetStorage().read('DeviceToken'),
           context,
         );
       } else {

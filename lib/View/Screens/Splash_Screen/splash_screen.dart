@@ -39,8 +39,8 @@ class _SplashViewState extends State<SplashScreen> {
     GetStorage().read<bool>('onBoarding');
     GetStorage().read<String>('AccessToken');
     if (kDebugMode) {
-      log(GetStorage().read<String>('AccessToken').toString());
-      log(GetStorage().read<bool>('onBoarding').toString());
+      log("Access Token --> ${GetStorage().read<String>('AccessToken')}");
+      log("On Boarding --> ${GetStorage().read<bool>('onBoarding')}");
     }
     startDelay();
     super.initState();

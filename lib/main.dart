@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'Notifications/my_notifications.dart';
 import 'Routes/routes.dart';
 import 'Utils/Translation/translation.dart';
 import 'firebase_options.dart';
@@ -16,6 +19,26 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: true,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  log('Notifications granted permission: ${settings.authorizationStatus}');
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+  onNotificationClickHandler();
+  foregroundHandler();
+  GetStorage authBox = GetStorage();
+  messaging.getToken().then((value) {
+    authBox.write('DeviceToken', value);
+    log("Device Token --> $value");
+  });
   runApp(
     const MyApp(),
   );

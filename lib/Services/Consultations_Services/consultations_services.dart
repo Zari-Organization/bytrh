@@ -19,16 +19,14 @@ import '../../Models/Wallet_Models/wallet_payment_model.dart';
 import '../../Utils/app_constants.dart';
 
 class ConsultationsServices {
-  static Future<ConsultationsDoctorsModel> getConsultationsDoctors(
-  {
+  static Future<ConsultationsDoctorsModel> getConsultationsDoctors({
     required String service,
-    required   String DoctorName,
-    required  String IDArea,
-    required  String IDAnimalCategory,
-    required  String ClientLatitude,
-    required  String ClientLongitude,
-}
-  ) async {
+    required String DoctorName,
+    required String IDArea,
+    required String IDAnimalCategory,
+    required String ClientLatitude,
+    required String ClientLongitude,
+  }) async {
     var response = await http.post(
       Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/doctors'),
       body: {
@@ -51,27 +49,31 @@ class ConsultationsServices {
   }
 
   static Future<ConsultationsDoctorProfileModel> getConsultationsDoctorProfile(
-      String IDDoctor, String ServiceKey) async {
-    var response = await http.post(
-      Uri.parse(
-          AppConstants.apiUrl + '/api/client' + '/consult/doctor/profile'),
-      body: {
-        'IDDoctor': IDDoctor,
-        'Service': ServiceKey,
-      },
-      headers: {
-        'Accept': 'application/json',
-        HttpHeaders.authorizationHeader: AppConstants().UserTocken
-      },
-    );
-    var jsonData = response.body;
-    var decodedData = jsonDecode(jsonData);
-    if (decodedData['Success']) {
-      log("Consultations Doctor Profile Api --> $decodedData");
-      return consultationsDoctorProfileModelFromJson(jsonData);
-    } else {
-      return throw Exception(decodedData['ApiMsg']);
+      String IDDoctor, String ServiceKey, String IDConsult) async {
+    try {
+      var response = await http.post(
+        Uri.parse(
+            AppConstants.apiUrl + '/api/client' + '/consult/doctor/profile'),
+        body: {
+          'IDDoctor': IDDoctor,
+          'Service': ServiceKey,
+          'IDConsult': IDConsult,
+        },
+        headers: {
+          'Accept': 'application/json',
+          HttpHeaders.authorizationHeader: AppConstants().UserTocken
+        },
+      );
+      var jsonData = response.body;
+      var decodedData = jsonDecode(jsonData);
+      if (decodedData['Success']) {
+        log("Consultations Doctor Profile Api --> $decodedData");
+        return consultationsDoctorProfileModelFromJson(jsonData);
+      }
+    } catch (e) {
+      log(e.toString());
     }
+    return throw Exception("Error");
   }
 
   static Future<AreasModel> getAreA(String idCity) async {
@@ -106,7 +108,8 @@ class ConsultationsServices {
     required String IDDoctor,
   }) async {
     var response = await http.post(
-      Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/urgent/request'),
+      Uri.parse(
+          AppConstants.apiUrl + '/api/client' + '/consult/urgent/request'),
       body: {
         'IDDoctor': IDDoctor,
       },
@@ -120,44 +123,40 @@ class ConsultationsServices {
     if (decodedData["Success"]) {
       log("Request Consultation Api --> $decodedData");
       return decodedData;
-    }else {
+    } else {
       return decodedData;
     }
   }
 
-  static Future<ConsultationsCartModel> getConsultationsCart(
-      {
-        required String ConsultType,
-      }
-      ) async {
-      var response = await http.post(
-        Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/list'),
-        body: {
-          'ConsultType': ConsultType,
-          'ConsultStatus': "",
-        },
-        headers: {
-          'Accept': 'application/json',
-          HttpHeaders.authorizationHeader: AppConstants().UserTocken
-        },
-      );
-      var jsonData = response.body;
-      var decodedData = jsonDecode(jsonData);
+  static Future<ConsultationsCartModel> getConsultationsCart({
+    required String ConsultType,
+  }) async {
+    var response = await http.post(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/list'),
+      body: {
+        'ConsultType': ConsultType,
+        'ConsultStatus': "",
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    log("Consultations Cart Api --> $decodedData");
+    if (decodedData['Success']) {
       log("Consultations Cart Api --> $decodedData");
-      if (decodedData['Success']) {
-        log("Consultations Cart Api --> $decodedData");
-        return consultationsCartModelFromJson(jsonData);
-      } else {
-        return consultationsCartModelFromJson(jsonData);
-      }
-
+      return consultationsCartModelFromJson(jsonData);
+    } else {
+      return consultationsCartModelFromJson(jsonData);
+    }
   }
 
-  static Future<ConsultationsDoctorReservationTimeModel> getConsultationsDoctorReservationTime(
-      {
-        required String IDConsult,
-      }
-      ) async {
+  static Future<ConsultationsDoctorReservationTimeModel>
+      getConsultationsDoctorReservationTime({
+    required String IDConsult,
+  }) async {
     var response = await http.post(
       Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/urgent/time'),
       body: {
@@ -176,7 +175,6 @@ class ConsultationsServices {
     } else {
       return consultationsDoctorReservationTimeModelFromJson(jsonData);
     }
-
   }
 
   static selectConsultationTime({
@@ -184,7 +182,8 @@ class ConsultationsServices {
     required String IDConsultTimeValue,
   }) async {
     var response = await http.post(
-      Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/urgent/time/select'),
+      Uri.parse(
+          AppConstants.apiUrl + '/api/client' + '/consult/urgent/time/select'),
       body: {
         'IDConsult': IDConsult,
         'IDConsultTimeValue': IDConsultTimeValue,
@@ -199,7 +198,7 @@ class ConsultationsServices {
     if (decodedData["Success"]) {
       log("Select Consultation Time Api --> $decodedData");
       return decodedData;
-    }else {
+    } else {
       return decodedData;
     }
   }

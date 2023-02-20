@@ -4,12 +4,18 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-import '../../../Models/Consultations_Models/animals_category_model.dart' as animals_category_import;
-import '../../../Models/Consultations_Models/consultations_cart_model.dart' as consultations_cart_import;
-import '../../../Models/Consultations_Models/consultations_doctor_profile_model.dart' as consultations_doctor_profile_import;
-import '../../../Models/Consultations_Models/consultations_doctor_reservation_time_model.dart' as consultations_doctor_reservation_time_import;
-import '../../../Models/Consultations_Models/consultations_doctors_model.dart' as consultations_doctors_import;
+import '../../../Models/Consultations_Models/animals_category_model.dart'
+    as animals_category_import;
+import '../../../Models/Consultations_Models/consultations_cart_model.dart'
+    as consultations_cart_import;
+import '../../../Models/Consultations_Models/consultations_doctor_profile_model.dart'
+    as consultations_doctor_profile_import;
+import '../../../Models/Consultations_Models/consultations_doctor_reservation_time_model.dart'
+    as consultations_doctor_reservation_time_import;
+import '../../../Models/Consultations_Models/consultations_doctors_model.dart'
+    as consultations_doctors_import;
 import '../../../Models/Location_Models/areas_model.dart' as areas_import;
 import '../../../Routes/routes.dart';
 import '../../../Services/Consultations_Services/consultations_services.dart';
@@ -67,20 +73,75 @@ class InstantConsultationsController extends GetxController
   setDataDoctorProfile(String id, String serviceKey) async {
     IDDoctor.value = id;
     doctorServiceKey.value = serviceKey;
-     getConsultationsDoctorProfile();
+    getConsultationsDoctorProfile();
     await Get.toNamed(Routes.consultationsDoctorProfileScreen);
   }
 
   getConsultationsDoctorProfile() async {
     try {
       isLoadingConsultationsDoctorProfile(true);
-      var profileResponse = await ConsultationsServices.getConsultationsDoctorProfile(
-              IDDoctor.value, doctorServiceKey.value);
+      var profileResponse =
+          await ConsultationsServices.getConsultationsDoctorProfile(
+        IDDoctor.value,
+        doctorServiceKey.value,
+        "",
+      );
       if (profileResponse.success) {
         consultationsDoctorProfileData.value = profileResponse.response;
       }
     } finally {
       isLoadingConsultationsDoctorProfile(false);
+    }
+  }
+
+  var isLoadingCheckConsultStatusApi = false.obs;
+  var idConsultFromCart = ''.obs;
+
+  checkConsultStatus(String consultId, String consultStatus, String serviceKey,
+      BuildContext context) async {
+    idConsultFromCart.value = consultId;
+    checkConsultStatusApi(
+      idConsultFromCart.value,
+      consultStatus,
+      serviceKey,
+      context,
+    );
+  }
+
+  var consultationsCartStatusData =
+      consultations_doctor_profile_import.ConsultCountDown().obs;
+
+  checkConsultStatusApi(
+    String cartConsultId,
+    String consultStatus,
+    String doctorServiceKey,
+    BuildContext context,
+  ) async {
+    try {
+      isLoadingCheckConsultStatusApi(true);
+      var response = await ConsultationsServices.getConsultationsDoctorProfile(
+        "",
+        doctorServiceKey,
+        cartConsultId,
+      );
+      if (response.success) {
+        consultationsCartStatusData.value = response.response.consultCountDown!;
+        AppAlerts().consultationsCountDownPop(
+          idConsultFromCart.value,
+          consultationsCartStatusData.value,
+          consultStatus,
+        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     duration: Duration(seconds: 2),
+        //     content: Text(
+        //       consultationsCartStatusData.value.minutes.toString(),
+        //     ),
+        //   ),
+        // );
+      }
+    } finally {
+      isLoadingCheckConsultStatusApi(false);
     }
   }
 
@@ -168,7 +229,7 @@ class InstantConsultationsController extends GetxController
 
   setConsultationsDoctorReservationTime(String id) async {
     idConsult.value = id;
-     getConsultationsDoctorReservationTime();
+    getConsultationsDoctorReservationTime();
     await Get.toNamed(Routes.instantsConsultationsDoctorReservationTimeScreen);
   }
 
@@ -178,14 +239,16 @@ class InstantConsultationsController extends GetxController
   var consultationsDoctorReservationTimeList =
       <consultations_doctor_reservation_time_import.ConsultTime>[].obs;
   var idConsult = ''.obs;
-  var doctorTimeValue =0.obs;
+  var doctorTimeValue = 0.obs;
 
   RxInt timeSelectedIndex = (-1).obs;
-  var timeId =''.obs;
+  var timeId = ''.obs;
 
   void changeTimeSelectedIndex(int selectedIndex) {
     timeSelectedIndex.value = selectedIndex;
-    timeId.value = consultationsDoctorReservationTimeList[selectedIndex].idConsultTimeValue.toString();
+    timeId.value = consultationsDoctorReservationTimeList[selectedIndex]
+        .idConsultTimeValue
+        .toString();
     log(timeId.toString());
   }
 
@@ -193,7 +256,7 @@ class InstantConsultationsController extends GetxController
     try {
       isLoadingConsultationsDoctorReservationTime(true);
       var response =
-      await ConsultationsServices.getConsultationsDoctorReservationTime(
+          await ConsultationsServices.getConsultationsDoctorReservationTime(
         IDConsult: idConsult.value,
       );
       if (response.success) {
@@ -208,7 +271,6 @@ class InstantConsultationsController extends GetxController
     }
   }
 
-
   var isLoadingSelectConsultationTime = false.obs;
 
   selectConsultationTime(BuildContext context) async {
@@ -216,7 +278,7 @@ class InstantConsultationsController extends GetxController
       isLoadingSelectConsultationTime(true);
       var response = await ConsultationsServices.selectConsultationTime(
         IDConsult: idConsult.value,
-        IDConsultTimeValue :timeId.value ,
+        IDConsultTimeValue: timeId.value,
       );
       if (response["Success"]) {
         AppAlerts().selectDoctorTimeCreatedSuccessfullyPop();
@@ -224,6 +286,7 @@ class InstantConsultationsController extends GetxController
           await getConsultationsCart();
           Get.back();
         }
+
         Timer(const Duration(seconds: 1), _goNext);
         Timer(const Duration(seconds: 1), () => Get.back());
       } else {
@@ -244,7 +307,7 @@ class InstantConsultationsController extends GetxController
   var isLoadingLocation = false.obs;
 
   Future<Position> getGeoLocationPosition() async {
-    try{
+    try {
       isLoadingLocation(true);
       bool serviceEnabled;
       LocationPermission permission;
@@ -261,7 +324,6 @@ class InstantConsultationsController extends GetxController
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-
           return Future.error('Location permissions are denied');
         }
       }
@@ -272,11 +334,13 @@ class InstantConsultationsController extends GetxController
       }
       // When we reach here, permissions are granted and we can
       // continue accessing the position of the device.
-      return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    }finally{
+      return await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+    } finally {
       isLoadingLocation(false);
     }
   }
+
   var userLatitude = ''.obs;
   var userLongitude = ''.obs;
 }

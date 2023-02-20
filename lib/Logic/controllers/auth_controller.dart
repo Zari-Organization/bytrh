@@ -51,6 +51,7 @@ class AuthController extends GetxController {
     String ClientAppLanguage,
     String ClientDeviceType,
     String ClientMobileService,
+    String ClientDeviceToken,
     BuildContext context,
   ) async {
     try {
@@ -62,6 +63,7 @@ class AuthController extends GetxController {
         ClientAppLanguage,
         ClientDeviceType,
         ClientMobileService,
+        ClientDeviceToken,
         context,
       );
       if (loginModel.success) {
@@ -234,6 +236,7 @@ class AuthController extends GetxController {
       "ar",
       "ANDROID",
       "GMS",
+      GetStorage().read('DeviceToken'),
       context,
     );
   }

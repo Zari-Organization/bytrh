@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -51,26 +53,34 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        if (instantConsultationsController
-                                .consultationsCartList[index].consultStatus !=
-                            "PENDING") {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              duration: Duration(seconds: 2),
-                              backgroundColor: AppColors.MAIN_COLOR,
-                              content: Text(
-                                "تم حجز هذة الاستشارة بالفعل".tr,
-                              ),
-                            ),
-                          );
-                        } else {
-                          instantConsultationsController
-                              .setConsultationsDoctorReservationTime(
-                            instantConsultationsController
-                                .consultationsCartList[index].idConsult
-                                .toString(),
-                          );
-                        }
+                        instantConsultationsController.checkConsultStatus(
+                          instantConsultationsController.consultationsCartList[index].idConsult.toString(),
+                          instantConsultationsController.consultationsCartList[index].consultStatus,
+                          "URGENT_CONSULT",
+                          context,
+                        );
+
+                        // if (instantConsultationsController
+                        //         .consultationsCartList[index].consultStatus !=
+                        //     "PENDING") {
+                        //   // ScaffoldMessenger.of(context).showSnackBar(
+                        //   //   SnackBar(
+                        //   //     duration: Duration(seconds: 2),
+                        //   //     backgroundColor: AppColors.MAIN_COLOR,
+                        //   //     content: Text(
+                        //   //       "تم حجز هذة الاستشارة بالفعل".tr,
+                        //   //     ),
+                        //   //   ),
+                        //   // );
+                        //   Get.toNamed(Routes.consultationsChatScreenScreen);
+                        // } else {
+                        //   instantConsultationsController
+                        //       .setConsultationsDoctorReservationTime(
+                        //     instantConsultationsController
+                        //         .consultationsCartList[index].idConsult
+                        //         .toString(),
+                        //   );
+                        // }
                       },
                       child: Card(
                         margin: EdgeInsets.zero,
