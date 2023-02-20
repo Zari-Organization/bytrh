@@ -12,6 +12,7 @@ import '../../Models/Consultations_Models/consultations_cart_model.dart';
 import '../../Models/Consultations_Models/consultations_doctor_profile_model.dart';
 import '../../Models/Consultations_Models/consultations_doctor_reservation_time_model.dart';
 import '../../Models/Consultations_Models/consultations_doctors_model.dart';
+import '../../Models/Consultations_Models/term_doctor_days_model.dart';
 import '../../Models/Location_Models/areas_model.dart';
 import '../../Models/Wallet_Models/my_wallet_model.dart';
 import '../../Models/Wallet_Models/payment_methods_model.dart';
@@ -32,6 +33,7 @@ class ConsultationsServices {
       body: {
         'DoctorName': DoctorName,
         'IDArea': IDArea,
+        // 'IDAnimalCategory': '',
         'IDAnimalCategory': IDAnimalCategory,
         'ClientLatitude': ClientLatitude,
         'ClientLongitude': ClientLongitude,
@@ -41,10 +43,35 @@ class ConsultationsServices {
     var jsonData = response.body;
     var decodedData = jsonDecode(jsonData);
     if (decodedData['Success']) {
-      log("Consultations Doctors Api --> $decodedData");
+      service=="URGENT_CONSULT"? log("Instant Consultations Doctors Api --> $decodedData"):log("Term Consultations Doctors Api --> $decodedData");
       return consultationsDoctorsModelFromJson(jsonData);
     } else {
       return consultationsDoctorsModelFromJson(jsonData);
+    }
+  }
+
+  static Future<TermDoctorDaysModel> getConsultationsDoctorsDays({
+    required String IDDoctor,
+    required String Day,
+  }) async {
+    var response = await http.post(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/doctor/appointments'),
+      body: {
+        'IDDoctor': IDDoctor,
+        'Day': Day,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("Consultations Doctors Days Api --> $decodedData");
+     return termDoctorDaysModelFromJson(jsonData);
+    } else {
+      return termDoctorDaysModelFromJson(jsonData);
     }
   }
 
@@ -66,6 +93,7 @@ class ConsultationsServices {
       );
       var jsonData = response.body;
       var decodedData = jsonDecode(jsonData);
+      log("Consultations Doctor Profile Api --> $decodedData");
       if (decodedData['Success']) {
         log("Consultations Doctor Profile Api --> $decodedData");
         return consultationsDoctorProfileModelFromJson(jsonData);
@@ -182,8 +210,7 @@ class ConsultationsServices {
     required String IDConsultTimeValue,
   }) async {
     var response = await http.post(
-      Uri.parse(
-          AppConstants.apiUrl + '/api/client' + '/consult/urgent/time/select'),
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/urgent/time/select'),
       body: {
         'IDConsult': IDConsult,
         'IDConsultTimeValue': IDConsultTimeValue,
@@ -197,6 +224,64 @@ class ConsultationsServices {
     var decodedData = jsonDecode(jsonData);
     if (decodedData["Success"]) {
       log("Select Consultation Time Api --> $decodedData");
+      return decodedData;
+    } else {
+      return decodedData;
+    }
+  }
+
+  termRequestConsult(
+      dynamic DoctorList,
+      ) async {
+    dioImport.Dio dio = dioImport.Dio();
+    dioImport.FormData formData = dioImport.FormData.fromMap({
+      'DoctorList[]': DoctorList,
+    });
+      var response = await dio.post(
+        AppConstants.apiUrl + '/api/client' + '/consult/request',
+        data: formData,
+        options: dioImport.Options(
+          headers: {
+            'Accept': 'application/json',
+            HttpHeaders.authorizationHeader: AppConstants().UserTocken
+          },
+        ),
+      );
+      var jsonData = response.data;
+      if (jsonData['Success']) {
+        log("Request Consult Api --> $jsonData");
+        return jsonData;
+      } else {
+        log("Request Consult Api --> $jsonData");
+        return jsonData;
+      }
+  }
+  static selectDoctorConsultationTime({
+    required String IDConsult,
+    required String IDDoctorHour,
+    required String ConsultDate,
+  }) async {
+    var response = await http.post(
+      Uri.parse(
+          AppConstants.apiUrl + '/api/client' + '/consult/time/select'),
+      body: {
+        'IDConsult': IDConsult,
+        'IDDoctorHour': IDDoctorHour,
+        'ConsultDate': ConsultDate,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    log("Select Doctor Consultation Time Api --> $decodedData");
+    log("IDConsult --> $IDConsult");
+    log("IDDoctorHour --> $IDDoctorHour");
+    log("ConsultDate --> $ConsultDate");
+    if (decodedData["Success"]) {
+      log("Select Doctor Consultation Time Api --> $decodedData");
       return decodedData;
     } else {
       return decodedData;

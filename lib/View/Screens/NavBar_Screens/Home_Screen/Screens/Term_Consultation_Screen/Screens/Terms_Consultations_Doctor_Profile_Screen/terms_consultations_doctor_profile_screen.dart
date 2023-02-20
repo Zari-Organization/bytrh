@@ -4,21 +4,23 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import 'package:intl/intl.dart';
 import 'package:bytrh/Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 
+import '../../../../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../../../../../../../Routes/routes.dart';
 import '../../../../../../../../Utils/app_colors.dart';
 import '../../../../../../../Widgets/custom_circle_progress.dart';
+import '../../Widgets/doctor_profile_days_filter_widget.dart';
 
-class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
-  InstantConsultationsDoctorProfileScreen({Key? key}) : super(key: key);
-  final instantConsultationsController = Get.find<InstantConsultationsController>();
+class TermConsultationsDoctorProfileScreen extends StatelessWidget {
+  TermConsultationsDoctorProfileScreen({Key? key}) : super(key: key);
+  final termConsultationsController = Get.find<TermConsultationsController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (instantConsultationsController
+      if (termConsultationsController
           .isLoadingConsultationsDoctorProfile.value) {
         return Scaffold(
           backgroundColor: AppColors.WHITE_COLOR,
@@ -38,30 +40,31 @@ class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
             centerTitle: true,
             actions: [
               IconButton(
-                  splashRadius: 25,
-                  onPressed: () async {
-                    await instantConsultationsController.getConsultationsCart();
-                    await Get.toNamed(Routes.instantsConsultationsCartScreen);
-                  },
-                  icon: SvgPicture.asset(AppIcons.cart_icon),
+                splashRadius: 25,
+                onPressed: () async {
+                  await termConsultationsController.getConsultationsCart();
+                  await Get.toNamed(Routes.termConsultationsCartScreen);
+                },
+                icon: SvgPicture.asset(AppIcons.cart_icon),
               )
             ],
           ),
           bottomSheet: ConditionalBuilder(
-            condition: !instantConsultationsController
-                .isLoadingRequestConsultation.value,
+            condition:
+                !termConsultationsController.isLoadingRequestConsultation.value,
             builder: (context) => Container(
               color: AppColors.WHITE_COLOR,
               padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  instantConsultationsController.requestConsultation(
-                    instantConsultationsController
-                        .consultationsDoctorProfileData.value.idDoctor
-                        .toString(),
-                    context,
-                  );
+                  termConsultationsController.setDoctorConsultTime(DateFormat('yyyy-MM-dd').format(DateTime.now()),context);
+                  // termConsultationsController.requestConsultation(
+                  //   termConsultationsController
+                  //       .consultationsDoctorProfileData.value.idDoctor
+                  //       .toString(),
+                  //   context,
+                  // );
                 },
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all(
@@ -112,7 +115,7 @@ class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
                                 radius: 40,
                                 backgroundColor: AppColors.MAIN_COLOR,
                                 backgroundImage: NetworkImage(
-                                  instantConsultationsController
+                                  termConsultationsController
                                           .consultationsDoctorProfileData
                                           .value
                                           .doctorPicture ??
@@ -126,7 +129,7 @@ class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    instantConsultationsController
+                                    termConsultationsController
                                         .consultationsDoctorProfileData
                                         .value
                                         .doctorName,
@@ -149,7 +152,7 @@ class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        instantConsultationsController
+                                        termConsultationsController
                                             .consultationsDoctorProfileData
                                             .value
                                             .location,
@@ -172,7 +175,7 @@ class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        "${instantConsultationsController.consultationsDoctorProfileData.value.doctorPricing ?? ""}",
+                                        "${termConsultationsController.consultationsDoctorProfileData.value.doctorPricing ?? ""}",
                                         style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
@@ -246,20 +249,21 @@ class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: AppColors.GREY_Light_COLOR),
+                          borderRadius: BorderRadius.circular(5),
+                          color: AppColors.GREY_Light_COLOR,
+                        ),
                         child: Text(
-                          instantConsultationsController
+                          termConsultationsController
                                   .consultationsDoctorProfileData
                                   .value
-                                  .doctorBiography ??
-                              "",
+                                  .doctorBiography ?? "",
                           style: TextStyle(color: AppColors.GREY_COLOR),
                         ),
                       ),
                     ],
                   ),
-                )
+                ),
+                DoctorProfileDaysWidgetFilter(),
               ],
             ),
           ),

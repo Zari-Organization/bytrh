@@ -59,7 +59,7 @@ class Response {
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     idDoctor: json["IDDoctor"],
     doctorName: json["DoctorName"],
-    doctorPicture: json["DoctorPicture"],
+    doctorPicture: json["DoctorPicture"]??"",
     doctorPricing: json["DoctorPricing"],
     doctorBiography: json["DoctorBiography"],
     location: json["Location"],

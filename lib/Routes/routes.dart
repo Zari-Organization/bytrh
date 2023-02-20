@@ -2,6 +2,7 @@ import 'package:bytrh/View/Screens/Auth_Screens/Policies_Screens/terms_screen.da
 import 'package:get/get.dart';
 
 import '../Logic/binding/Consultations_Bindings/instant_consultations_binding.dart';
+import '../Logic/binding/Consultations_Bindings/term_consultations_binding.dart';
 import '../Logic/binding/Consultations_Chat_Bindings/consultations_chat_binding.dart';
 import '../Logic/binding/My_Account_Bindings/change_password_binding.dart';
 import '../Logic/binding/My_Account_Bindings/myAccount_binding.dart';
@@ -25,6 +26,9 @@ import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Consultations_Doctor_Profile_Screen/instants_consultations_doctor_reservation_time_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Instant_Consultations_Cart_Screen/instant_consultations_cart_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/instant_consultations_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Term_Consultation_Screen/Screens/Term_Consultations_Cart_Screen/term_consultations_cart_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Term_Consultation_Screen/Screens/Terms_Consultations_Doctor_Profile_Screen/terms_consultations_doctor_profile_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Term_Consultation_Screen/term_consultations_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/card_gift_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_payment_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_screen.dart';
@@ -57,12 +61,14 @@ class AppRoutes {
   static const aboutUsScreen = Routes.aboutUsScreen;
   static const termsScreen = Routes.termsScreen;
   static const instantConsultationsScreen = Routes.instantConsultationsScreen;
-  static const consultationsDoctorProfileScreen =
-      Routes.consultationsDoctorProfileScreen;
+  static const instantConsultationsDoctorProfileScreen = Routes.instantConsultationsDoctorProfileScreen;
   static const instantsConsultationsCartScreen =
       Routes.instantsConsultationsCartScreen;
   static const instantsConsultationsDoctorReservationTimeScreen = Routes.instantsConsultationsDoctorReservationTimeScreen;
   static const consultationsChatScreenScreen = Routes.consultationsChatScreenScreen;
+  static const termConsultationsScreen = Routes.termConsultationsScreen;
+  static const termConsultationsDoctorProfileScreen = Routes.termConsultationsDoctorProfileScreen;
+  static const termConsultationsCartScreen = Routes.termConsultationsCartScreen;
 
   //getPages
   static final routes = [
@@ -174,8 +180,8 @@ class AppRoutes {
         page: () => InstantConsultationsScreen(),
         binding: InstantConsultationsBinding()),
     GetPage(
-      name: Routes.consultationsDoctorProfileScreen,
-      page: () => ConsultationsDoctorProfileScreen(),
+      name: Routes.instantConsultationsDoctorProfileScreen,
+      page: () => InstantConsultationsDoctorProfileScreen(),
       binding: InstantConsultationsBinding(),
     ),
     GetPage(
@@ -192,6 +198,21 @@ class AppRoutes {
       name: Routes.consultationsChatScreenScreen,
       page: () => ConsultationsChatScreen(),
       binding: ConsultationsChatBinding(),
+    ),
+    GetPage(
+      name: Routes.termConsultationsScreen,
+      page: () => TermConsultationsScreen(),
+      binding: TermConsultationsBinding(),
+    ),
+    GetPage(
+      name: Routes.termConsultationsDoctorProfileScreen,
+      page: () => TermConsultationsDoctorProfileScreen(),
+      binding: TermConsultationsBinding(),
+    ),
+    GetPage(
+      name: Routes.termConsultationsCartScreen,
+      page: () => TermConsultationsCartScreen(),
+      binding: TermConsultationsBinding(),
     ),
   ];
 }
@@ -218,10 +239,12 @@ class Routes {
   static const aboutUsScreen = '/aboutUsScreen';
   static const termsScreen = '/termsScreen';
   static const instantConsultationsScreen = '/instantConsultationsScreen';
-  static const consultationsDoctorProfileScreen =
-      '/consultationsDoctorProfileScreen';
+  static const instantConsultationsDoctorProfileScreen = '/instantConsultationsDoctorProfileScreen';
   static const instantsConsultationsCartScreen =
       '/instantsConsultationsCartScreen';
   static const instantsConsultationsDoctorReservationTimeScreen = '/instantsConsultationsDoctorReservationTimeScreen';
   static const consultationsChatScreenScreen = '/consultationsChatScreenScreen';
+  static const termConsultationsScreen = '/termConsultationsScreen';
+  static const termConsultationsDoctorProfileScreen = '/termConsultationsDoctorProfileScreen';
+  static const termConsultationsCartScreen = '/termConsultationsCartScreen';
 }

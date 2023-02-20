@@ -47,7 +47,7 @@ class Response {
     this.consultDate,
     required this.consultStatus,
     required this.consultAmount,
-    required this.doctorName,
+    this.doctorName,
     this.doctorPicture,
   });
 
@@ -55,7 +55,7 @@ class Response {
   DateTime? consultDate;
   int consultAmount;
   String consultStatus;
-  String doctorName;
+  String? doctorName;
   String? doctorPicture;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(

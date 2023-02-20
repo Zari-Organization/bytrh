@@ -37,28 +37,30 @@ class _ConsultationsChatScreenState extends State<ConsultationsChatScreen> {
           sendMessageHintText: "اكتب رسالتك",
           scrollController: consultationsChatController.scrollController.value,
           messages: consultationsChatController.messages,
+          senderColor: AppColors.MAIN_COLOR,
           onSlideToCancelRecord: () {
             log('not sent');
           },
           onTextSubmit: (textMessage) {
             setState(() {
-            try{
-              consultationsChatController.messages.add(textMessage);
-              consultationsChatController.scrollController.value.jumpTo(
-                consultationsChatController
-                    .scrollController.value.position.maxScrollExtent +
-                    50,
-              );
-              consultationsChatController.sendChatMessageText(
-                IDConsult: consultationsChatController.consultationsChatDetails.value.idConsult.toString(),
-                ConsultChatType: "TEXT",
-                ConsultChatMessageText: textMessage.text,
-                // context: context,
-              );
-              log(textMessage.text);
-            }catch(e){
-              log(e.toString());
-            }
+              try {
+                consultationsChatController.messages.add(textMessage);
+                consultationsChatController.scrollController.value.jumpTo(
+                  consultationsChatController
+                      .scrollController.value.position.maxScrollExtent +
+                      50,
+                );
+                consultationsChatController.sendChatMessageText(
+                  IDConsult: consultationsChatController
+                      .consultationsChatDetails.value.idConsult.toString(),
+                  ConsultChatType: "TEXT",
+                  ConsultChatMessageText: textMessage.text,
+                  // context: context,
+                );
+                log(textMessage.text);
+              } catch (e) {
+                log(e.toString());
+              }
             });
           },
           handleRecord: (audioMessage, canceled) {
@@ -67,7 +69,7 @@ class _ConsultationsChatScreenState extends State<ConsultationsChatScreen> {
                 consultationsChatController.messages.add(audioMessage!);
                 consultationsChatController.scrollController.value.jumpTo(
                   consultationsChatController
-                          .scrollController.value.position.maxScrollExtent +
+                      .scrollController.value.position.maxScrollExtent +
                       90,
                 );
                 log(audioMessage.chatMedia!.url);
@@ -91,7 +93,7 @@ class _ConsultationsChatScreenState extends State<ConsultationsChatScreen> {
                 );
                 consultationsChatController.scrollController.value.jumpTo(
                   consultationsChatController
-                          .scrollController.value.position.maxScrollExtent +
+                      .scrollController.value.position.maxScrollExtent +
                       300,
                 );
                 var file = XFile(imageMessage.chatMedia!.url);

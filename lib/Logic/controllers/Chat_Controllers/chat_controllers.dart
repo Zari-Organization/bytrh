@@ -20,22 +20,43 @@ class ConsultationsChatController extends GetxController {
     super.onInit();
   }
 
-  receiveMessageFromChatAdmin(String message) {
-
-    messages.add(ChatMessage(
-      isSender: false,
-      text: message,
-    ));
-    scrollController.value.jumpTo(
-      scrollController.value.position.maxScrollExtent +
-          300,
-    );
-    // sendChatMessageText(
-    //   IDConsult: consultationsChatDetails.value.idConsult.toString(),
-    //   ConsultChatType: "TEXT",
-    //   ConsultChatMessageText: message,
-    //   // context: ,
-    // );
+  receiveMessageFromChatAdmin(String messageType,String message) {
+    if (messageType == "TEXT") {
+      messages.add(ChatMessage(
+        isSender: false,
+        text: message,
+      ));
+      scrollController.value.jumpTo(
+        scrollController.value.position.maxScrollExtent +
+            50,
+      );
+    }
+    if (messageType == "IMAGE") {
+      messages.add(ChatMessage(
+        isSender: false,
+        chatMedia: ChatMedia(
+          url: message,
+          mediaType: const MediaType.imageMediaType(),
+        ),
+      ));
+      scrollController.value.jumpTo(
+        scrollController.value.position.maxScrollExtent +
+            300,
+      );
+    }
+    if (messageType == "AUDIO") {
+      messages.add(ChatMessage(
+        isSender: false,
+        chatMedia: ChatMedia(
+          url: message,
+          mediaType: const MediaType.audioMediaType(),
+        ),
+      ));
+      scrollController.value.jumpTo(
+        scrollController.value.position.maxScrollExtent +
+            90,
+      );
+    }
     log("Chat Messages List ----> ${messages.toString()}");
   }
 

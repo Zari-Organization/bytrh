@@ -6,8 +6,8 @@ import '../../../../../Logic/controllers/Consultations_Controllers/instant_consu
 import '../../../../../Routes/routes.dart';
 import '../../../../../Utils/app_icons.dart';
 
-class ConsultationsCartIcon extends StatelessWidget {
-   ConsultationsCartIcon({Key? key}) : super(key: key);
+class InstantConsultationsCartIcon extends StatelessWidget {
+   InstantConsultationsCartIcon({Key? key}) : super(key: key);
    final instantConsultationsController =
    Get.find<InstantConsultationsController>();
   @override

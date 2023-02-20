@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'dart:developer';
 
 import '../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
+import '../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../../../../Utils/app_colors.dart';
 import '../../../../../Utils/app_icons.dart';
 import 'package:geolocator/geolocator.dart';
@@ -16,6 +17,7 @@ class ConsultationWidget extends StatelessWidget {
   ConsultationWidget({Key? key}) : super(key: key);
   final instantConsultationsController =
       Get.find<InstantConsultationsController>();
+  final termConsultationsController = Get.find<TermConsultationsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -76,31 +78,49 @@ class ConsultationWidget extends StatelessWidget {
             )),
             Expanded(
                 child: InkWell(
-              onTap: () {},
+              onTap: () async {
+                await termConsultationsController.getGeoLocationPosition();
+                await Get.toNamed(Routes.termConsultationsScreen);
+              },
               child: SizedBox(
                 height: 150,
-                child: Card(
+                child: Obx(
+                  () => Card(
                     elevation: 5,
                     child: Padding(
                       padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            AppIcons.term_consultation_icon,
-                            height: 50,
-                          ),
-                          SizedBox(height: 16),
-                          Text(
-                            "إستشارة آجلة",
-                            style: TextStyle(
-                              color: AppColors.MAIN_COLOR,
+                      child: termConsultationsController.isLoadingLocation.value
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CustomCircleProgress(),
+                                Text(
+                                  "جاري الحصول علي موقعك ...",
+                                  style: TextStyle(fontSize: 10),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  AppIcons.term_consultation_icon,
+                                  height: 50,
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  "إستشارة آجلة",
+                                  style: TextStyle(
+                                    color: AppColors.MAIN_COLOR,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    )),
+                    ),
+                  ),
+                ),
               ),
             )),
           ],

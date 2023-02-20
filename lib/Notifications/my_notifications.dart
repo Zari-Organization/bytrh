@@ -76,7 +76,7 @@ void handlingOnRefreshScreens(RemoteMessage message)async {
     log("handlingOnRefreshScreens ----> ${message.data['Screen']}");
     if (message.data['Screen'] == "/consultChatScreen") {
       final consultationsChatController = Get.find<ConsultationsChatController>();
-      consultationsChatController.receiveMessageFromChatAdmin(message.data['IDData'].toString());
+      consultationsChatController.receiveMessageFromChatAdmin(message.data['DataType'],message.data['Message']);
     }
   }catch(e){
     log(e.toString());

@@ -1,30 +1,24 @@
 import 'dart:developer';
-
-import 'package:bytrh/Utils/app_icons.dart';
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:bytrh/Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import 'package:intl/intl.dart';
-import '../../../../../../../../Routes/routes.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../../../../../../../Utils/app_colors.dart';
 import '../../../../../../../Widgets/custom_circle_progress.dart';
 
-class InstantsConsultationsCartScreen extends StatelessWidget {
-  InstantsConsultationsCartScreen({Key? key}) : super(key: key);
-  final instantConsultationsController =
-      Get.find<InstantConsultationsController>();
+class TermConsultationsCartScreen extends StatelessWidget {
+  TermConsultationsCartScreen({Key? key}) : super(key: key);
+  final termConsultationsController = Get.find<TermConsultationsController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (instantConsultationsController.isLoadingConsultationsCart.value) {
+      if (termConsultationsController.isLoadingConsultationsCart.value) {
         return Scaffold(
           backgroundColor: AppColors.WHITE_COLOR,
           appBar: AppBar(
             backgroundColor: AppColors.MAIN_COLOR,
-            title: const Text("أستشاراتي الفورية"),
+            title: const Text("أستشاراتي الآجلة"),
             centerTitle: true,
           ),
           body: const CustomCircleProgress(),
@@ -34,16 +28,16 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
           backgroundColor: AppColors.WHITE_COLOR,
           appBar: AppBar(
             backgroundColor: AppColors.MAIN_COLOR,
-            title: const Text("أستشاراتي الفورية"),
+            title: const Text("أستشاراتي الآجلة"),
             centerTitle: true,
           ),
-          body: instantConsultationsController.consultationsCartList.isEmpty
+          body: termConsultationsController.consultationsCartList.isEmpty
               ? Center(
                   child: Text("لم تقم بعمل أستشارات بعد ."),
                 )
               : ListView.separated(
-                  itemCount: instantConsultationsController
-                      .consultationsCartList.length,
+                  itemCount:
+                      termConsultationsController.consultationsCartList.length,
                   // itemCount: 2,
                   shrinkWrap: true,
                   padding: EdgeInsets.all(16),
@@ -53,34 +47,30 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        instantConsultationsController.checkConsultStatus(
-                          instantConsultationsController.consultationsCartList[index].idConsult.toString(),
-                          instantConsultationsController.consultationsCartList[index].consultStatus,
-                          "URGENT_CONSULT",
-                          context,
-                        );
-
-                        // if (instantConsultationsController
-                        //         .consultationsCartList[index].consultStatus !=
-                        //     "PENDING") {
-                        //   // ScaffoldMessenger.of(context).showSnackBar(
-                        //   //   SnackBar(
-                        //   //     duration: Duration(seconds: 2),
-                        //   //     backgroundColor: AppColors.MAIN_COLOR,
-                        //   //     content: Text(
-                        //   //       "تم حجز هذة الاستشارة بالفعل".tr,
-                        //   //     ),
-                        //   //   ),
-                        //   // );
-                        //   Get.toNamed(Routes.consultationsChatScreenScreen);
-                        // } else {
-                        //   instantConsultationsController
-                        //       .setConsultationsDoctorReservationTime(
-                        //     instantConsultationsController
-                        //         .consultationsCartList[index].idConsult
-                        //         .toString(),
-                        //   );
-                        // }
+                        if (termConsultationsController
+                                .consultationsCartList[index].consultStatus ==
+                            "PENDING_TIME") {
+                          termConsultationsController.setDataDoctorProfile(
+                            termConsultationsController
+                                .consultationsCartList[index].idConsult
+                                .toString(),
+                            "CONSULT",
+                          );
+                        }
+                        else if (termConsultationsController
+                            .consultationsCartList[index].consultStatus ==
+                            "ACCEPTED"||termConsultationsController
+                            .consultationsCartList[index].consultStatus ==
+                            "ONGOING"||termConsultationsController
+                            .consultationsCartList[index].consultStatus ==
+                            "ENDED"){
+                          termConsultationsController.checkConsultStatus(
+                            termConsultationsController.consultationsCartList[index].idConsult.toString(),
+                            termConsultationsController.consultationsCartList[index].consultStatus,
+                            "CONSULT",
+                            context,
+                          );
+                        }
                       },
                       child: Card(
                         margin: EdgeInsets.zero,
@@ -104,7 +94,7 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    instantConsultationsController
+                                    termConsultationsController
                                         .consultationsCartList[index]
                                         .consultStatus,
                                     style: TextStyle(
@@ -124,7 +114,7 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                                         radius: 20,
                                         backgroundColor: AppColors.MAIN_COLOR,
                                         backgroundImage: NetworkImage(
-                                          instantConsultationsController
+                                          termConsultationsController
                                                   .consultationsCartList[index]
                                                   .doctorPicture ??
                                               "",
@@ -141,9 +131,11 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                                           ),
                                           SizedBox(width: 5),
                                           Text(
-                                            instantConsultationsController
-                                                .consultationsCartList[index]
-                                                .doctorName??"",
+                                            termConsultationsController
+                                                    .consultationsCartList[
+                                                        index]
+                                                    .doctorName ??
+                                                "غير متاح حالياً",
                                             style: const TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
@@ -157,7 +149,7 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                        instantConsultationsController
+                                        termConsultationsController
                                             .consultationsCartList[index]
                                             .consultAmount
                                             .toString(),
@@ -179,7 +171,7 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(height: 8),
-                              if (instantConsultationsController
+                              if (termConsultationsController
                                       .consultationsCartList[index]
                                       .consultDate !=
                                   DateTime(0))
@@ -193,7 +185,7 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      "${DateFormat('yyyy-MM-dd , HH:mm').format(instantConsultationsController.consultationsCartList[index].consultDate!)}",
+                                      "${DateFormat('yyyy-MM-dd , HH:mm').format(termConsultationsController.consultationsCartList[index].consultDate!)}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,

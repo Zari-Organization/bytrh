@@ -47,6 +47,7 @@ class AreaScreen extends StatelessWidget {
             ),
             SizedBox(height: 16),
             ConsultationsDoctorsListWidget(),
+            SizedBox(height: 100),
           ],
         ),
       ),

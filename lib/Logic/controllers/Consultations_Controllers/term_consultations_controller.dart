@@ -16,12 +16,14 @@ import '../../../Models/Consultations_Models/consultations_doctor_reservation_ti
     as consultations_doctor_reservation_time_import;
 import '../../../Models/Consultations_Models/consultations_doctors_model.dart'
     as consultations_doctors_import;
+import '../../../Models/Consultations_Models/term_doctor_days_model.dart'
+    as term_doctor_days_import;
 import '../../../Models/Location_Models/areas_model.dart' as areas_import;
 import '../../../Routes/routes.dart';
 import '../../../Services/Consultations_Services/consultations_services.dart';
 import '../../../Utils/app_alerts.dart';
 
-class InstantConsultationsController extends GetxController
+class TermConsultationsController extends GetxController
     with GetTickerProviderStateMixin {
   late Rx<TabController> tabController =
       TabController(length: 2, vsync: this).obs;
@@ -35,6 +37,7 @@ class InstantConsultationsController extends GetxController
     selectedAreaValue.value = areasList[0].idArea.toString();
     selectedAnimalsCategoryValue.value =
         animalsCategoryList[0].idAnimalCategory.toString();
+    selectedDoctorProfileDayValue.value = doctorProfileDays[0].toString();
     await getConsultationsDoctors();
   }
 
@@ -42,8 +45,21 @@ class InstantConsultationsController extends GetxController
   var consultationsDoctorsList = <consultations_doctors_import.Response>[].obs;
   var defaultCity = ''.obs;
   var serviceKey = ''.obs;
-
   var areaTextFieldValue = ''.obs;
+
+  var doctorChecked = <int>[].obs;
+
+  checkSelectedDoctors(bool? value) {}
+
+  void onSelectedDoctor(bool selected, int dataName) {
+    if (selected == true) {
+      doctorChecked.add(dataName);
+      log(doctorChecked.toString());
+    } else {
+      doctorChecked.remove(dataName);
+      log(doctorChecked.toString());
+    }
+  }
 
   getConsultationsDoctors() async {
     var response = await ConsultationsServices.getConsultationsDoctors(
@@ -68,33 +84,33 @@ class InstantConsultationsController extends GetxController
   var consultationsDoctorProfileData =
       consultations_doctor_profile_import.Response().obs;
   var IDDoctor = ''.obs;
-  var doctorServiceKey = 'URGENT_CONSULT'.obs;
+  var IDDoctorConsult = ''.obs;
+  var doctorServiceKey = 'CONSULT'.obs;
 
   setDataDoctorProfile(String id, String serviceKey) async {
-    IDDoctor.value = id;
+    IDDoctorConsult.value = id;
     doctorServiceKey.value = serviceKey;
-    getConsultationsDoctorProfile();
-    await Get.toNamed(Routes.instantConsultationsDoctorProfileScreen);
+     getConsultationsDoctorProfile(IDDoctorConsult.value);
+    await Get.toNamed(Routes.termConsultationsDoctorProfileScreen);
   }
 
-  getConsultationsDoctorProfile() async {
+  getConsultationsDoctorProfile(String consultId) async {
     try {
       isLoadingConsultationsDoctorProfile(true);
-      var profileResponse =
-          await ConsultationsServices.getConsultationsDoctorProfile(
-        IDDoctor.value,
-        doctorServiceKey.value,
+      var profileResponse = await ConsultationsServices.getConsultationsDoctorProfile(
         "",
+        doctorServiceKey.value,
+        consultId,
       );
       if (profileResponse.success) {
         consultationsDoctorProfileData.value = profileResponse.response;
+        setDoctorProfileDays(consultationsDoctorProfileData.value.idDoctor, selectedDoctorProfileDayValue.value);
       }
     } finally {
       isLoadingConsultationsDoctorProfile(false);
     }
   }
 
-  var isLoadingCheckConsultStatusApi = false.obs;
   var idConsultFromCart = ''.obs;
 
   checkConsultStatus(String consultId, String consultStatus, String serviceKey,
@@ -108,6 +124,7 @@ class InstantConsultationsController extends GetxController
     );
   }
 
+  var isLoadingCheckConsultStatusApi = false.obs;
   var consultationsCartStatusData = consultations_doctor_profile_import.ConsultCountDown().obs;
 
   checkConsultStatusApi(
@@ -130,14 +147,6 @@ class InstantConsultationsController extends GetxController
           consultationsCartStatusData.value,
           consultStatus,
         );
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     duration: Duration(seconds: 2),
-        //     content: Text(
-        //       consultationsCartStatusData.value.minutes.toString(),
-        //     ),
-        //   ),
-        // );
       }
     } finally {
       isLoadingCheckConsultStatusApi(false);
@@ -216,10 +225,12 @@ class InstantConsultationsController extends GetxController
     try {
       isLoadingConsultationsCart(true);
       var response = await ConsultationsServices.getConsultationsCart(
-        ConsultType: "URGENT",
+        ConsultType: "NORMAL",
       );
+      log("Consultations Cart Controller --> ${response.response.length}");
       if (response.response.isNotEmpty) {
         consultationsCartList.value = response.response;
+        log("Consultations Cart Controller --> ${consultationsCartList.length}");
       }
     } finally {
       isLoadingConsultationsCart(false);
@@ -270,14 +281,20 @@ class InstantConsultationsController extends GetxController
     }
   }
 
+  var doctorHourId = ''.obs;
+  setDoctorConsultTime(String ConsultDate, BuildContext context){
+    selectDoctorConsultationTime(IDDoctorConsult.value,doctorHourId.value,ConsultDate,context);
+  }
+
   var isLoadingSelectConsultationTime = false.obs;
 
-  selectConsultationTime(BuildContext context) async {
+  selectDoctorConsultationTime(String IDConsult,String IDDoctorHour,String ConsultDate,BuildContext context) async {
     try {
       isLoadingSelectConsultationTime(true);
-      var response = await ConsultationsServices.selectConsultationTime(
-        IDConsult: idConsult.value,
-        IDConsultTimeValue: timeId.value,
+      var response = await ConsultationsServices.selectDoctorConsultationTime(
+        IDConsult: IDConsult,
+        IDDoctorHour:IDDoctorHour,
+        ConsultDate: ConsultDate,
       );
       if (response["Success"]) {
         AppAlerts().selectDoctorTimeCreatedSuccessfullyPop();
@@ -336,10 +353,84 @@ class InstantConsultationsController extends GetxController
       return await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
     } finally {
+      onInit();
       isLoadingLocation(false);
     }
   }
 
   var userLatitude = ''.obs;
   var userLongitude = ''.obs;
+
+  var selectedDoctorProfileDayValue = ''.obs;
+  var doctorProfileDays = [
+    "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+  ].obs;
+
+  var isLoadingConsultationsDoctorsDays = false.obs;
+  var consultationsDoctorsDaysList = <term_doctor_days_import.Response>[].obs;
+
+  getConsultationsDoctorsDays(String idDoctor) async {
+    try {
+      isLoadingConsultationsDoctorsDays(true);
+      var response = await ConsultationsServices.getConsultationsDoctorsDays(
+        IDDoctor: idDoctor,
+        Day: selectedDoctorProfileDayValue.value,
+      );
+      if (response.response.isNotEmpty) {
+        consultationsDoctorsDaysList.value = response.response;
+      } else {
+        consultationsDoctorsDaysList.clear();
+      }
+    } finally {
+      isLoadingConsultationsDoctorsDays(false);
+    }
+  }
+
+  setDoctorProfileDays(String idDoctor, String value) async {
+    selectedDoctorProfileDayValue.value = value;
+    getConsultationsDoctorsDays(idDoctor);
+  }
+
+  var isLoadingTermRequestConsult = false.obs;
+  termRequestConsult({
+    dynamic listDays,
+    required BuildContext context,
+  }) async {
+    try{
+      isLoadingTermRequestConsult(true);
+      var response = await ConsultationsServices().termRequestConsult(
+        listDays,
+      );
+      if (response["Success"]) {
+        getConsultationsCart();
+        await Get.toNamed(Routes.termConsultationsCartScreen);
+      }
+      else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    }finally{
+      isLoadingTermRequestConsult(false);
+    }
+  }
+
+  RxInt daySelectedIndex = (-1).obs;
+
+  void changeSelectedIndex(int selectedIndex , String idHour) {
+    daySelectedIndex.value = selectedIndex;
+    doctorHourId.value = idHour;
+  }
+
 }

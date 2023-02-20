@@ -28,6 +28,9 @@ dependencies:
   flutter_verification_code:
     git:
       url: https://github.com/Nader15/custom_flutter_verification_code.git
+  chat_package:
+    git:
+      url: https://github.com/Zari-Organization/chat_package.git
   google_sign_in: ^5.4.4
 #  flutter_facebook_auth: ^5.0.7
   url_launcher: ^6.0.20
@@ -38,7 +41,6 @@ dependencies:
   firebase_core: ^2.5.0
   dropdown_button2: ^1.9.2
   geolocator: ^9.0.2
-  chat_package: ^1.0.0
   firebase_messaging: ^14.1.2
   flutter_timer_countdown: ^1.0.5
 

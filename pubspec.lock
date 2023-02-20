@@ -68,10 +68,11 @@ packages:
   chat_package:
     dependency: "direct main"
     description:
-      name: chat_package
-      sha256: dc47eace23ccce3b5c0e977ac707a43010d7dd0a7d127e6e915fed5a4696d38a
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "11b65516848edc75ea973c07e2f115db2d19df7e"
+      url: "https://github.com/Zari-Organization/chat_package.git"
+    source: git
     version: "1.0.0"
   clock:
     dependency: transitive
