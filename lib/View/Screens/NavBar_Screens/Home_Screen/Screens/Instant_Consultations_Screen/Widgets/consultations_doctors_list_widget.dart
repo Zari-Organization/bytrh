@@ -18,10 +18,11 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
     return Obx(() {
       if (instantConsultationsController.isLoadingConsultationsDoctors.value) {
         return const CustomCircleProgress();
+      } else if (instantConsultationsController.consultationsDoctorsList.isEmpty) {
+        return const Center(child: Text("لايوجد اطباء متاحون ."),);
       } else {
         return ListView.separated(
-          itemCount:
-              instantConsultationsController.consultationsDoctorsList.length,
+          itemCount: instantConsultationsController.consultationsDoctorsList.length,
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           separatorBuilder: (BuildContext context, int index) =>
@@ -112,9 +113,7 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                   ),
                 );
               }
-              return Center(
-                child: Text("لا يوجد دكاترة"),
-              );
+              return SizedBox();
             });
           },
         );

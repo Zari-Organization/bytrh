@@ -16,7 +16,9 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
     return Obx(() {
       if (termConsultationsController.isLoadingConsultationsDoctors.value) {
         return const CustomCircleProgress();
-      } else {
+      } else if (termConsultationsController.consultationsDoctorsList.isEmpty) {
+        return const Center(child: Text("لايوجد اطباء متاحون ."),);
+      }else {
         return ListView.separated(
           itemCount:
               termConsultationsController.consultationsDoctorsList.length,
@@ -40,9 +42,7 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                           .areaTextFieldValue.value
                           .toLowerCase())) {
                 return InkWell(
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

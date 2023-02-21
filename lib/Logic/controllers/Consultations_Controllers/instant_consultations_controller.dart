@@ -46,18 +46,20 @@ class InstantConsultationsController extends GetxController
   var areaTextFieldValue = ''.obs;
 
   getConsultationsDoctors() async {
-    var response = await ConsultationsServices.getConsultationsDoctors(
-      service: doctorServiceKey.value,
-      DoctorName: areaTextFieldValue.value,
-      IDArea: selectedAreaValue.value,
-      IDAnimalCategory: selectedAnimalsCategoryValue.value,
-      ClientLatitude: userLatitude.value,
-      ClientLongitude: userLongitude.value,
-    );
     try {
       isLoadingConsultationsDoctors(true);
+      var response = await ConsultationsServices.getConsultationsDoctors(
+        service: doctorServiceKey.value,
+        DoctorName: areaTextFieldValue.value,
+        IDArea: selectedAreaValue.value,
+        IDAnimalCategory: selectedAnimalsCategoryValue.value,
+        ClientLatitude: userLatitude.value,
+        ClientLongitude: userLongitude.value,
+      );
       if (response.response.isNotEmpty) {
         consultationsDoctorsList.value = response.response;
+      }else{
+        consultationsDoctorsList.clear();
       }
     } finally {
       isLoadingConsultationsDoctors(false);
