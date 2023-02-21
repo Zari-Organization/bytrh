@@ -19,7 +19,7 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
       if (instantConsultationsController.isLoadingConsultationsDoctors.value) {
         return const CustomCircleProgress();
       } else if (instantConsultationsController.consultationsDoctorsList.isEmpty) {
-        return const Center(child: Text("لايوجد اطباء متاحون ."),);
+        return const Center(child: Text("لايوجد اطباء ."),);
       } else {
         return ListView.separated(
           itemCount: instantConsultationsController.consultationsDoctorsList.length,
@@ -44,12 +44,27 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                           .toLowerCase())) {
                 return InkWell(
                   onTap: () {
-                    instantConsultationsController.setDataDoctorProfile(
-                      instantConsultationsController
-                          .consultationsDoctorsList[index].idDoctor
-                          .toString(),
-                      "URGENT_CONSULT",
-                    );
+                    if(instantConsultationsController
+                        .consultationsDoctorsList[index]
+                        .doctorStatus !=
+                        "ACTIVE"){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: Duration(seconds: 2),
+                          content: Text(
+                            "الدكتور غير متاح حالياً",
+                          ),
+                        ),
+                      );
+                    }else{
+                      instantConsultationsController.setDataDoctorProfile(
+                        instantConsultationsController
+                            .consultationsDoctorsList[index].idDoctor
+                            .toString(),
+                        "URGENT_CONSULT",
+                      );
+                    }
+
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(

@@ -42,13 +42,12 @@ class InstantConsultationsScreen extends StatelessWidget {
                 if (index == 0) {
                   instantConsultationsController.userLatitude.value = '';
                   instantConsultationsController.userLongitude.value = '';
+                  instantConsultationsController.onInit();
                 } else {
-                  Position position = await instantConsultationsController
-                      .getGeoLocationPosition();
-                  instantConsultationsController.userLatitude.value =
-                      position.latitude.toString();
-                  instantConsultationsController.userLongitude.value =
-                      position.longitude.toString();
+                  instantConsultationsController.selectedAreaValue.value = "";
+                  Position position = await instantConsultationsController.getGeoLocationPosition();
+                  instantConsultationsController.userLatitude.value = position.latitude.toString();
+                  instantConsultationsController.userLongitude.value = position.longitude.toString();
                 }
               },
               tabs: [

@@ -339,6 +339,7 @@ class InstantConsultationsController extends GetxController
       return await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
     } finally {
+      onInit();
       isLoadingLocation(false);
     }
   }

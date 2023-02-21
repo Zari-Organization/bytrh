@@ -43,13 +43,12 @@ class TermConsultationsScreen extends StatelessWidget {
                 if (index == 0) {
                   termConsultationsController.userLatitude.value = '';
                   termConsultationsController.userLongitude.value = '';
+                  termConsultationsController.onInit();
                 } else {
-                  Position position = await termConsultationsController
-                      .getGeoLocationPosition();
-                  termConsultationsController.userLatitude.value =
-                      position.latitude.toString();
-                  termConsultationsController.userLongitude.value =
-                      position.longitude.toString();
+                  termConsultationsController.selectedAreaValue.value = "";
+                  Position position = await termConsultationsController.getGeoLocationPosition();
+                  termConsultationsController.userLatitude.value = position.latitude.toString();
+                  termConsultationsController.userLongitude.value = position.longitude.toString();
                 }
               },
               tabs: [
