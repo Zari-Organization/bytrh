@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../Models/about_us_model.dart'as about_us_import;
+import '../../../Models/about_us_model.dart' as about_us_import;
 import '../../../Routes/routes.dart';
 import '../../../Services/My_Account_Services/change_password_services.dart';
 import '../../../Services/My_Account_Services/my_account_services.dart';
@@ -46,8 +47,9 @@ class MyAccountController extends GetxController {
         );
         GetStorage authBox = GetStorage();
         authBox.remove('AccessToken');
-         final _googleSignIn = GoogleSignIn();
-        _googleSignIn.disconnect();
+        final _googleSignIn = GoogleSignIn();
+         _googleSignIn.disconnect();
+         FacebookAuth.instance.logOut();
         void _goNext() => Get.offAllNamed(Routes.loginScreen);
         Timer(const Duration(seconds: 1), _goNext);
       } else {
@@ -55,13 +57,16 @@ class MyAccountController extends GetxController {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: const Duration(seconds: 2),
-            content: Text(data["ApiMsg"].toString(),),
+            content: Text(
+              data["ApiMsg"].toString(),
+            ),
           ),
         );
         GetStorage authBox = GetStorage();
         authBox.remove('AccessToken');
         final _googleSignIn = GoogleSignIn();
         _googleSignIn.disconnect();
+        FacebookAuth.instance.logOut();
         void _goNext() => Get.offAllNamed(Routes.loginScreen);
         Timer(const Duration(seconds: 1), _goNext);
       }
@@ -69,6 +74,7 @@ class MyAccountController extends GetxController {
       isLoading(false);
     }
   }
+
   var aboutUsData = about_us_import.Response().obs;
 
   getAboutUs() async {
@@ -83,8 +89,8 @@ class MyAccountController extends GetxController {
     }
   }
 
-  Future<void> openMap(double? latitude, double? longitude,context) async {
-    if(latitude==null||longitude==null){
+  Future<void> openMap(double? latitude, double? longitude, context) async {
+    if (latitude == null || longitude == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.WHITE_COLOR,
@@ -95,12 +101,12 @@ class MyAccountController extends GetxController {
           ),
         ),
       );
-    }else{
+    } else {
       String googleUrl =
           'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
       if (await launch(googleUrl)) {
         await canLaunch(googleUrl);
-      }  else {
+      } else {
         throw 'Could not open the map.';
       }
     }
@@ -111,11 +117,11 @@ class MyAccountController extends GetxController {
       scheme: 'mailto',
       path: path,
     );
-    String  url = params.toString();
+    String url = params.toString();
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      print( 'Could not launch $url');
+      print('Could not launch $url');
     }
   }
 
@@ -125,11 +131,11 @@ class MyAccountController extends GetxController {
   var contactMssgController = TextEditingController().obs;
 
   sendToContactUs(
-      String UserName,
-      String Email,
-      String Message,
-      BuildContext context,
-      ) async {
+    String UserName,
+    String Email,
+    String Message,
+    BuildContext context,
+  ) async {
     try {
       isLoadingSendContactUs(true);
       var response = await MyAccountServices().sentToContactUs(
@@ -150,7 +156,7 @@ class MyAccountController extends GetxController {
         contactUserNameController.value.clear();
         contactEmailController.value.clear();
         contactMssgController.value.clear();
-      }else{
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             // backgroundColor: AppColors.GREEN_COLOR,
@@ -165,10 +171,11 @@ class MyAccountController extends GetxController {
       isLoadingSendContactUs(false);
     }
   }
-  void launchWhatsApp(
-      {required String phone,
-        required String message,
-      }) async {
+
+  void launchWhatsApp({
+    required String phone,
+    required String message,
+  }) async {
     String url() {
       if (Platform.isAndroid) {
         // add the [https]

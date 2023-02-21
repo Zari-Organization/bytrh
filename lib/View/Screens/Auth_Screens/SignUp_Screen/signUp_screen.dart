@@ -269,11 +269,13 @@ class SignUpScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // IconButton(
-                  //   onPressed: () {},
-                  //   icon: SvgPicture.asset(AppIcons.facebook_icon),
-                  //   padding: EdgeInsets.zero,
-                  // ),
+                  IconButton(
+                    onPressed: () {
+                      authController.facebookSignUp(context);
+                    },
+                    icon: SvgPicture.asset(AppIcons.facebook_icon),
+                    padding: EdgeInsets.zero,
+                  ),
                   // if(Platform.isIOS)
                   //   IconButton(
                   //     onPressed: () {},

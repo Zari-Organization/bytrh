@@ -177,15 +177,11 @@ class LoginScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // IconButton(
-                    //   onPressed: () async{
-                    //     // authController.facebookLogin();
-                    //     authController.facebookLogin2();
-                    //     // await FacebookAuth.instance.logOut();
-                    //   },
-                    //   icon: SvgPicture.asset(AppIcons.facebook_icon),
-                    //   padding: EdgeInsets.zero,
-                    // ),
+                    IconButton(
+                      onPressed: () => facebookSignIn(context),
+                      icon: SvgPicture.asset(AppIcons.facebook_icon),
+                      padding: EdgeInsets.zero,
+                    ),
                     if(Platform.isIOS)
                       IconButton(
                         onPressed: () {},
@@ -262,7 +258,8 @@ class LoginScreen extends StatelessWidget {
 
   Future googleSignIn(context) async {
     await authController.googleLogin(context);
-    // await authController.newGoogleLogin(context);
-    // await authController.signInwithGoogle();
+  }
+  Future facebookSignIn(context) async {
+    await authController.facebookLogin(context);
   }
 }

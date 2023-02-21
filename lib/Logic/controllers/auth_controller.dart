@@ -2,6 +2,7 @@ import 'package:bytrh/Logic/controllers/verification_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -226,6 +227,54 @@ class AuthController extends GetxController {
       // ],
       );
 
+  Future<UserCredential?> facebookLogin(BuildContext context) async {
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+    if (result.status == LoginStatus.success) {
+      final accessToken = result.accessToken;
+      log("userId --> ${accessToken!.userId}");
+      login(
+        accessToken.userId,
+        accessToken.userId,
+        "FACEBOOK",
+        "ar",
+        "ANDROID",
+        "GMS",
+        GetStorage().read('DeviceToken'),
+        context,
+      );
+    } else {
+      log(result.status.toString());
+      log(result.message.toString());
+    }
+  }
+
+  Future<UserCredential?> facebookSignUp(BuildContext context) async {
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+    if (result.status == LoginStatus.success) {
+      final accessToken = result.accessToken;
+      final userData = await FacebookAuth.instance.getUserData();
+      log("userId --> ${accessToken!.userId}");
+      log("userData --> ${userData["name"]}");
+      register(
+        "",
+        "",
+        "",
+        accessToken.userId,
+        userData["name"] ?? "",
+        "FACEBOOK",
+        "ar",
+        "ANDROID",
+        "GMS",
+        defaultCity.value,
+        context,
+      );
+    } else {
+      log(result.status.toString());
+      log(result.message.toString());
+    }
+  }
+
+
   Future<GoogleSignInAccount?> googleLogin(BuildContext context) async {
     var result = await _googleSignIn.signIn();
     log(result.toString());
@@ -326,6 +375,4 @@ class AuthController extends GetxController {
       isLoadingLocation(false);
     }
   }
-
-
 }
