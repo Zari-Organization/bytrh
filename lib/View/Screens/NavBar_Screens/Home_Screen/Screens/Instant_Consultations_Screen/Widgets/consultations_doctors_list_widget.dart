@@ -10,8 +10,8 @@ import '../../../../../../../Utils/app_colors.dart';
 
 class ConsultationsDoctorsListWidget extends StatelessWidget {
   ConsultationsDoctorsListWidget({Key? key}) : super(key: key);
-  final instantConsultationsController = Get.find<
-      InstantConsultationsController>();
+  final instantConsultationsController =
+      Get.find<InstantConsultationsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,26 +21,32 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
       } else {
         return ListView.separated(
           itemCount:
-          instantConsultationsController.consultationsDoctorsList.length,
+              instantConsultationsController.consultationsDoctorsList.length,
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           separatorBuilder: (BuildContext context, int index) =>
-          const SizedBox(height: 16),
+              const SizedBox(height: 16),
           itemBuilder: (BuildContext context, index) {
             return Obx(() {
-              if (instantConsultationsController.consultationsDoctorsList[index]
-                  .doctorName.toLowerCase()
-                  .startsWith(
-                  instantConsultationsController.areaTextFieldValue.value
-                      .toLowerCase())||instantConsultationsController.consultationsDoctorsList[index]
-                  .doctorPricing.toString().toLowerCase()
-                  .startsWith(
-                  instantConsultationsController.areaTextFieldValue.value
-                      .toLowerCase())) {
+              if (instantConsultationsController
+                      .consultationsDoctorsList[index].doctorName
+                      .toLowerCase()
+                      .startsWith(instantConsultationsController
+                          .areaTextFieldValue.value
+                          .toLowerCase()) ||
+                  instantConsultationsController
+                      .consultationsDoctorsList[index].doctorPricing
+                      .toString()
+                      .toLowerCase()
+                      .startsWith(instantConsultationsController
+                          .areaTextFieldValue.value
+                          .toLowerCase())) {
                 return InkWell(
                   onTap: () {
                     instantConsultationsController.setDataDoctorProfile(
-                      instantConsultationsController.consultationsDoctorsList[index].idDoctor.toString(),
+                      instantConsultationsController
+                          .consultationsDoctorsList[index].idDoctor
+                          .toString(),
                       "URGENT_CONSULT",
                     );
                   },
@@ -56,13 +62,33 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                         ),
                         // contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         tileColor: Color(0xffFAFAFA),
-                        leading: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: AppColors.MAIN_COLOR,
-                          backgroundImage: NetworkImage(
-                            instantConsultationsController
-                                .consultationsDoctorsList[index].doctorPicture,
-                          ),
+                        leading: Stack(
+                          alignment: AlignmentDirectional.bottomEnd,
+                          children: [
+                            CircleAvatar(
+                              radius: 25,
+                              backgroundColor: AppColors.MAIN_COLOR,
+                              backgroundImage: NetworkImage(
+                                instantConsultationsController
+                                    .consultationsDoctorsList[index]
+                                    .doctorPicture,
+                              ),
+                            ),
+                            CircleAvatar(
+                              radius: 8,
+                              backgroundColor: AppColors.WHITE_COLOR,
+                              child: Icon(
+                                size: 12,
+                                Icons.circle,
+                                color: instantConsultationsController
+                                            .consultationsDoctorsList[index]
+                                            .doctorStatus ==
+                                        "ACTIVE"
+                                    ? AppColors.GREEN_COLOR
+                                    : AppColors.RED_COLOR,
+                              ),
+                            ),
+                          ],
                         ),
                         title: Text(
                           instantConsultationsController
@@ -86,7 +112,9 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                   ),
                 );
               }
-              return Center(child: Text("لا يوجد دكاترة"),);
+              return Center(
+                child: Text("لا يوجد دكاترة"),
+              );
             });
           },
         );

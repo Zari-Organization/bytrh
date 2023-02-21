@@ -108,7 +108,8 @@ class InstantConsultationsController extends GetxController
     );
   }
 
-  var consultationsCartStatusData = consultations_doctor_profile_import.ConsultCountDown().obs;
+  var consultationsCartStatusData =
+      consultations_doctor_profile_import.ConsultCountDown().obs;
 
   checkConsultStatusApi(
     String cartConsultId,

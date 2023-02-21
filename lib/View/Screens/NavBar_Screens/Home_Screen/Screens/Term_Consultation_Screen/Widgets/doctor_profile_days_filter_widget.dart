@@ -107,8 +107,7 @@ class DoctorProfileDaysWidgetFilter extends StatelessWidget {
                                         .changeSelectedIndex(
                                       index,
                                       termConsultationsController
-                                          .consultationsDoctorsDaysList[index]
-                                          .doctorStartHour
+                                          .consultationsDoctorsDaysList[index].idDoctorHour
                                           .toString(),
                                     );
                                   },

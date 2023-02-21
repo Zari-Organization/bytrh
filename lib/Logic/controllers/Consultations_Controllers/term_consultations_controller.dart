@@ -237,11 +237,11 @@ class TermConsultationsController extends GetxController
     }
   }
 
-  setConsultationsDoctorReservationTime(String id) async {
-    idConsult.value = id;
-    getConsultationsDoctorReservationTime();
-    await Get.toNamed(Routes.instantsConsultationsDoctorReservationTimeScreen);
-  }
+  // setConsultationsDoctorReservationTime(String id) async {
+  //   idConsult.value = id;
+  //   getConsultationsDoctorReservationTime();
+  //   await Get.toNamed(Routes.instantsConsultationsDoctorReservationTimeScreen);
+  // }
 
   var isLoadingConsultationsDoctorReservationTime = false.obs;
   var consultationsDoctorReservationTimeData =
@@ -281,9 +281,18 @@ class TermConsultationsController extends GetxController
     }
   }
 
+
   var doctorHourId = ''.obs;
   setDoctorConsultTime(String ConsultDate, BuildContext context){
     selectDoctorConsultationTime(IDDoctorConsult.value,doctorHourId.value,ConsultDate,context);
+    log(doctorHourId.value);
+  }
+
+  RxInt daySelectedIndex = (-1).obs;
+
+  void changeSelectedIndex(int selectedIndex , String idHour) {
+    daySelectedIndex.value = selectedIndex;
+    doctorHourId.value = idHour;
   }
 
   var isLoadingSelectConsultationTime = false.obs;
@@ -426,11 +435,6 @@ class TermConsultationsController extends GetxController
     }
   }
 
-  RxInt daySelectedIndex = (-1).obs;
 
-  void changeSelectedIndex(int selectedIndex , String idHour) {
-    daySelectedIndex.value = selectedIndex;
-    doctorHourId.value = idHour;
-  }
 
 }

@@ -42,18 +42,21 @@ class Response {
     required this.idDoctor,
     required this.doctorName,
     required this.doctorPicture,
+    required this.doctorStatus,
     required this.doctorPricing,
   });
 
   int idDoctor;
   String doctorName;
   String doctorPicture;
+  String doctorStatus;
   int doctorPricing;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     idDoctor: json["IDDoctor"],
     doctorName: json["DoctorName"],
     doctorPicture: json["DoctorPicture"],
+    doctorStatus: json["DoctorStatus"],
     doctorPricing: json["DoctorPricing"],
   );
 
@@ -61,6 +64,7 @@ class Response {
     "IDDoctor": idDoctor,
     "DoctorName": doctorName,
     "DoctorPicture": doctorPicture,
+    "DoctorStatus": doctorStatus,
     "DoctorPricing": doctorPricing,
   };
 }

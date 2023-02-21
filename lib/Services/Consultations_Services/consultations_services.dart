@@ -188,7 +188,7 @@ class ConsultationsServices {
     var response = await http.post(
       Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/urgent/time'),
       body: {
-        'IDConsult': "1",
+        'IDConsult': IDConsult,
       },
       headers: {
         'Accept': 'application/json',
@@ -197,6 +197,7 @@ class ConsultationsServices {
     );
     var jsonData = response.body;
     var decodedData = jsonDecode(jsonData);
+    log("Consultations Doctor Reservation Time Api --> $decodedData");
     if (decodedData['Success']) {
       log("Consultations Doctor Reservation Time Api --> $decodedData");
       return consultationsDoctorReservationTimeModelFromJson(jsonData);

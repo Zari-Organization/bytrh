@@ -53,12 +53,19 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        instantConsultationsController.checkConsultStatus(
-                          instantConsultationsController.consultationsCartList[index].idConsult.toString(),
-                          instantConsultationsController.consultationsCartList[index].consultStatus,
-                          "URGENT_CONSULT",
-                          context,
-                        );
+                        if (instantConsultationsController
+                            .consultationsCartList[index].consultStatus ==
+                            "PENDING_TIME") {
+                          instantConsultationsController.setConsultationsDoctorReservationTime(instantConsultationsController
+                              .consultationsCartList[index].idConsult.toString());
+                        }else{
+                          instantConsultationsController.checkConsultStatus(
+                            instantConsultationsController.consultationsCartList[index].idConsult.toString(),
+                            instantConsultationsController.consultationsCartList[index].consultStatus,
+                            "URGENT_CONSULT",
+                            context,
+                          );
+                        }
 
                         // if (instantConsultationsController
                         //         .consultationsCartList[index].consultStatus !=

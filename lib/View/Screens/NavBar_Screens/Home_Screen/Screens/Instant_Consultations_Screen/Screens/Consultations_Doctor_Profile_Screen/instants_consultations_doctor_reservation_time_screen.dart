@@ -248,12 +248,14 @@ class InstantsConsultationsDoctorReservationTimeScreen extends StatelessWidget {
                                   },
                                   activeColor: AppColors.MAIN_COLOR,
                                 ),
-                                title: Text(
-                                  instantConsultationsController
+                                title: Text(instantConsultationsController
+                                    .consultationsDoctorReservationTimeList[
+                                index]
+                                    .consultTimeValue==0?"الآن":
+                                  " في خلال ${instantConsultationsController
                                       .consultationsDoctorReservationTimeList[
-                                          index]
-                                      .consultTimeValue
-                                      .toString(),
+                                  index]
+                                      .consultTimeValue} دقيقة ",
                                 ),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
