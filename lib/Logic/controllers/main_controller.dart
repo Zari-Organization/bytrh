@@ -5,7 +5,7 @@ import '../../View/Screens/NavBar_Screens/Auction_Screen/auction_screen.dart';
 import '../../View/Screens/NavBar_Screens/Home_Screen/home_screen.dart';
 import '../../View/Screens/NavBar_Screens/My_Account_Screen/my_account_screen.dart';
 import '../../View/Screens/NavBar_Screens/Products_Screen/products_screen.dart';
-
+import 'package:timezone/data/latest.dart' as tz;
 
 class MainController extends GetxController {
   RxInt currentIndex = 0.obs;
@@ -20,5 +20,6 @@ class MainController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    tz.initializeTimeZones();
   }
 }

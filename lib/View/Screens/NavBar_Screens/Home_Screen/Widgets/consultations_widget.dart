@@ -7,6 +7,7 @@ import 'dart:developer';
 
 import '../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import '../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
+import '../../../../../Notifications/local_notifications.dart';
 import '../../../../../Utils/app_colors.dart';
 import '../../../../../Utils/app_icons.dart';
 import 'package:geolocator/geolocator.dart';

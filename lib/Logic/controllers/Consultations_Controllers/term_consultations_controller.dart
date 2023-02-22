@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
+import 'package:intl/intl.dart';
 import '../../../Models/Consultations_Models/animals_category_model.dart'
     as animals_category_import;
 import '../../../Models/Consultations_Models/consultations_cart_model.dart'
@@ -35,9 +35,9 @@ class TermConsultationsController extends GetxController
     await getAreas();
     await getAnimalsCategory();
     selectedAreaValue.value = areasList[0].idArea.toString();
-    selectedAnimalsCategoryValue.value =
-        animalsCategoryList[0].idAnimalCategory.toString();
-    selectedDoctorProfileDayValue.value = doctorProfileDays[0].toString();
+    selectedAnimalsCategoryValue.value = animalsCategoryList[0].idAnimalCategory.toString();
+    selectedDoctorDay.value = DateFormat('EEEE').format(DateTime.now()).toUpperCase();
+    selectedDoctorDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
     await getConsultationsDoctors();
   }
 
@@ -107,7 +107,8 @@ class TermConsultationsController extends GetxController
       );
       if (profileResponse.success) {
         consultationsDoctorProfileData.value = profileResponse.response;
-        setDoctorProfileDays(consultationsDoctorProfileData.value.idDoctor, selectedDoctorProfileDayValue.value);
+        log("Hi -2");
+        setDoctorProfileDays(consultationsDoctorProfileData.value.idDoctor.toString());
       }
     } finally {
       isLoadingConsultationsDoctorProfile(false);
@@ -373,16 +374,23 @@ class TermConsultationsController extends GetxController
   var userLatitude = ''.obs;
   var userLongitude = ''.obs;
 
-  var selectedDoctorProfileDayValue = ''.obs;
-  var doctorProfileDays = [
-    "Saturday",
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-  ].obs;
+  var selectedDoctorDay = ''.obs;
+  var selectedDoctorDate = ''.obs;
+
+  // var selectedDoctorProfileDayValue = ''.obs;
+  // var doctorProfileDays = [
+  //   "Saturday",
+  //   "Sunday",
+  //   "Monday",
+  //   "Tuesday",
+  //   "Wednesday",
+  //   "Thursday",
+  //   "Friday",
+  // ].obs;
+
+  setDoctorProfileDays(String idDoctor) async {
+    getConsultationsDoctorsDays(idDoctor);
+  }
 
   var isLoadingConsultationsDoctorsDays = false.obs;
   var consultationsDoctorsDaysList = <term_doctor_days_import.Response>[].obs;
@@ -392,9 +400,11 @@ class TermConsultationsController extends GetxController
       isLoadingConsultationsDoctorsDays(true);
       var response = await ConsultationsServices.getConsultationsDoctorsDays(
         IDDoctor: idDoctor,
-        Day: selectedDoctorProfileDayValue.value,
+        Day: selectedDoctorDay.value,
+        Date: selectedDoctorDate.value,
       );
       if (response.response.isNotEmpty) {
+        consultationsDoctorsDaysList.clear();
         consultationsDoctorsDaysList.value = response.response;
       } else {
         consultationsDoctorsDaysList.clear();
@@ -402,11 +412,6 @@ class TermConsultationsController extends GetxController
     } finally {
       isLoadingConsultationsDoctorsDays(false);
     }
-  }
-
-  setDoctorProfileDays(String idDoctor, String value) async {
-    selectedDoctorProfileDayValue.value = value;
-    getConsultationsDoctorsDays(idDoctor);
   }
 
   var isLoadingTermRequestConsult = false.obs;

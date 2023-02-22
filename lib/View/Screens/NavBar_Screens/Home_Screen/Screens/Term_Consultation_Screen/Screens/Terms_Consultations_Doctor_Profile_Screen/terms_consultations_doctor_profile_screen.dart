@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bytrh/Utils/app_alerts.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -12,6 +14,7 @@ import '../../../../../../../../Routes/routes.dart';
 import '../../../../../../../../Utils/app_colors.dart';
 import '../../../../../../../Widgets/custom_circle_progress.dart';
 import '../../Widgets/doctor_profile_days_filter_widget.dart';
+import 'Widgets/reservation_day_picker.dart';
 
 class TermConsultationsDoctorProfileScreen extends StatelessWidget {
   TermConsultationsDoctorProfileScreen({Key? key}) : super(key: key);
@@ -58,7 +61,8 @@ class TermConsultationsDoctorProfileScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  termConsultationsController.setDoctorConsultTime(DateFormat('yyyy-MM-dd').format(DateTime.now()),context);
+                  termConsultationsController.setDoctorConsultTime(
+                      DateFormat('yyyy-MM-dd').format(DateTime.now()), context);
                   // termConsultationsController.requestConsultation(
                   //   termConsultationsController
                   //       .consultationsDoctorProfileData.value.idDoctor
@@ -233,6 +237,10 @@ class TermConsultationsDoctorProfileScreen extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
+                if(termConsultationsController
+                    .consultationsDoctorProfileData
+                    .value
+                    .doctorBiography!=null)
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -256,7 +264,8 @@ class TermConsultationsDoctorProfileScreen extends StatelessWidget {
                           termConsultationsController
                                   .consultationsDoctorProfileData
                                   .value
-                                  .doctorBiography ?? "",
+                                  .doctorBiography ??
+                              "",
                           style: TextStyle(color: AppColors.GREY_COLOR),
                         ),
                       ),

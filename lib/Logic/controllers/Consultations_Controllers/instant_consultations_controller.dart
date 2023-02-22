@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,6 @@ class InstantConsultationsController extends GetxController
     with GetTickerProviderStateMixin {
   late Rx<TabController> tabController =
       TabController(length: 2, vsync: this).obs;
-
   @override
   void onInit() async {
     super.onInit();

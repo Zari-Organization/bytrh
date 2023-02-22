@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.13"
+  args:
+    dependency: transitive
+    description:
+      name: args
+      sha256: "4cab82a83ffef80b262ddedf47a0a8e56ee6fbf7fe21e6e768b02792034dd440"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
   async:
     dependency: transitive
     description:
@@ -122,6 +130,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dbus:
+    dependency: transitive
+    description:
+      name: dbus
+      sha256: "6f07cba3f7b3448d42d015bfd3d53fe12e5b36da2423f23838efc1d5fb31a263"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.8"
   dio:
     dependency: "direct main"
     description:
@@ -146,6 +162,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.2"
+  easy_refresh:
+    dependency: "direct main"
+    description:
+      name: easy_refresh
+      sha256: "4bf1e3bea60ca21ece286fcde16cdd64bdb7383b4901422a683404f77708c644"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.1"
   facebook_auth_desktop:
     dependency: transitive
     description:
@@ -311,6 +335,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  flutter_local_notifications:
+    dependency: "direct main"
+    description:
+      name: flutter_local_notifications
+      sha256: f222919a34545931e47b06000836b5101baeffb0e6eb5a4691d2d42851740dd9
+      url: "https://pub.dev"
+    source: hosted
+    version: "12.0.4"
+  flutter_local_notifications_linux:
+    dependency: transitive
+    description:
+      name: flutter_local_notifications_linux
+      sha256: "3c6d6db334f609a92be0c0915f40871ec56f5d2adf01e77ae364162c587c0ca8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  flutter_local_notifications_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_local_notifications_platform_interface
+      sha256: "5ec1feac5f7f7d9266759488bc5f76416152baba9aa1b26fe572246caa00d1ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -1005,6 +1053,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  timezone:
+    dependency: transitive
+    description:
+      name: timezone
+      sha256: "24c8fcdd49a805d95777a39064862133ff816ebfffe0ceff110fb5960e557964"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.1"
   typed_data:
     dependency: transitive
     description:

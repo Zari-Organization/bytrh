@@ -7,7 +7,11 @@ import 'package:chat_package/models/media/media_type.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import '../Logic/controllers/Chat_Controllers/chat_controllers.dart';
+import '../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
+import '../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
+import '../Routes/routes.dart';
 import '../Utils/app_alerts.dart';
+import 'local_notifications.dart';
 
 // Background message
 Future<NotificationsModel?> backgroundHandler(RemoteMessage message) async {
@@ -34,8 +38,12 @@ Future<void> onNotificationClickHandler() async {
 }
 
 // Handling On Click Notification
-void handlingOnClickNotification(NotificationsModel value) {
-  log(value.screen);
+void handlingOnClickNotification(NotificationsModel value) async{
+  if (value.screen == "/consultChatScreen" ) {
+    final consultationsChatController = Get.find<ConsultationsChatController>();
+    await consultationsChatController.getConsultationsChatDetails(value.idData.toString());
+    Get.toNamed(Routes.consultationsChatScreenScreen);
+  }
 }
 
 // On Background Notification Click
@@ -77,6 +85,54 @@ void handlingOnRefreshScreens(RemoteMessage message)async {
     if (message.data['Screen'] == "/consultChatScreen") {
       final consultationsChatController = Get.find<ConsultationsChatController>();
       consultationsChatController.receiveMessageFromChatAdmin(message.data['DataType'],message.data['Message']);
+    }
+    if (message.data['Screen'] == "/urgentactivechatScreen") {
+      Get.put(TermConsultationsController());
+      final termConsultationsController = Get.find<TermConsultationsController>();
+      await termConsultationsController.getConsultationsCart();
+      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
+      // Get.toNamed(Routes.consultationsChatScreenScreen);
+    }
+    if (message.data['Screen'] == "/activechatScreen") {
+      Get.put(InstantConsultationsController());
+      final instantConsultationsController = Get.find<InstantConsultationsController>();
+      await instantConsultationsController.getConsultationsCart();
+      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
+      // Get.toNamed(Routes.consultationsChatScreenScreen);
+    }
+    if (message.data['Screen'] == "/urgentScreen") {
+      Get.put(InstantConsultationsController());
+      final instantConsultationsController = Get.find<InstantConsultationsController>();
+      await instantConsultationsController.getConsultationsCart();
+      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
+      // Get.toNamed(Routes.consultationsChatScreenScreen);
+    }
+    if (message.data['Screen'] == "/urgenttimeScreen") {
+      Get.put(InstantConsultationsController());
+      final instantConsultationsController = Get.find<InstantConsultationsController>();
+      await instantConsultationsController.getConsultationsCart();
+      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
+      // Get.toNamed(Routes.consultationsChatScreenScreen);
+    }
+    if (message.data['Screen'] == "/normaltimeScreen") {
+      Get.put(TermConsultationsController());
+      final termConsultationsController = Get.find<TermConsultationsController>();
+      await termConsultationsController.getConsultationsCart();
+      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
+      // Get.toNamed(Routes.consultationsChatScreenScreen);
+    }
+    if (message.data['Screen'] == "/normalconsultScreen") {
+      Get.put(TermConsultationsController());
+      final termConsultationsController = Get.find<TermConsultationsController>();
+      await termConsultationsController.getConsultationsCart();
+      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
+      // Get.toNamed(Routes.consultationsChatScreenScreen);
     }
   }catch(e){
     log(e.toString());

@@ -369,8 +369,7 @@ class AppAlerts {
                 ),
                 onPressed: () async {
                   // Get.back();
-                  await consultationsChatController
-                      .getConsultationsChatDetails(consultId);
+                  await consultationsChatController.getConsultationsChatDetails(consultId);
                   Get.toNamed(Routes.consultationsChatScreenScreen);
                 },
                 child: Obx(

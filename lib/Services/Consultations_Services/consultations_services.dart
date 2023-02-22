@@ -53,12 +53,14 @@ class ConsultationsServices {
   static Future<TermDoctorDaysModel> getConsultationsDoctorsDays({
     required String IDDoctor,
     required String Day,
+    required String Date,
   }) async {
     var response = await http.post(
       Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/doctor/appointments'),
       body: {
         'IDDoctor': IDDoctor,
         'Day': Day,
+        'ConsultDate': Date,
       },
       headers: {
         'Accept': 'application/json',

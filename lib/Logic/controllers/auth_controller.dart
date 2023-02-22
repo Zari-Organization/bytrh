@@ -16,7 +16,7 @@ import '../../Utils/app_colors.dart';
 import 'dart:developer';
 
 import 'My_Account_Controllers/personal_data_controller.dart';
-
+import 'package:timezone/data/latest.dart' as tz;
 class AuthController extends GetxController {
   final personalDataController = Get.find<PersonalDataController>();
 
@@ -34,6 +34,7 @@ class AuthController extends GetxController {
     await setClientCity();
     await getCities();
     getTerms();
+    tz.initializeTimeZones();
   }
 
   var isLogInLoading = false.obs;
