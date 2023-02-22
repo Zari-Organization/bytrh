@@ -11,14 +11,13 @@ import '../../../../Widgets/auth_button.dart';
 import '../../../../Widgets/custom_circle_progress.dart';
 import '../../../../Widgets/titled_textField.dart';
 
-
 class ChangePasswordScreen extends StatelessWidget {
   ChangePasswordScreen({Key? key}) : super(key: key);
   final changePasswordController = Get.find<ChangePasswordController>();
 
   @override
   Widget build(BuildContext context) {
-    return Obx((){
+    return Obx(() {
       return Scaffold(
         backgroundColor: AppColors.WHITE_COLOR,
         appBar: AppBar(
@@ -38,14 +37,15 @@ class ChangePasswordScreen extends StatelessWidget {
                 const SizedBox(height: 50),
                 TitledTextField(
                   obscureText: changePasswordController.isSecureOldPass.value,
-                  controller: changePasswordController.oldPasswordController.value,
+                  controller:
+                      changePasswordController.oldPasswordController.value,
                   title: "Old_Password".tr,
                   hintText: "كلمة المرور........",
                   suffixIcon: IconButton(
                     splashRadius: 20,
                     onPressed: () {
                       changePasswordController.isSecureOldPass.value =
-                      !changePasswordController.isSecureOldPass.value;
+                          !changePasswordController.isSecureOldPass.value;
                     },
                     icon: SvgPicture.asset(
                       changePasswordController.isSecureOldPass.value
@@ -56,29 +56,37 @@ class ChangePasswordScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                TitledTextField(
-                  obscureText: changePasswordController.isSecureNewPass.value,
-                  controller: changePasswordController.newPasswordController.value,
-                  title: "New_Password".tr,
-                  hintText: "كلمة المرور........",
-                  suffixIcon: IconButton(
-                    splashRadius: 20,
-                    onPressed: () {
-                      changePasswordController.isSecureNewPass.value =
-                      !changePasswordController.isSecureNewPass.value;
-                    },
-                    icon: SvgPicture.asset(
-                      changePasswordController.isSecureNewPass.value
-                          ? AppIcons.hide_pass_icon
-                          : AppIcons.show_pass_icon,
-                      color: AppColors.GREY_COLOR,
+                Form(
+                  autovalidateMode: AutovalidateMode.always,
+                  child: TitledTextField(
+                    validator: validatePassword,
+                    obscureText: changePasswordController.isSecureNewPass.value,
+                    controller:
+                        changePasswordController.newPasswordController.value,
+                    title: "New_Password".tr,
+                    hintText: "كلمة المرور........",
+                    suffixIcon: IconButton(
+                      splashRadius: 20,
+                      onPressed: () {
+                        changePasswordController.isSecureNewPass.value =
+                            !changePasswordController.isSecureNewPass.value;
+                      },
+                      icon: SvgPicture.asset(
+                        changePasswordController.isSecureNewPass.value
+                            ? AppIcons.hide_pass_icon
+                            : AppIcons.show_pass_icon,
+                        color: AppColors.GREY_COLOR,
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
-                TitledTextField(
-                  obscureText: changePasswordController.isSecureConfirmPass.value,
-                  controller: changePasswordController.confirmNewPasswordController.value,
+                Form(autovalidateMode: AutovalidateMode.always,child: TitledTextField(
+                  validator: validatePassword,
+                  obscureText:
+                  changePasswordController.isSecureConfirmPass.value,
+                  controller: changePasswordController
+                      .confirmNewPasswordController.value,
                   title: "Confirm_Password".tr,
                   hintText: "كلمة المرور........",
                   suffixIcon: IconButton(
@@ -94,9 +102,8 @@ class ChangePasswordScreen extends StatelessWidget {
                       color: AppColors.GREY_COLOR,
                     ),
                   ),
-                ),
+                ),),
                 const SizedBox(height: 50),
-
                 ConditionalBuilder(
                   condition: !changePasswordController.isLoading.value,
                   builder: (context) => SizedBox(
@@ -121,13 +128,12 @@ class ChangePasswordScreen extends StatelessWidget {
       );
     });
   }
+
   handleLoginRequest(BuildContext context) {
-    if (changePasswordController
-        .oldPasswordController.value.text.isEmpty ||
+    if (changePasswordController.oldPasswordController.value.text.isEmpty ||
+        changePasswordController.newPasswordController.value.text.isEmpty ||
         changePasswordController
-            .newPasswordController.value.text.isEmpty ||
-        changePasswordController.confirmNewPasswordController.value
-            .text.isEmpty) {
+            .confirmNewPasswordController.value.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           duration: const Duration(seconds: 2),
@@ -145,4 +151,15 @@ class ChangePasswordScreen extends StatelessWidget {
       );
     }
   }
+
+  String? validatePassword(String? value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{5,}$';
+    final regex = RegExp(pattern);
+
+    return value!.isNotEmpty && !regex.hasMatch(value)
+        ? 'Use upper,lower,number and Special character'
+        : null;
+  }
+
 }

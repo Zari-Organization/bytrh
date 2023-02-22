@@ -321,11 +321,13 @@ class AppAlerts {
                             ? "لم يتم قبول الإستشارة بعد"
                             : consultStatus == "ENDED"
                                 ? "تم إنتهاء وقت الإستشارة"
-                                : "",
+                                : consultStatus == "REJECTED"
+                                    ? "تم رفض الاستشارة من قبل الطبيب"
+                                    : "",
                 style: const TextStyle(color: AppColors.MAIN_COLOR),
               ),
               SizedBox(height: 20),
-              consultStatus == "PENDING" || consultStatus == "ENDED"
+              consultStatus == "PENDING" || consultStatus == "ENDED"|| consultStatus == "REJECTED"
                   ? SizedBox()
                   : TimerCountdown(
                       format: CountDownTimerFormat.daysHoursMinutes,

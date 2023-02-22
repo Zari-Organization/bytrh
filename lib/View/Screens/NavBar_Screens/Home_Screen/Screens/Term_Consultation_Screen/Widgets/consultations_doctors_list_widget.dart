@@ -17,7 +17,7 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
       if (termConsultationsController.isLoadingConsultationsDoctors.value) {
         return const CustomCircleProgress();
       } else if (termConsultationsController.consultationsDoctorsList.isEmpty) {
-        return const Center(child: Text("لايوجد اطباء متاحون ."),);
+        return const Center(child: Text("لايوجد اطباء ."),);
       }else {
         return ListView.separated(
           itemCount:

@@ -149,10 +149,11 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               Obx(
-                () => TitledTextField(
+                () => Form(autovalidateMode: AutovalidateMode.always,child: TitledTextField(
+                  validator: validatePassword,
                   obscureText: authController.isSecureRegisterPass.value,
                   controller:
-                      authController.registerClientPasswordController.value,
+                  authController.registerClientPasswordController.value,
                   title: "كلمة المرور",
                   hintText: "كلمة المرور........",
                   fillColor: AppColors.GREY_Light_COLOR,
@@ -160,7 +161,7 @@ class SignUpScreen extends StatelessWidget {
                     splashRadius: 20,
                     onPressed: () {
                       authController.isSecureRegisterPass.value =
-                          !authController.isSecureRegisterPass.value;
+                      !authController.isSecureRegisterPass.value;
                     },
                     icon: SvgPicture.asset(
                       authController.isSecureRegisterPass.value
@@ -171,10 +172,11 @@ class SignUpScreen extends StatelessWidget {
                     color: AppColors.GREY_COLOR,
                   ),
                   // controller: profileController.brandNameEnController.value,
-                ),
+                ),)
               ),
               Obx(
-                () => TitledTextField(
+                () => Form(autovalidateMode: AutovalidateMode.always,child: TitledTextField(
+                  validator: validatePassword,
                   obscureText: authController.isSecureRegisterConfirmPass.value,
                   controller: authController
                       .registerClientPasswordConfirmController.value,
@@ -185,7 +187,7 @@ class SignUpScreen extends StatelessWidget {
                     splashRadius: 20,
                     onPressed: () {
                       authController.isSecureRegisterConfirmPass.value =
-                          !authController.isSecureRegisterConfirmPass.value;
+                      !authController.isSecureRegisterConfirmPass.value;
                     },
                     icon: SvgPicture.asset(
                       authController.isSecureRegisterConfirmPass.value
@@ -195,7 +197,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     color: AppColors.GREY_COLOR,
                   ),
-                ),
+                ),),
               ),
               Obx(
                 () => Row(
@@ -269,13 +271,13 @@ class SignUpScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      authController.facebookSignUp(context);
-                    },
-                    icon: SvgPicture.asset(AppIcons.facebook_icon),
-                    padding: EdgeInsets.zero,
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     authController.facebookSignUp(context);
+                  //   },
+                  //   icon: SvgPicture.asset(AppIcons.facebook_icon),
+                  //   padding: EdgeInsets.zero,
+                  // ),
                   // if(Platform.isIOS)
                   //   IconButton(
                   //     onPressed: () {},
@@ -390,7 +392,7 @@ class SignUpScreen extends StatelessWidget {
         authController.registerClientNameController.value.text,
         "MANUAL",
         "ar",
-        "ANDROID",
+        Platform.isAndroid ? "ANDROID" : "IOS",
         "GMS",
         authController.cityID.value == ""
             ? authController.defaultCity.value
@@ -413,6 +415,15 @@ class SignUpScreen extends StatelessWidget {
 
     return value!.isNotEmpty && !regex.hasMatch(value)
         ? 'من فضلك ادخل البريد الالكتروني صحيح'
+        : null;
+  }
+  String? validatePassword(String? value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{5,}$';
+    final regex = RegExp(pattern);
+
+    return value!.isNotEmpty && !regex.hasMatch(value)
+        ? 'Use upper,lower,number and Special character'
         : null;
   }
 }

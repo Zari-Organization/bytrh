@@ -50,7 +50,7 @@ class AreaScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 30),
                 Text(
-                  "الأطباء المتاحون الآن",
+                  "الأطباء :",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 SizedBox(height: 16),

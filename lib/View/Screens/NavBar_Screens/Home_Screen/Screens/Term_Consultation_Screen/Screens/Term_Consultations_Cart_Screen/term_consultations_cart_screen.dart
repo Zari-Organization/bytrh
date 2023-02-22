@@ -63,7 +63,9 @@ class TermConsultationsCartScreen extends StatelessWidget {
                             .consultationsCartList[index].consultStatus ==
                             "ONGOING"||termConsultationsController
                             .consultationsCartList[index].consultStatus ==
-                            "ENDED"){
+                            "ENDED"||termConsultationsController
+                            .consultationsCartList[index].consultStatus ==
+                            "REJECTED"){
                           termConsultationsController.checkConsultStatus(
                             termConsultationsController.consultationsCartList[index].idConsult.toString(),
                             termConsultationsController.consultationsCartList[index].consultStatus,

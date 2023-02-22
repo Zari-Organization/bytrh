@@ -177,11 +177,11 @@ class LoginScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                      onPressed: () => facebookSignIn(context),
-                      icon: SvgPicture.asset(AppIcons.facebook_icon),
-                      padding: EdgeInsets.zero,
-                    ),
+                    // IconButton(
+                    //   onPressed: () => facebookSignIn(context),
+                    //   icon: SvgPicture.asset(AppIcons.facebook_icon),
+                    //   padding: EdgeInsets.zero,
+                    // ),
                     if(Platform.isIOS)
                       IconButton(
                         onPressed: () {},
@@ -248,7 +248,7 @@ class LoginScreen extends StatelessWidget {
         authController.loginPasswordController.value.text,
         "MANUAL",
         "ar",
-        "ANDROID",
+        Platform.isAndroid ? "ANDROID" : "IOS",
         "GMS",
         GetStorage().read('DeviceToken'),
         context,
