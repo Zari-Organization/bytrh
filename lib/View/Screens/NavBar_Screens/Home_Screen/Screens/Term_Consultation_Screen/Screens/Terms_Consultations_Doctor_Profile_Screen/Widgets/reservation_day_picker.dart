@@ -12,8 +12,8 @@ Future<void> selectReservationDay(BuildContext context) async {
   final termConsultationsController = Get.find<TermConsultationsController>();
   final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000, 1),
+      initialDate: selectedDate.subtract(Duration(days: 0)),
+      firstDate: selectedDate,
       lastDate: DateTime(2100),
       builder: (BuildContext context, Widget? child) {
         return Theme(
@@ -29,6 +29,8 @@ Future<void> selectReservationDay(BuildContext context) async {
     selectedDate = picked;
     termConsultationsController.selectedDoctorDay.value = DateFormat('EEEE').format(selectedDate).toUpperCase();
     termConsultationsController.selectedDoctorDate.value = DateFormat('yyyy-MM-dd').format(selectedDate);
+    termConsultationsController.selectedDoctorDayLocale.value = DateFormat.EEEE(Localizations.localeOf(context).languageCode).format(selectedDate).toUpperCase();
+    termConsultationsController.selectedDoctorDateLocale.value = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate);
     termConsultationsController.setDoctorProfileDays(
         termConsultationsController.consultationsDoctorProfileData.value.idDoctor.toString(),
     );

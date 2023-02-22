@@ -81,8 +81,8 @@ class DoctorProfileDaysWidgetFilter extends StatelessWidget {
                   style: TextStyle(color: AppColors.GREY_COLOR),
                 )
                     : Text("${termConsultationsController
-                    .selectedDoctorDate.value} , ${termConsultationsController
-                    .selectedDoctorDay.value} "),
+                    .selectedDoctorDateLocale.value} , ${termConsultationsController
+                    .selectedDoctorDayLocale.value} "),
                 trailing: Icon(Icons.arrow_drop_down_outlined),
               ),
               const SizedBox(height: 20),
