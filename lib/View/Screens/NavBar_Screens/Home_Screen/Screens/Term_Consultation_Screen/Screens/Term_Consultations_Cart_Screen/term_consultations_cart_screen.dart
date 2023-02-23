@@ -96,9 +96,9 @@ class TermConsultationsCartScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    termConsultationsController
+                                    getStatus(termConsultationsController
                                         .consultationsCartList[index]
-                                        .consultStatus,
+                                        .consultStatus),
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: AppColors.GREY_COLOR),
@@ -206,4 +206,24 @@ class TermConsultationsCartScreen extends StatelessWidget {
       }
     });
   }
+
+ String getStatus(status){
+    switch(status) {
+      case "ONGOING":
+        return "جارية";
+      case "PENDING":
+        return "معلقه";
+      case "PENDING_TIME":
+        return "في انتظار تحديد الوقت";
+      case "ACCEPTED":
+        return "تم قبول الإستشارة";
+      case "REJECTED":
+        return "تم رفض الإستشارة";
+      case "ENDED":
+        return "انتهت";
+      default:
+        return "";
+    }
+  }
+
 }
