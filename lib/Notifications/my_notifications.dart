@@ -70,7 +70,7 @@ Future<void> foregroundHandler() async {
     FirebaseMessaging.onMessage.listen(
           (RemoteMessage message) {
             log("Got a message from foregroundHandler --> ${message.data}");
-        NotificationsModel.fromJson(message.data);
+        // NotificationsModel.fromJson(message.data);
         handlingOnRefreshScreens(message);
       },
     );
@@ -85,6 +85,7 @@ void handlingOnRefreshScreens(RemoteMessage message)async {
     if (message.data['Screen'] == "/consultChatScreen") {
       final consultationsChatController = Get.find<ConsultationsChatController>();
       consultationsChatController.receiveMessageFromChatAdmin(message.data['DataType'],message.data['Message']);
+      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
     }
     if (message.data['Screen'] == "/urgentactivechatScreen") {
       Get.put(TermConsultationsController());
@@ -103,18 +104,26 @@ void handlingOnRefreshScreens(RemoteMessage message)async {
       // Get.toNamed(Routes.consultationsChatScreenScreen);
     }
     if (message.data['Screen'] == "/urgentScreen") {
-      Get.put(InstantConsultationsController());
-      final instantConsultationsController = Get.find<InstantConsultationsController>();
-      await instantConsultationsController.getConsultationsCart();
-      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      try{
+        Get.put(InstantConsultationsController());
+        final instantConsultationsController = Get.find<InstantConsultationsController>();
+        await instantConsultationsController.getConsultationsCart();
+        NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      }catch(e){
+        log(e.toString());
+      }
       // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
       // Get.toNamed(Routes.consultationsChatScreenScreen);
     }
     if (message.data['Screen'] == "/urgenttimeScreen") {
-      Get.put(InstantConsultationsController());
-      final instantConsultationsController = Get.find<InstantConsultationsController>();
-      await instantConsultationsController.getConsultationsCart();
-      NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      try{
+        Get.put(InstantConsultationsController());
+        final instantConsultationsController = Get.find<InstantConsultationsController>();
+        await instantConsultationsController.getConsultationsCart();
+        NotificationService().showNotification(1, "Bytrh", message.data['Message'].toString(), 5);
+      }catch(e){
+        log(e.toString());
+      }
       // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
       // Get.toNamed(Routes.consultationsChatScreenScreen);
     }

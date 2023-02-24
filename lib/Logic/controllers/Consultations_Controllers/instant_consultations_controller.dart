@@ -102,12 +102,16 @@ class InstantConsultationsController extends GetxController
   checkConsultStatus(String consultId, String consultStatus, String serviceKey,
       BuildContext context) async {
     idConsultFromCart.value = consultId;
-    checkConsultStatusApi(
+    AppAlerts().consultationsCountDownPop(
       idConsultFromCart.value,
       consultStatus,
-      serviceKey,
-      context,
     );
+    // checkConsultStatusApi(
+    //   idConsultFromCart.value,
+    //   consultStatus,
+    //   serviceKey,
+    //   context,
+    // );
   }
 
   var consultationsCartStatusData =
@@ -130,7 +134,7 @@ class InstantConsultationsController extends GetxController
         consultationsCartStatusData.value = response.response.consultCountDown!;
         AppAlerts().consultationsCountDownPop(
           idConsultFromCart.value,
-          consultationsCartStatusData.value,
+          // consultationsCartStatusData.value,
           consultStatus,
         );
         // ScaffoldMessenger.of(context).showSnackBar(

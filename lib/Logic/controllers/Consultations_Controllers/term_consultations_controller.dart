@@ -129,11 +129,9 @@ class TermConsultationsController extends GetxController
   checkConsultStatus(String consultId, String consultStatus, String serviceKey,
       BuildContext context) async {
     idConsultFromCart.value = consultId;
-    checkConsultStatusApi(
+    AppAlerts().consultationsCountDownPop(
       idConsultFromCart.value,
       consultStatus,
-      serviceKey,
-      context,
     );
   }
 
@@ -158,7 +156,7 @@ class TermConsultationsController extends GetxController
         consultationsCartStatusData.value = response.response.consultCountDown!;
         AppAlerts().consultationsCountDownPop(
           idConsultFromCart.value,
-          consultationsCartStatusData.value,
+          // consultationsCartStatusData.value,
           consultStatus,
         );
       }

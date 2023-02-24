@@ -49,6 +49,7 @@ class Response {
     required this.consultAmount,
     this.doctorName,
     this.doctorPicture,
+    this.consultCountDown,
   });
 
   int idConsult;
@@ -57,16 +58,18 @@ class Response {
   String consultStatus;
   String? doctorName;
   String? doctorPicture;
+  ConsultCountDown? consultCountDown;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         idConsult: json["IDConsult"],
         consultDate: json["ConsultDate"] == null
             ? DateTime(0)
             : DateTime.parse(json["ConsultDate"]),
-    consultAmount: json["ConsultAmount"],
+        consultAmount: json["ConsultAmount"],
         consultStatus: json["ConsultStatus"],
         doctorName: json["DoctorName"],
         doctorPicture: json["DoctorPicture"],
+        consultCountDown: ConsultCountDown.fromJson(json["ConsultCountDown"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -76,5 +79,31 @@ class Response {
         "ConsultStatus": consultStatus,
         "DoctorName": doctorName,
         "DoctorPicture": doctorPicture,
+        "ConsultCountDown": consultCountDown!.toJson(),
+      };
+}
+
+class ConsultCountDown {
+  ConsultCountDown({
+     this.days,
+     this.hours,
+     this.minutes,
+  });
+
+  final days;
+  final hours;
+  final minutes;
+
+  factory ConsultCountDown.fromJson(Map<String, dynamic> json) =>
+      ConsultCountDown(
+        days: json["Days"],
+        hours: json["Hours"],
+        minutes: json["Minutes"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "Days": days,
+        "Hours": hours,
+        "Minutes": minutes,
       };
 }

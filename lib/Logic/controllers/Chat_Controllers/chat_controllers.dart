@@ -69,6 +69,8 @@ class ConsultationsChatController extends GetxController {
   var consultationsChatDetailsList =
       <consultations_chat_messages_import.ChatDetail>[].obs;
 
+  var consultStatus = ''.obs;
+
   getConsultationsChatDetails(String idConsult) async {
     try {
       isLoadingConsultationsChatDetail(true);
@@ -80,7 +82,6 @@ class ConsultationsChatController extends GetxController {
         consultationsChatDetailsList.value = response.response.chatDetails!;
         messages.clear();
         await addApiMessagesToChatUi();
-        Get.back();
       }
     } finally {
       isLoadingConsultationsChatDetail(false);

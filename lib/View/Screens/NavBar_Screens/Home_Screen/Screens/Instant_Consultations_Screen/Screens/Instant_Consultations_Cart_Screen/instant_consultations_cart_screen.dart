@@ -5,9 +5,11 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:get/get.dart';
 import 'package:bytrh/Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import 'package:intl/intl.dart';
+import '../../../../../../../../Logic/controllers/Chat_Controllers/chat_controllers.dart';
 import '../../../../../../../../Routes/routes.dart';
 import '../../../../../../../../Utils/app_colors.dart';
 import '../../../../../../../Widgets/custom_circle_progress.dart';
@@ -16,6 +18,7 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
   InstantsConsultationsCartScreen({Key? key}) : super(key: key);
   final instantConsultationsController =
       Get.find<InstantConsultationsController>();
+  final consultationsChatController = Get.find<ConsultationsChatController>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +55,10 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                   separatorBuilder: (BuildContext context, int index) =>
                       const SizedBox(height: 16),
                   itemBuilder: (context, index) {
+                    var countDown = instantConsultationsController
+                        .consultationsCartList[index].consultCountDown!;
                     return InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (instantConsultationsController
                                 .consultationsCartList[index].consultStatus ==
                             "PENDING_TIME") {
@@ -63,15 +68,37 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                                       .consultationsCartList[index].idConsult
                                       .toString());
                         } else {
-                          instantConsultationsController.checkConsultStatus(
-                            instantConsultationsController
-                                .consultationsCartList[index].idConsult
-                                .toString(),
-                            instantConsultationsController
-                                .consultationsCartList[index].consultStatus,
-                            "URGENT_CONSULT",
-                            context,
-                          );
+                          if (instantConsultationsController
+                                  .consultationsCartList[index].consultStatus ==
+                              "ONGOING"||instantConsultationsController
+                              .consultationsCartList[index].consultStatus ==
+                              "ENDED") {
+                            consultationsChatController.consultStatus.value = instantConsultationsController
+                                .consultationsCartList[index].consultStatus;
+                            await consultationsChatController
+                                .getConsultationsChatDetails(
+                              instantConsultationsController
+                                  .consultationsCartList[index].idConsult
+                                  .toString(),
+                            );
+                            Get.toNamed(Routes.consultationsChatScreenScreen);
+                          }
+                          else if(instantConsultationsController
+                              .consultationsCartList[index].consultStatus ==
+                              "ACCEPTED"){
+                            null;
+                          }
+                          else{
+                            instantConsultationsController.checkConsultStatus(
+                              instantConsultationsController
+                                  .consultationsCartList[index].idConsult
+                                  .toString(),
+                              instantConsultationsController
+                                  .consultationsCartList[index].consultStatus,
+                              "URGENT_CONSULT",
+                              context,
+                            );
+                          }
                         }
 
                         // if (instantConsultationsController
@@ -209,12 +236,60 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      "${DateFormat('yyyy-MM-dd , HH:mm').format(instantConsultationsController.consultationsCartList[index].consultDate!)}",
+                                      "${DateFormat.jm(Localizations.localeOf(context).languageCode).format(instantConsultationsController.consultationsCartList[index].consultDate!)}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
+                                    SizedBox(width: 5),
+                                    Text("-"),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      "${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).format(instantConsultationsController.consultationsCartList[index].consultDate!)}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              SizedBox(height: 8),
+                              if (instantConsultationsController
+                                      .consultationsCartList[index]
+                                      .consultCountDown!
+                                      .minutes != null)
+                                Row(
+                                  children: [
+                                    Text(
+                                      getCountDownTitle(
+                                          instantConsultationsController
+                                              .consultationsCartList[index]
+                                              .consultStatus),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: AppColors.GREY_COLOR),
+                                    ),
+                                    SizedBox(width: 5),
+                                    countDown.days != 0
+                                        ? Text("${countDown.days} يوم",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold))
+                                        : Text(""),
+                                    countDown.hours != 0
+                                        ? Text("${countDown.hours} ساعة",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold))
+                                        : Text(""),
+                                    countDown.minutes != 0
+                                        ? Text(
+                                            "${countDown.minutes} دقيقة",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        : Text("اقل من دقيقة",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
                                   ],
                                 )
                             ],
@@ -251,6 +326,17 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
         return " تم التخطي من قبل الدكتور";
       case "CANCELLED":
         return " تم الغاء الاستشارة";
+      default:
+        return "";
+    }
+  }
+
+  String getCountDownTitle(status) {
+    switch (status) {
+      case "ACCEPTED":
+        return "ستبدأ المحادثة بعد :";
+      case "ONGOING":
+        return "ستنتهي المحادثة بعد :";
       default:
         return "";
     }

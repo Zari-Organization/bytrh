@@ -161,6 +161,7 @@ class ConsultationsServices {
   static Future<ConsultationsCartModel> getConsultationsCart({
     required String ConsultType,
   }) async {
+  try{
     var response = await http.post(
       Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/list'),
       body: {
@@ -174,13 +175,16 @@ class ConsultationsServices {
     );
     var jsonData = response.body;
     var decodedData = jsonDecode(jsonData);
-    log("Consultations Cart Api --> $decodedData");
     if (decodedData['Success']) {
       log("Consultations Cart Api --> $decodedData");
       return consultationsCartModelFromJson(jsonData);
     } else {
       return consultationsCartModelFromJson(jsonData);
     }
+  }catch(e){
+    log(e.toString());
+  }
+  return throw Exception("Failed");
   }
 
   static Future<ConsultationsDoctorReservationTimeModel>

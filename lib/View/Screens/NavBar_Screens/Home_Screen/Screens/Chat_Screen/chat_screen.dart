@@ -25,6 +25,7 @@ class ConsultationsChatScreen extends StatelessWidget {
           centerTitle: true,
         ),
         body: ChatScreen(
+          disableInput: consultationsChatController.consultStatus.value=="ENDED"?true:false,
           messageContainerTextStyle: TextStyle(color: AppColors.RED_COLOR),
           sendMessageHintText: "اكتب رسالتك",
           scrollController: consultationsChatController.scrollController.value,

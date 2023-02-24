@@ -2,13 +2,16 @@ import 'dart:developer';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../../../../Logic/controllers/Chat_Controllers/chat_controllers.dart';
 import '../../../../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
+import '../../../../../../../../Routes/routes.dart';
 import '../../../../../../../../Utils/app_colors.dart';
 import '../../../../../../../Widgets/custom_circle_progress.dart';
 
 class TermConsultationsCartScreen extends StatelessWidget {
   TermConsultationsCartScreen({Key? key}) : super(key: key);
   final termConsultationsController = Get.find<TermConsultationsController>();
+  final consultationsChatController = Get.find<ConsultationsChatController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +48,10 @@ class TermConsultationsCartScreen extends StatelessWidget {
                   separatorBuilder: (BuildContext context, int index) =>
                       const SizedBox(height: 16),
                   itemBuilder: (context, index) {
+                    var countDown = termConsultationsController
+                        .consultationsCartList[index].consultCountDown!;
                     return InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (termConsultationsController
                                 .consultationsCartList[index].consultStatus ==
                             "PENDING_TIME") {
@@ -56,31 +61,39 @@ class TermConsultationsCartScreen extends StatelessWidget {
                                 .toString(),
                             "CONSULT",
                           );
-                        } else if (termConsultationsController
-                                    .consultationsCartList[index]
-                                    .consultStatus ==
-                                "ACCEPTED" ||
-                            termConsultationsController
-                                    .consultationsCartList[index]
-                                    .consultStatus ==
-                                "ONGOING" ||
-                            termConsultationsController
-                                    .consultationsCartList[index]
-                                    .consultStatus ==
-                                "ENDED" ||
-                            termConsultationsController
-                                    .consultationsCartList[index]
-                                    .consultStatus ==
-                                "REJECTED") {
-                          termConsultationsController.checkConsultStatus(
-                            termConsultationsController
-                                .consultationsCartList[index].idConsult
-                                .toString(),
-                            termConsultationsController
-                                .consultationsCartList[index].consultStatus,
-                            "CONSULT",
-                            context,
-                          );
+                        } else {
+                          if (termConsultationsController
+                                      .consultationsCartList[index]
+                                      .consultStatus ==
+                                  "ONGOING" ||
+                              termConsultationsController
+                                      .consultationsCartList[index]
+                                      .consultStatus ==
+                                  "ENDED") {
+                            consultationsChatController.consultStatus.value = termConsultationsController
+                                .consultationsCartList[index].consultStatus;
+                            await consultationsChatController
+                                .getConsultationsChatDetails(
+                              termConsultationsController
+                                  .consultationsCartList[index].idConsult
+                                  .toString(),
+                            );
+                            Get.toNamed(Routes.consultationsChatScreenScreen);
+                          } else if (termConsultationsController
+                                  .consultationsCartList[index].consultStatus ==
+                              "ACCEPTED") {
+                            null;
+                          } else{
+                            termConsultationsController.checkConsultStatus(
+                              termConsultationsController
+                                  .consultationsCartList[index].idConsult
+                                  .toString(),
+                              termConsultationsController
+                                  .consultationsCartList[index].consultStatus,
+                              "CONSULT",
+                              context,
+                            );
+                          }
                         }
                       },
                       child: Card(
@@ -196,12 +209,61 @@ class TermConsultationsCartScreen extends StatelessWidget {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      "${DateFormat('yyyy-MM-dd , HH:mm').format(termConsultationsController.consultationsCartList[index].consultDate!)}",
+                                      "${DateFormat.jm(Localizations.localeOf(context).languageCode).format(termConsultationsController.consultationsCartList[index].consultDate!)}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
+                                    SizedBox(width: 5),
+                                    Text("-"),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      "${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).format(termConsultationsController.consultationsCartList[index].consultDate!)}",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              SizedBox(height: 8),
+                              if (termConsultationsController
+                                      .consultationsCartList[index]
+                                      .consultCountDown!
+                                      .minutes !=
+                                  null)
+                                Row(
+                                  children: [
+                                    Text(
+                                      getCountDownTitle(
+                                          termConsultationsController
+                                              .consultationsCartList[index]
+                                              .consultStatus),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: AppColors.GREY_COLOR),
+                                    ),
+                                    SizedBox(width: 5),
+                                    countDown.days != 0
+                                        ? Text("${countDown.days} يوم",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold))
+                                        : Text(""),
+                                    countDown.hours != 0
+                                        ? Text("${countDown.hours} ساعة",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold))
+                                        : Text(""),
+                                    countDown.minutes != 0
+                                        ? Text(
+                                            "${countDown.minutes} دقيقة",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        : Text("اقل من دقيقة",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
                                   ],
                                 )
                             ],
@@ -238,6 +300,17 @@ class TermConsultationsCartScreen extends StatelessWidget {
         return " تم التخطي من قبل الدكتور";
       case "CANCELLED":
         return " تم الغاء الاستشارة";
+      default:
+        return "";
+    }
+  }
+
+  String getCountDownTitle(status) {
+    switch (status) {
+      case "ACCEPTED":
+        return "ستبدأ المحادثة بعد :";
+      case "ONGOING":
+        return "ستنتهي المحادثة بعد :";
       default:
         return "";
     }

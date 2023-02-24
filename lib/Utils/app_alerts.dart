@@ -299,10 +299,9 @@ class AppAlerts {
     }
   }
 
-  Future<bool>? consultationsCountDownPop(String consultId,
-      ConsultCountDown consultCountDown, String consultStatus) async {
+  Future<bool>? consultationsCountDownPop(
+      String consultId, String consultStatus) async {
     Get.put(ConsultationsChatController());
-    final consultationsChatController = Get.find<ConsultationsChatController>();
     final result = await Get.defaultDialog(
       title: '',
       titleStyle: const TextStyle(color: AppColors.MAIN_COLOR),
@@ -313,84 +312,46 @@ class AppAlerts {
           child: Column(
             children: [
               Text(
-                consultStatus == "ONGOING"
-                    ? "تاريخ بداية الإستشارة"
-                    : consultStatus == "ACCEPTED"
-                        ? "الوقت المتبقي لبدء الاستشارة"
-                        : consultStatus == "PENDING"
-                            ? "لم يتم قبول الإستشارة بعد"
-                            : consultStatus == "ENDED"
-                                ? "تم إنتهاء وقت الإستشارة"
-                                : consultStatus == "REJECTED"
-                                    ? "تم رفض الاستشارة من قبل الطبيب"
-                                    : "",
+                getStatus(consultStatus),
                 style: const TextStyle(color: AppColors.MAIN_COLOR),
               ),
-              SizedBox(height: 20),
-              consultStatus == "PENDING" || consultStatus == "ENDED"|| consultStatus == "REJECTED"
-                  ? SizedBox()
-                  : TimerCountdown(
-                      format: CountDownTimerFormat.daysHoursMinutes,
-                      daysDescription: "يوم",
-                      hoursDescription: "ساعة",
-                      minutesDescription: "دقيقة",
-                      endTime: DateTime.now().add(
-                        Duration(
-                          days: consultCountDown.days,
-                          hours: consultCountDown.hours,
-                          minutes: consultCountDown.minutes,
-                        ),
-                      ),
-                      onEnd: () {
-                        print("Timer finished");
-                      },
-                    )
             ],
           ),
         ),
       ),
       cancel: SizedBox(),
-      confirm: consultStatus == "ONGOING" || consultStatus == "ENDED"
-          ? SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(
-                    AppColors.MAIN_COLOR,
-                  ),
-                  foregroundColor: MaterialStateProperty.all(
-                    AppColors.BLACK_COLOR,
-                  ),
-                ),
-                onPressed: () async {
-                  // Get.back();
-                  await consultationsChatController.getConsultationsChatDetails(consultId);
-                  Get.toNamed(Routes.consultationsChatScreenScreen);
-                },
-                child: Obx(
-                  () => consultationsChatController
-                          .isLoadingConsultationsChatDetail.value
-                      ? CircularProgressIndicator(
-                          color: AppColors.WHITE_COLOR,
-                        )
-                      : Text(
-                          "المحادثة مع الطبيب",
-                          style: const TextStyle(color: AppColors.WHITE_COLOR),
-                        ),
-                ),
-              ),
-            )
-          : SizedBox(),
+      confirm: SizedBox(),
     );
     if (result == null) {
       return false;
     } else {
       return result;
     }
+  }
+}
+String getStatus(status) {
+  switch (status) {
+    case "ONGOING":
+      return "الإستشارة جارية";
+    case "PENDING":
+      return "لم يتم قبول الإستشارة بعد";
+    case "PENDING_TIME":
+      return "في انتظار تحديد الوقت";
+    case "ACCEPTED":
+      return "تم قبول الإستشارة";
+    case "REJECTED":
+      return "تم رفض الاستشارة من قبل الطبيب";
+    case "ENDED":
+      return "تم إنتهاء وقت الإستشارة";
+    case "EXPIRED":
+      return " انتهاء صلاحية الإستشارة";
+    case "NO_RESPONSE":
+      return " لم يستجب الدكتور";
+    case "SKIPPED":
+      return " تم التخطي من قبل الدكتور";
+    case "CANCELLED":
+      return " تم الغاء الاستشارة";
+    default:
+      return "";
   }
 }
