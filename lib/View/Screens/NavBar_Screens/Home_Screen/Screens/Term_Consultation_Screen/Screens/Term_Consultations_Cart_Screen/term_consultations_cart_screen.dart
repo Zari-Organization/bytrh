@@ -56,19 +56,28 @@ class TermConsultationsCartScreen extends StatelessWidget {
                                 .toString(),
                             "CONSULT",
                           );
-                        }
-                        else if (termConsultationsController
-                            .consultationsCartList[index].consultStatus ==
-                            "ACCEPTED"||termConsultationsController
-                            .consultationsCartList[index].consultStatus ==
-                            "ONGOING"||termConsultationsController
-                            .consultationsCartList[index].consultStatus ==
-                            "ENDED"||termConsultationsController
-                            .consultationsCartList[index].consultStatus ==
-                            "REJECTED"){
+                        } else if (termConsultationsController
+                                    .consultationsCartList[index]
+                                    .consultStatus ==
+                                "ACCEPTED" ||
+                            termConsultationsController
+                                    .consultationsCartList[index]
+                                    .consultStatus ==
+                                "ONGOING" ||
+                            termConsultationsController
+                                    .consultationsCartList[index]
+                                    .consultStatus ==
+                                "ENDED" ||
+                            termConsultationsController
+                                    .consultationsCartList[index]
+                                    .consultStatus ==
+                                "REJECTED") {
                           termConsultationsController.checkConsultStatus(
-                            termConsultationsController.consultationsCartList[index].idConsult.toString(),
-                            termConsultationsController.consultationsCartList[index].consultStatus,
+                            termConsultationsController
+                                .consultationsCartList[index].idConsult
+                                .toString(),
+                            termConsultationsController
+                                .consultationsCartList[index].consultStatus,
                             "CONSULT",
                             context,
                           );
@@ -207,8 +216,8 @@ class TermConsultationsCartScreen extends StatelessWidget {
     });
   }
 
- String getStatus(status){
-    switch(status) {
+  String getStatus(status) {
+    switch (status) {
       case "ONGOING":
         return "جارية";
       case "PENDING":
@@ -221,9 +230,16 @@ class TermConsultationsCartScreen extends StatelessWidget {
         return "تم رفض الإستشارة";
       case "ENDED":
         return "انتهت";
+      case "EXPIRED":
+        return " انتهت صلاحيتها";
+      case "NO_RESPONSE":
+        return " لم يستجب الدكتور";
+      case "SKIPPED":
+        return " تم التخطي من قبل الدكتور";
+      case "CANCELLED":
+        return " تم الغاء الاستشارة";
       default:
         return "";
     }
   }
-
 }

@@ -1,6 +1,7 @@
 import 'package:bytrh/View/Screens/Auth_Screens/Policies_Screens/terms_screen.dart';
 import 'package:get/get.dart';
 
+import '../Logic/binding/Adoption_Bindings/adoption_binding.dart';
 import '../Logic/binding/Consultations_Bindings/instant_consultations_binding.dart';
 import '../Logic/binding/Consultations_Bindings/term_consultations_binding.dart';
 import '../Logic/binding/Consultations_Chat_Bindings/consultations_chat_binding.dart';
@@ -21,6 +22,9 @@ import '../View/Screens/Auth_Screens/SignUp_Screen/signUp_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Type_Screen/signUp_type_screen.dart';
 import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_add_animal_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_details_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Chat_Screen/chat_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Consultations_Doctor_Profile_Screen/consultations_doctor_profile_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Consultations_Doctor_Profile_Screen/instants_consultations_doctor_reservation_time_screen.dart';
@@ -69,6 +73,9 @@ class AppRoutes {
   static const termConsultationsScreen = Routes.termConsultationsScreen;
   static const termConsultationsDoctorProfileScreen = Routes.termConsultationsDoctorProfileScreen;
   static const termConsultationsCartScreen = Routes.termConsultationsCartScreen;
+  static const adoptionScreen = Routes.adoptionScreen;
+  static const adoptionDetailsScreen = Routes.adoptionDetailsScreen;
+  static const adoptionAddAnimalScreen = Routes.adoptionAddAnimalScreen;
 
   //getPages
   static final routes = [
@@ -214,6 +221,21 @@ class AppRoutes {
       page: () => TermConsultationsCartScreen(),
       binding: TermConsultationsBinding(),
     ),
+    GetPage(
+      name: Routes.adoptionScreen,
+      page: () => AdoptionScreen(),
+      binding: AdoptionBinding(),
+    ),
+    GetPage(
+      name: Routes.adoptionDetailsScreen,
+      page: () => AdoptionDetailsScreen(),
+      binding: AdoptionBinding(),
+    ),
+    GetPage(
+      name: Routes.adoptionAddAnimalScreen,
+      page: () => AdoptionAddAnimalScreen(),
+      binding: AdoptionBinding(),
+    ),
   ];
 }
 
@@ -247,4 +269,7 @@ class Routes {
   static const termConsultationsScreen = '/termConsultationsScreen';
   static const termConsultationsDoctorProfileScreen = '/termConsultationsDoctorProfileScreen';
   static const termConsultationsCartScreen = '/termConsultationsCartScreen';
+  static const adoptionScreen = '/adoptionScreen';
+  static const adoptionDetailsScreen = '/adoptionDetailsScreen';
+  static const adoptionAddAnimalScreen = '/adoptionAddAnimalScreen';
 }

@@ -243,6 +243,14 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
         return "تم رفض الإستشارة";
       case "ENDED":
         return "انتهت";
+      case "EXPIRED":
+        return " انتهت صلاحيتها";
+      case "NO_RESPONSE":
+        return " لم يستجب الدكتور";
+      case "SKIPPED":
+        return " تم التخطي من قبل الدكتور";
+      case "CANCELLED":
+        return " تم الغاء الاستشارة";
       default:
         return "";
     }

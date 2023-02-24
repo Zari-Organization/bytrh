@@ -10,4 +10,6 @@ class AppImages {
   static const String card_image = "assets/images/card_image.png";
   static const String gift_card_image = "assets/images/gift_card_image.png";
   static const String saudi_man_image = "assets/images/saudi_man_image.png";
+  static const String placeholder = 'assets/images/placeholder.jpg';
+  static const String user_placeholder = "assets/images/user_placeholder.png";
 }
