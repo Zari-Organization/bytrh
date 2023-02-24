@@ -13,11 +13,11 @@ import '../../Models/Adoptions_Models/adoption_list_model.dart';
 import '../../Utils/app_constants.dart';
 
 class AdoptionsServices {
-  static Future<AdoptionsListModel> getAdoptionsList() async {
+  static Future<AdoptionsListModel> getAdoptionsList(String AdoptionStatus) async {
     var response = await http.post(
       Uri.parse(AppConstants.apiUrl + '/api/client' + '/adoption'),
       body: {
-        'AdoptionStatus': "ACTIVE",
+        'AdoptionStatus': AdoptionStatus,
         // 'AdoptionStatus': "HISTORY",
       },
       headers: {

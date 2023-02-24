@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,12 +37,27 @@ class AdoptionController extends GetxController {
   getAdoptionsList() async {
     try {
       isLoadingAdoptions(true);
-      var response = await AdoptionsServices.getAdoptionsList();
+      var response = await AdoptionsServices.getAdoptionsList("ACTIVE");
       if (response.success) {
         adoptionsList.value = response.response;
       }
     } finally {
       isLoadingAdoptions(false);
+    }
+  }
+
+  var isLoadingMyAdoptions = false.obs;
+  var myAdoptionsList = <adoption_list_import.Response>[].obs;
+
+  getMyAdoptionsList() async {
+    try {
+      isLoadingMyAdoptions(true);
+      var response = await AdoptionsServices.getAdoptionsList("HISTORY");
+      if (response.success) {
+        myAdoptionsList.value = response.response;
+      }
+    } finally {
+      isLoadingMyAdoptions(false);
     }
   }
 
@@ -179,8 +195,8 @@ class AdoptionController extends GetxController {
       );
       if (response["Success"]) {
         log(response["ApiMsg"]);
-        getAdoptionsList();
-        Get.back();
+        getMyAdoptionsList();
+        Get.toNamed(Routes.adoptionMyAnimalsScreen);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: AppColors.MAIN_COLOR,

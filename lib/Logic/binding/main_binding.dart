@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../controllers/Adoption_Controllers/adoption_controller.dart';
 import '../controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import '../controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../controllers/My_Account_Controllers/my_account_controller.dart';
@@ -13,5 +14,6 @@ class MainBinding extends Bindings {
     Get.lazyPut(()=>MyAccountController());
     Get.lazyPut(()=>InstantConsultationsController());
     Get.lazyPut(()=>TermConsultationsController());
+    Get.lazyPut(()=>AdoptionController());
   }
 }

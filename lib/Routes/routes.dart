@@ -24,6 +24,7 @@ import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_add_animal_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_details_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_my_animals_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Chat_Screen/chat_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Consultations_Doctor_Profile_Screen/consultations_doctor_profile_screen.dart';
@@ -76,6 +77,7 @@ class AppRoutes {
   static const adoptionScreen = Routes.adoptionScreen;
   static const adoptionDetailsScreen = Routes.adoptionDetailsScreen;
   static const adoptionAddAnimalScreen = Routes.adoptionAddAnimalScreen;
+  static const adoptionMyAnimalsScreen = Routes.adoptionMyAnimalsScreen;
 
   //getPages
   static final routes = [
@@ -236,6 +238,11 @@ class AppRoutes {
       page: () => AdoptionAddAnimalScreen(),
       binding: AdoptionBinding(),
     ),
+    GetPage(
+      name: Routes.adoptionMyAnimalsScreen,
+      page: () => AdoptionMyAnimalsScreen(),
+      binding: AdoptionBinding(),
+    ),
   ];
 }
 
@@ -272,4 +279,5 @@ class Routes {
   static const adoptionScreen = '/adoptionScreen';
   static const adoptionDetailsScreen = '/adoptionDetailsScreen';
   static const adoptionAddAnimalScreen = '/adoptionAddAnimalScreen';
+  static const adoptionMyAnimalsScreen = '/adoptionMyAnimalsScreen';
 }

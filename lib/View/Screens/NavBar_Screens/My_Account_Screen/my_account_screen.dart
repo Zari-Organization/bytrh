@@ -6,6 +6,7 @@ import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
 import '../../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
 import '../../../../Utils/app_alerts.dart';
 import '../../../../Utils/app_colors.dart';
@@ -26,6 +27,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   }
 
   final personalDataController = Get.find<PersonalDataController>();
+  final adoptionController = Get.find<AdoptionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   CustomListTile(
                     icon: AppIcons.animals_icon,
                     title: "حيواناتي",
-                    onTap: () {},
+                    onTap: () async{
+                      adoptionController.getMyAdoptionsList();
+                      Get.toNamed(Routes.adoptionMyAnimalsScreen);
+                    },
                   ),
                   CustomListTile(
                     icon: AppIcons.calendar_icon,
