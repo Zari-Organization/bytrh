@@ -136,4 +136,23 @@ class AdoptionsServices {
       return jsonData;
     }
   }
+
+  removeFromAnimalGallery(int idImage) async {
+    var response = await http.get(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/adoption/gallery/remove/$idImage'),
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success'] ) {
+      log("Remove From Animal Gallery Api --> $decodedData");
+      return decodedData;
+    } else {
+      log("Remove From Animal Gallery Api --> $decodedData");
+      return decodedData;
+    }
+  }
 }

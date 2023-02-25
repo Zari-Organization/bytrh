@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer';
 
 import '../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
@@ -18,6 +19,14 @@ import '../../../../Widgets/custom_circle_progress.dart';
 class OtherServicesWidget extends StatelessWidget {
   OtherServicesWidget({Key? key}) : super(key: key);
 
+  onClickNotification(String? payload) {
+    try {
+      Get.toNamed(payload!);
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,11 +39,17 @@ class OtherServicesWidget extends StatelessWidget {
         SizedBox(height: 8),
         InkWell(
           onTap: () async {
+            // await NotificationService().listenNotifications(onClickNotification: onClickNotification);
+            // NotificationService().showLocalNotification(
+            //   title: "Bytrh",
+            //   body: "Test OnClick",
+            //   payload: "/adoptionScreen",
+            // );
             Get.toNamed(Routes.adoptionScreen);
           },
           child: SizedBox(
             height: 150,
-            width: AppConstants.mediaWidth(context)/2.2,
+            width: AppConstants.mediaWidth(context) / 2.2,
             child: Card(
               elevation: 5,
               child: Padding(

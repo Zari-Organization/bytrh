@@ -44,12 +44,10 @@ class AdoptionScreen extends StatelessWidget {
                       overlayColor: AppColors.MAIN_COLOR,
                       onPress: () async {
                         await adoptionController.getAdoptionAnimalsCategory();
-                        adoptionController
-                                .selectedAdoptionAnimalsGenderValue.value =
-                            adoptionController.adoptionAnimalsGenderList[0]
-                                .toString();
+                        adoptionController.selectedAdoptionAnimalsGenderValue.value = adoptionController.adoptionAnimalsGenderList[0].toString();
                         await adoptionController.getCountries();
                         await adoptionController.getCities();
+                        adoptionController.idCity.value = adoptionController.citiesList[0].idCity.toString();
                         Get.toNamed(Routes.adoptionAddAnimalScreen);
                       },
                     ),

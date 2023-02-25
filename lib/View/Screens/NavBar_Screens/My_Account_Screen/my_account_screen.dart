@@ -97,16 +97,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       Get.toNamed(Routes.adoptionMyAnimalsScreen);
                     },
                   ),
-                  CustomListTile(
-                    icon: AppIcons.calendar_icon,
-                    title: "مواعيدي",
-                    onTap: () {},
-                  ),
-                  CustomListTile(
-                    icon: AppIcons.box_icon,
-                    title: "طلباتي",
-                    onTap: () {},
-                  ),
+                  // CustomListTile(
+                  //   icon: AppIcons.calendar_icon,
+                  //   title: "مواعيدي",
+                  //   onTap: () {},
+                  // ),
+                  // CustomListTile(
+                  //   icon: AppIcons.box_icon,
+                  //   title: "طلباتي",
+                  //   onTap: () {},
+                  // ),
                   CustomListTile(
                     icon: AppIcons.wallet_icon,
                     title: "المحفظة",
@@ -114,21 +114,21 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       Get.toNamed(Routes.walletScreen);
                     },
                   ),
-                  CustomListTile(
-                    icon: AppIcons.location_icon,
-                    title: "العناوين",
-                    onTap: () {},
-                  ),
-                  CustomListTile(
-                    icon: AppIcons.favorite_icon,
-                    title: "المنتجات المفضلة",
-                    onTap: () {},
-                  ),
-                  CustomListTile(
-                    icon: AppIcons.category_icon,
-                    title: "الفئات المفضلة",
-                    onTap: () {},
-                  ),
+                  // CustomListTile(
+                  //   icon: AppIcons.location_icon,
+                  //   title: "العناوين",
+                  //   onTap: () {},
+                  // ),
+                  // CustomListTile(
+                  //   icon: AppIcons.favorite_icon,
+                  //   title: "المنتجات المفضلة",
+                  //   onTap: () {},
+                  // ),
+                  // CustomListTile(
+                  //   icon: AppIcons.category_icon,
+                  //   title: "الفئات المفضلة",
+                  //   onTap: () {},
+                  // ),
                   CustomListTile(
                     icon: AppIcons.lock_icon,
                     title: "تغيير كلمة المرور",
@@ -136,11 +136,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       Get.toNamed(Routes.changePasswordScreen);
                     },
                   ),
-                  CustomListTile(
-                    icon: AppIcons.setting_icon,
-                    title: "الإعدادت",
-                    onTap: () {},
-                  ),
+                  // CustomListTile(
+                  //   icon: AppIcons.setting_icon,
+                  //   title: "الإعدادت",
+                  //   onTap: () {},
+                  // ),
                   CustomListTile(
                     icon: AppIcons.Info_icon,
                     title: "حولنا",

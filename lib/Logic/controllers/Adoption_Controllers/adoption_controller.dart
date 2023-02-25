@@ -7,23 +7,21 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 import '../../../Models/Adoptions_Models/adoption_animals_categories_model.dart'
-as adoption_animals_categories_import;
+    as adoption_animals_categories_import;
 import '../../../Models/Adoptions_Models/adoption_details_model.dart'
-as adoption_details_import;
+    as adoption_details_import;
+import '../../../Models/Adoptions_Models/adoption_details_model.dart';
 import '../../../Models/Adoptions_Models/adoption_list_model.dart'
-as adoption_list_import;
+    as adoption_list_import;
 import '../../../Routes/routes.dart';
 import '../../../Services/Adoptions_Services/adoptions_services.dart';
 import '../../../Models/Location_Models/countries_model.dart'
-as countries_import;
+    as countries_import;
 import '../../../Models/Location_Models/cities_model.dart' as cities_import;
 import '../../../Services/auth_services.dart';
 
 class AdoptionController extends GetxController {
-
-
   @override
   void onInit() async {
     super.onInit();
@@ -62,18 +60,16 @@ class AdoptionController extends GetxController {
   }
 
   var isLoadingAdoptionDetails = false.obs;
-  var adoptionsDetails = adoption_details_import
-      .Response()
-      .obs;
+  var adoptionsDetails = adoption_details_import.Response().obs;
   var idAdoption = ''.obs;
 
   setDataToAdoptionDetails(String id) async {
     idAdoption.value = id;
-    getConsultationsDoctorProfile();
+    getAdoptionDetails();
     await Get.toNamed(Routes.adoptionDetailsScreen);
   }
 
-  getConsultationsDoctorProfile() async {
+  getAdoptionDetails() async {
     try {
       isLoadingAdoptionDetails(true);
       var response = await AdoptionsServices.getAdoptionDetails(
@@ -86,6 +82,54 @@ class AdoptionController extends GetxController {
       isLoadingAdoptionDetails(false);
     }
   }
+
+  var isLoadingAdoptionMyAnimalsDetails = false.obs;
+  var adoptionsMyAnimalsDetails = adoption_details_import.Response().obs;
+  var idAdoptionMyAnimals = ''.obs;
+
+  setDataToAdoptionMyAnimalsDetails(String id) async {
+    idAdoptionMyAnimals.value = id;
+    getAdoptionMyAnimalsDetails();
+    await Get.toNamed(Routes.adoptionMyAnimalsDetailsScreen);
+  }
+
+  getAdoptionMyAnimalsDetails() async {
+    try {
+      isLoadingAdoptionMyAnimalsDetails(true);
+      var response = await AdoptionsServices.getAdoptionDetails(
+        idAdoptionMyAnimals.value,
+      );
+      if (response.success) {
+        adoptionsMyAnimalsDetails.value = response.response;
+        editAnimalNameController.value.text =
+            response.response.petName.toString();
+        editAnimalStrainController.value.text =
+            response.response.petStrain.toString();
+        editAnimalAgeController.value.text =
+            response.response.petAgeYear.toString();
+        editAnimalConditionController.value.text =
+            response.response.petCondition.toString();
+        editAnimalColorController.value.text =
+            response.response.petColor.toString();
+        editAnimalSizeController.value.text =
+            response.response.petSize.toString();
+        editAnimalDescriptionController.value.text =
+            response.response.petDescription.toString();
+        editAnimalGallery.value = response.response.adoptionGallery!;
+      }
+    } finally {
+      isLoadingAdoptionMyAnimalsDetails(false);
+    }
+  }
+
+  var editAnimalNameController = TextEditingController().obs;
+  var editAnimalStrainController = TextEditingController().obs;
+  var editAnimalAgeController = TextEditingController().obs;
+  var editAnimalConditionController = TextEditingController().obs;
+  var editAnimalColorController = TextEditingController().obs;
+  var editAnimalSizeController = TextEditingController().obs;
+  var editAnimalDescriptionController = TextEditingController().obs;
+  var editAnimalGallery = <AdoptionGallery>[].obs;
 
   var isLoadingAdoptionAnimalsCategory = false.obs;
   var adoptionAnimalsCategoryList =
@@ -105,6 +149,36 @@ class AdoptionController extends GetxController {
       }
     } finally {
       isLoadingAdoptionAnimalsCategory(false);
+    }
+  }
+
+  var isLoadingRemoveFromAnimalGallery = false.obs;
+
+  removeFromAnimalGallery(
+    int idImage,
+    int index,
+    BuildContext context,
+  ) async {
+    try {
+      isLoadingRemoveFromAnimalGallery(true);
+      var response = await AdoptionsServices().removeFromAnimalGallery(
+        idImage,
+      );
+      if (response["Success"]) {
+        editAnimalGallery.remove(editAnimalGallery[index]);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            // backgroundColor: AppColors.GREEN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingRemoveFromAnimalGallery(false);
     }
   }
 
@@ -135,7 +209,6 @@ class AdoptionController extends GetxController {
       isLoadingCities(true);
       if (cities.success) {
         citiesList.value = cities.response.countries;
-        idCity.value = cities.response.countries[0].idCity.toString();
       }
     } finally {
       isLoadingCities(false);
@@ -151,21 +224,22 @@ class AdoptionController extends GetxController {
   var addAnimalSizeController = TextEditingController().obs;
   var addAnimalDescriptionController = TextEditingController().obs;
 
-  addAdoptionAnimal({required String IDAnimalSubCategory,
-    required String IDCity,
-    required String PetName,
-    required String PetStrain,
-    required String PetColor,
-    required String PetGender,
-    required String PetAgeMonth,
-    required String PetAgeYear,
-    String? PetSize,
-    String? PetCondition,
-    String? PetDescription,
-    required String AdoptionContact,
-    required File PetPicture,
-    List<XFile>? AdoptionGalleryList,
-    required BuildContext context}) async {
+  addAdoptionAnimal(
+      {required String IDAnimalSubCategory,
+      required String IDCity,
+      required String PetName,
+      required String PetStrain,
+      required String PetColor,
+      required String PetGender,
+      required String PetAgeMonth,
+      required String PetAgeYear,
+      String? PetSize,
+      String? PetCondition,
+      String? PetDescription,
+      required String AdoptionContact,
+      required File PetPicture,
+      List<XFile>? AdoptionGalleryList,
+      required BuildContext context}) async {
     if (animalImageFile.value!.path == "") {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -232,6 +306,12 @@ class AdoptionController extends GetxController {
     XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     animalImageFile.value = File(pickedFile!.path);
   }
+  Rx<File?> editNewAnimalImageFile = File("").obs;
+
+  void pickNewAnimalImage() async {
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    editNewAnimalImageFile.value = File(pickedFile!.path);
+  }
 
   RxList<XFile> animalGallery = <XFile>[].obs;
 
@@ -239,6 +319,14 @@ class AdoptionController extends GetxController {
     List<XFile>? pickedFile = await _picker.pickMultiImage();
     if (pickedFile != null) {
       animalGallery.addAll(pickedFile);
+    }
+  }
+  RxList<XFile> editNewAnimalGallery = <XFile>[].obs;
+
+  void pickNewAnimalGallery() async {
+    List<XFile>? pickedFile = await _picker.pickMultiImage();
+    if (pickedFile != null) {
+      editNewAnimalGallery.addAll(pickedFile);
     }
   }
 }

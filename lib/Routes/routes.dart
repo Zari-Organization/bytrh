@@ -24,6 +24,8 @@ import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_add_animal_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_details_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_edit_my_animal_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_my_animals_details_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_my_animals_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Chat_Screen/chat_screen.dart';
@@ -78,6 +80,8 @@ class AppRoutes {
   static const adoptionDetailsScreen = Routes.adoptionDetailsScreen;
   static const adoptionAddAnimalScreen = Routes.adoptionAddAnimalScreen;
   static const adoptionMyAnimalsScreen = Routes.adoptionMyAnimalsScreen;
+  static const adoptionMyAnimalsDetailsScreen = Routes.adoptionMyAnimalsDetailsScreen;
+  static const adoptionEditMyAnimalScreen = Routes.adoptionEditMyAnimalScreen;
 
   //getPages
   static final routes = [
@@ -243,6 +247,16 @@ class AppRoutes {
       page: () => AdoptionMyAnimalsScreen(),
       binding: AdoptionBinding(),
     ),
+    GetPage(
+      name: Routes.adoptionMyAnimalsDetailsScreen,
+      page: () => AdoptionMyAnimalsDetailsScreen(),
+      binding: AdoptionBinding(),
+    ),
+    GetPage(
+      name: Routes.adoptionEditMyAnimalScreen,
+      page: () => AdoptionEditMyAnimalScreen(),
+      binding: AdoptionBinding(),
+    ),
   ];
 }
 
@@ -280,4 +294,6 @@ class Routes {
   static const adoptionDetailsScreen = '/adoptionDetailsScreen';
   static const adoptionAddAnimalScreen = '/adoptionAddAnimalScreen';
   static const adoptionMyAnimalsScreen = '/adoptionMyAnimalsScreen';
+  static const adoptionMyAnimalsDetailsScreen = '/adoptionMyAnimalsDetailsScreen';
+  static const adoptionEditMyAnimalScreen = '/adoptionEditMyAnimalScreen';
 }

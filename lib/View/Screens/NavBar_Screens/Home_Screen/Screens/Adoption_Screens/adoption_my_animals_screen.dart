@@ -64,6 +64,7 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
                   adoptionController.selectedAdoptionAnimalsGenderValue.value = adoptionController.adoptionAnimalsGenderList[0].toString();
                   await adoptionController.getCountries();
                   await adoptionController.getCities();
+                  adoptionController.idCity.value = adoptionController.citiesList[0].idCity.toString();
                   Get.toNamed(Routes.adoptionAddAnimalScreen);
                 },
               ),
@@ -85,7 +86,7 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  adoptionController.setDataToAdoptionDetails(adoptionController
+                  adoptionController.setDataToAdoptionMyAnimalsDetails(adoptionController
                       .myAdoptionsList[index].idAdoption
                       .toString());
                 },

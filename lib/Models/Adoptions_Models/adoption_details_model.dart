@@ -59,12 +59,18 @@ class Response {
      this.petAgeYear,
      this.petAgeMonth,
      this.adoptionGallery,
+     this.idCity,
+     this.idCountry,
+     this.idAnimalSubCategory,
   });
 
   final idAdoption;
   final petName;
   final petStrain;
   final petPicture;
+  final idCity;
+  final idCountry;
+  final idAnimalSubCategory;
   final animalSubCategoryNameEn;
   final clientPhone;
   final clientName;
@@ -87,6 +93,9 @@ class Response {
     petName: json["PetName"],
     petStrain: json["PetStrain"],
     petPicture: json["PetPicture"],
+    idCity: json["IDCity"],
+    idCountry: json["IDCountry"],
+    idAnimalSubCategory: json["IDAnimalSubCategory"],
     animalSubCategoryNameEn: json["AnimalSubCategoryNameEn"],
     clientPhone: json["ClientPhone"],
     clientName: json["ClientName"],
@@ -110,6 +119,9 @@ class Response {
     "PetName": petName,
     "PetStrain": petStrain,
     "PetPicture": petPicture,
+    "IDCity": idCity,
+    "IDCountry": idCountry,
+    "IDAnimalSubCategory": idAnimalSubCategory,
     "AnimalSubCategoryNameEn": animalSubCategoryNameEn,
     "ClientPhone": clientPhone,
     "ClientName": clientName,
