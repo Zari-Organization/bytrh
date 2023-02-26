@@ -43,92 +43,93 @@ class AdoptionEditMyAnimalScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  adoptionController.editNewAnimalImageFile.value!.path.isEmpty?
-                  Stack(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 200,
-                          decoration: BoxDecoration(
-                              color: Color(0xffEFEEEE),
-                              borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  adoptionController.adoptionsMyAnimalsDetails.value.petPicture
-                              )
+                  adoptionController.editNewAnimalImageFile.value!.path.isEmpty
+                      ? Stack(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                  color: Color(0xffEFEEEE),
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(adoptionController
+                                          .adoptionsMyAnimalsDetails
+                                          .value
+                                          .petPicture))),
+                            ),
+                            CircleAvatar(
+                              backgroundColor: AppColors.WHITE_COLOR,
+                              child: IconButton(
+                                onPressed: () {
+                                  adoptionController.pickNewAnimalImage();
+                                },
+                                icon: SvgPicture.asset(
+                                  AppIcons.upload_icon,
+                                  color: AppColors.RED_COLOR,
+                                ),
+                              ),
                             )
-                          ),
-                        ),
-                          CircleAvatar(
-                            backgroundColor: AppColors.WHITE_COLOR,
-                            child: IconButton(
-                              onPressed: () {
+                          ],
+                        )
+                      : Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
                                 adoptionController.pickNewAnimalImage();
                               },
-                              icon: SvgPicture.asset(
-                                AppIcons.upload_icon,
-                                color: AppColors.RED_COLOR,
+                              child: Container(
+                                width: double.infinity,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                    color: Color(0xffEFEEEE),
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: adoptionController.editNewAnimalImageFile
+                                        .value!.path.isEmpty
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            AppIcons.upload_icon,
+                                            color: AppColors.MAIN_COLOR,
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            "إضافة صورة",
+                                            style: TextStyle(
+                                              color: AppColors.MAIN_COLOR,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.file(
+                                            adoptionController
+                                                .editNewAnimalImageFile.value!,
+                                            fit: BoxFit.fill),
+                                      ),
                               ),
                             ),
-                          )
-                      ],
-                    ):
-                  Stack(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          adoptionController.pickNewAnimalImage();
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 200,
-                          decoration: BoxDecoration(
-                              color: Color(0xffEFEEEE),
-                              borderRadius: BorderRadius.circular(15)),
-                          child: adoptionController
-                                  .editNewAnimalImageFile.value!.path.isEmpty
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppIcons.upload_icon,
-                                      color: AppColors.MAIN_COLOR,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      "إضافة صورة",
-                                      style: TextStyle(
-                                        color: AppColors.MAIN_COLOR,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.file(
-                                      adoptionController.editNewAnimalImageFile.value!,
-                                      fit: BoxFit.fill),
+                            if (adoptionController
+                                .editNewAnimalImageFile.value!.path.isNotEmpty)
+                              CircleAvatar(
+                                backgroundColor: AppColors.WHITE_COLOR,
+                                child: IconButton(
+                                  onPressed: () {
+                                    adoptionController.editNewAnimalImageFile
+                                        .value = File("");
+                                  },
+                                  icon: SvgPicture.asset(
+                                    AppIcons.delete_icon,
+                                    color: AppColors.RED_COLOR,
+                                  ),
                                 ),
+                              )
+                          ],
                         ),
-                      ),
-                      if (adoptionController
-                          .editNewAnimalImageFile.value!.path.isNotEmpty)
-                        CircleAvatar(
-                          backgroundColor: AppColors.WHITE_COLOR,
-                          child: IconButton(
-                            onPressed: () {
-                              adoptionController.editNewAnimalImageFile.value =
-                                  File("");
-                            },
-                            icon: SvgPicture.asset(
-                              AppIcons.delete_icon,
-                              color: AppColors.RED_COLOR,
-                            ),
-                          ),
-                        )
-                    ],
-                  ),
                   SizedBox(height: 20),
                   CustomTextFieldWidget(
                     hintText: "أسم الحيوان",
@@ -335,60 +336,68 @@ class AdoptionEditMyAnimalScreen extends StatelessWidget {
                   SizedBox(height: 100),
                   ConditionalBuilder(
                     condition:
-                        !adoptionController.isLoadingAddAdoptionAnimal.value,
+                        !adoptionController.isLoadingEditMyAdoptionAnimal.value,
                     builder: (context) => CustomButton(
-                        title: "حفظ",
-                        backgroundColor: AppColors.MAIN_COLOR,
-                        foregroundColor: AppColors.WHITE_COLOR,
-                        overlayColor: AppColors.WHITE_COLOR,
-                        onPress: () {
+                      title: "حفظ",
+                      backgroundColor: AppColors.MAIN_COLOR,
+                      foregroundColor: AppColors.WHITE_COLOR,
+                      overlayColor: AppColors.WHITE_COLOR,
+                      onPress: () {
+                        try {
                           var age = adoptionController
-                              .addAnimalAgeController.value.text;
+                              .editAnimalAgeController.value.text;
                           var year = '';
                           var month = '';
                           if (age.contains('.')) {
                             year = age.split('.')[0] == ''
                                 ? "0"
                                 : adoptionController
-                                    .addAnimalAgeController.value.text
+                                    .editAnimalAgeController.value.text
                                     .split('.')[0];
                             month = age.split('.')[1] == ''
                                 ? "0"
                                 : adoptionController
-                                    .addAnimalAgeController.value.text
+                                    .editAnimalAgeController.value.text
                                     .split('.')[1];
                           } else {
                             year = age;
                             month = "0";
                           }
-                          adoptionController.addAdoptionAnimal(
+                          adoptionController.editMyAdoptionAnimal(
+                            IDAdoption: adoptionController
+                                .adoptionsMyAnimalsDetails.value.idAdoption
+                                .toString(),
                             IDAnimalSubCategory: adoptionController
                                 .selectedAdoptionAnimalsCategoryValue.value,
                             IDCity: adoptionController.idCity.value,
                             PetName: adoptionController
-                                .addAnimalNameController.value.text,
+                                .editAnimalNameController.value.text,
                             PetStrain: adoptionController
-                                .addAnimalStrainController.value.text,
+                                .editAnimalStrainController.value.text,
                             PetColor: adoptionController
-                                .addAnimalColorController.value.text,
+                                .editAnimalColorController.value.text,
                             PetGender: adoptionController
                                 .selectedAdoptionAnimalsGenderValue.value,
                             PetAgeMonth: month,
                             PetAgeYear: year,
                             PetSize: adoptionController
-                                .addAnimalSizeController.value.text,
+                                .editAnimalSizeController.value.text,
                             PetCondition: adoptionController
-                                .addAnimalConditionController.value.text,
+                                .editAnimalConditionController.value.text,
                             PetDescription: adoptionController
-                                .addAnimalDescriptionController.value.text,
+                                .editAnimalDescriptionController.value.text,
                             AdoptionContact: "1",
                             PetPicture:
-                                adoptionController.animalImageFile.value!,
+                                adoptionController.editNewAnimalImageFile.value,
                             AdoptionGalleryList:
-                                adoptionController.animalGallery,
+                                adoptionController.editNewAnimalGallery,
                             context: context,
                           );
-                        }),
+                        } catch (e) {
+                          log(e.toString());
+                        }
+                      },
+                    ),
                     fallback: (context) => const CustomCircleProgress(),
                   )
                 ],

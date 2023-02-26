@@ -13,6 +13,7 @@ import '../../../../../../Utils/app_icons.dart';
 import '../../../../../../Utils/app_images.dart';
 import '../../../../../Widgets/auth_button.dart';
 import '../../../../../Widgets/custom_circle_progress.dart';
+import 'Widgets/my_pet_details_widget.dart';
 import 'Widgets/pet_details_widget.dart';
 
 class AdoptionMyAnimalsDetailsScreen extends StatelessWidget {
@@ -29,28 +30,47 @@ class AdoptionMyAnimalsDetailsScreen extends StatelessWidget {
         centerTitle: true,
         title: Text("التفاصيل"),
       ),
-      bottomSheet: Padding(
-        padding: EdgeInsets.all(16),
-        child: ConditionalBuilder(
-          condition: true,
-          builder: (context) => CustomButton(
-            title: "تعديل",
-            backgroundColor: AppColors.WHITE_COLOR,
-            foregroundColor: AppColors.MAIN_COLOR,
-            overlayColor: AppColors.MAIN_COLOR,
-            onPress: () async {
-              await adoptionController.getAdoptionAnimalsCategory();
-              adoptionController.selectedAdoptionAnimalsGenderValue.value = adoptionController.adoptionAnimalsGenderList[0].toString();
-              await adoptionController.getCountries();
-              adoptionController.idCountry.value =  adoptionController.adoptionsMyAnimalsDetails.value.idCountry.toString();
-              adoptionController.idCity.value = adoptionController.adoptionsMyAnimalsDetails.value.idCity.toString();
-              await adoptionController.getCities();
-              adoptionController.selectedAdoptionAnimalsCategoryValue.value = adoptionController.adoptionsMyAnimalsDetails.value.idAnimalSubCategory.toString();
-              Get.toNamed(Routes.adoptionEditMyAnimalScreen);
-            },
-          ),
-          fallback: (context) => const CustomCircleProgress(),
-        ),
+      bottomSheet: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Obx(
+            () => Container(
+              color: AppColors.WHITE_COLOR,
+              padding: EdgeInsets.all(16),
+              child: ConditionalBuilder(
+                condition: !adoptionController.isLoadingAdoptionAnimalsCategory.value,
+                builder: (context) => CustomButton(
+                  title: "تعديل",
+                  backgroundColor: AppColors.WHITE_COLOR,
+                  foregroundColor: AppColors.MAIN_COLOR,
+                  overlayColor: AppColors.MAIN_COLOR,
+                  onPress: () async {
+                    await adoptionController.getAdoptionAnimalsCategory();
+                    adoptionController
+                            .selectedAdoptionAnimalsGenderValue.value =
+                        adoptionController.adoptionAnimalsGenderList[0]
+                            .toString();
+                    await adoptionController.getCountries();
+                    adoptionController.idCountry.value = adoptionController
+                        .adoptionsMyAnimalsDetails.value.idCountry
+                        .toString();
+                    adoptionController.idCity.value = adoptionController
+                        .adoptionsMyAnimalsDetails.value.idCity
+                        .toString();
+                    await adoptionController.getCities();
+                    adoptionController
+                            .selectedAdoptionAnimalsCategoryValue.value =
+                        adoptionController
+                            .adoptionsMyAnimalsDetails.value.idAnimalSubCategory
+                            .toString();
+                    Get.toNamed(Routes.adoptionEditMyAnimalScreen);
+                  },
+                ),
+                fallback: (context) => const CustomCircleProgress(),
+              ),
+            ),
+          )
+        ],
       ),
       body: Obx(() {
         if (adoptionController.isLoadingAdoptionMyAnimalsDetails.value) {
@@ -67,7 +87,8 @@ class AdoptionMyAnimalsDetailsScreen extends StatelessWidget {
                       width: double.infinity,
                       fit: BoxFit.cover,
                       height: AppConstants.mediaHeight(context) / 2.5,
-                      imageUrl: adoptionController.adoptionsMyAnimalsDetails.value.petPicture,
+                      imageUrl: adoptionController
+                          .adoptionsMyAnimalsDetails.value.petPicture,
                       placeholder: (context, url) => Image.asset(
                         AppImages.placeholder,
                         width: double.infinity,
@@ -129,7 +150,7 @@ class AdoptionMyAnimalsDetailsScreen extends StatelessWidget {
                                     ],
                                   ),
                                   SizedBox(height: 20),
-                                  PetDetailsWidget(),
+                                  MyPetDetailsWidget(),
                                   SizedBox(height: 20),
                                   Text(
                                     "التفاصيل",

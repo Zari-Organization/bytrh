@@ -122,14 +122,6 @@ class AdoptionController extends GetxController {
     }
   }
 
-  var editAnimalNameController = TextEditingController().obs;
-  var editAnimalStrainController = TextEditingController().obs;
-  var editAnimalAgeController = TextEditingController().obs;
-  var editAnimalConditionController = TextEditingController().obs;
-  var editAnimalColorController = TextEditingController().obs;
-  var editAnimalSizeController = TextEditingController().obs;
-  var editAnimalDescriptionController = TextEditingController().obs;
-  var editAnimalGallery = <AdoptionGallery>[].obs;
 
   var isLoadingAdoptionAnimalsCategory = false.obs;
   var adoptionAnimalsCategoryList =
@@ -283,6 +275,80 @@ class AdoptionController extends GetxController {
       animalImageFile.value = File("");
       animalGallery.clear();
       isLoadingAddAdoptionAnimal(false);
+    }
+  }
+
+
+  var isLoadingEditMyAdoptionAnimal = false.obs;
+  var editAnimalNameController = TextEditingController().obs;
+  var editAnimalStrainController = TextEditingController().obs;
+  var editAnimalAgeController = TextEditingController().obs;
+  var editAnimalConditionController = TextEditingController().obs;
+  var editAnimalColorController = TextEditingController().obs;
+  var editAnimalSizeController = TextEditingController().obs;
+  var editAnimalDescriptionController = TextEditingController().obs;
+  var editAnimalGallery = <AdoptionGallery>[].obs;
+
+  editMyAdoptionAnimal(
+      { String? IDAnimalSubCategory,
+         String? IDCity,
+         String? PetName,
+         String? PetStrain,
+         String? PetColor,
+         String? PetGender,
+         String? PetAgeMonth,
+         String? PetAgeYear,
+        String? PetSize,
+        String? PetCondition,
+        String? PetDescription,
+         String? AdoptionContact,
+         required String IDAdoption,
+         File? PetPicture,
+        List<XFile>? AdoptionGalleryList,
+        required BuildContext context}) async {
+    try {
+      isLoadingEditMyAdoptionAnimal(true);
+      var response = await AdoptionsServices().editMyAdoptionAnimal(
+        IDAnimalSubCategory: IDAnimalSubCategory,
+        IDCity: IDCity,
+        PetName: PetName,
+        PetStrain: PetStrain,
+        PetColor: PetColor,
+        PetGender: PetGender,
+        PetAgeMonth: PetAgeMonth,
+        PetAgeYear: PetAgeYear,
+        PetSize: PetSize,
+        PetCondition: PetCondition,
+        PetDescription: PetDescription,
+        AdoptionContact: AdoptionContact,
+        IDAdoption: IDAdoption,
+        PetPicture: PetPicture,
+        AdoptionGalleryList: AdoptionGalleryList,
+        context: context,
+      );
+      if (response["Success"]) {
+        log(response["ApiMsg"]);
+        getMyAdoptionsList();
+        Get.toNamed(Routes.adoptionMyAnimalsScreen);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.MAIN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(response["ApiMsg"].toString()),
+          ),
+        );
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 2),
+            content: Text(response["ApiMsg"].toString()),
+          ),
+        );
+      }
+    } finally {
+      editNewAnimalImageFile.value = File("");
+      editNewAnimalGallery.clear();
+      isLoadingEditMyAdoptionAnimal(false);
     }
   }
 

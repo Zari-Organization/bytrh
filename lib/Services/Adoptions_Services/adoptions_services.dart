@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as dioImport;
 import 'package:image_picker/image_picker.dart';
 
+import '../../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
 import '../../Models/Adoptions_Models/adoption_animals_categories_model.dart';
 import '../../Models/Adoptions_Models/adoption_details_model.dart';
 import '../../Models/Adoptions_Models/adoption_list_model.dart';
@@ -135,6 +137,73 @@ class AdoptionsServices {
       log("Add Adoption Animal Api --> $jsonData");
       return jsonData;
     }
+  }
+
+  editMyAdoptionAnimal({
+     String? IDAnimalSubCategory,
+     String? IDCity,
+     String? PetName,
+     String? PetStrain,
+     String? PetColor,
+     String? PetGender,
+     String? PetAgeMonth,
+     String? PetAgeYear,
+    String? PetSize,
+    String? PetCondition,
+    String? PetDescription,
+     String? AdoptionContact,
+     required String IDAdoption,
+     File? PetPicture,
+    List<XFile>? AdoptionGalleryList,
+    context}) async {
+    final adoptionController = Get.find<AdoptionController>();
+    dioImport.Dio dio = dioImport.Dio();
+    List<dynamic>? gallery = [];
+    for (int i = 0; i < AdoptionGalleryList!.length; i++) {
+      var path = AdoptionGalleryList[i].path;
+      gallery.add(await dioImport.MultipartFile.fromFile(path,
+          filename: path.split('/').last));
+    }
+    dioImport.FormData formData = dioImport.FormData.fromMap({
+      'IDAnimalSubCategory': IDAnimalSubCategory,
+      'IDCity': IDCity,
+      'PetName': PetName,
+      'PetStrain': PetStrain,
+      'PetColor': PetColor,
+      'PetGender': PetGender,
+      'PetAgeMonth': PetAgeMonth,
+      'PetAgeYear': PetAgeYear,
+      'PetSize': PetSize,
+      'PetCondition': PetCondition,
+      'PetDescription': PetDescription,
+      'AdoptionContact': AdoptionContact,
+      'IDAdoption': IDAdoption,
+      "PetPicture": adoptionController.editNewAnimalImageFile.value!.path.isNotEmpty?await dioImport.MultipartFile.fromFile("${PetPicture!.path}",
+          filename: "${PetPicture.path.split('/').last}"):PetPicture,
+      "AdoptionGalleryList[]": gallery,
+    });
+   try{
+     var response = await dio.post(
+       AppConstants.apiUrl + '/api/client/' + 'adoption/edit',
+       data: formData,
+       options: dioImport.Options(
+         headers: {
+           'Accept': 'application/json',
+           HttpHeaders.authorizationHeader: AppConstants().UserTocken
+         },
+       ),
+     );
+     var jsonData = response.data;
+     if (jsonData["Success"]) {
+       log("Edit My Adoption Animal Api --> $jsonData");
+       return jsonData;
+     } else {
+       log("Edit My Adoption Animal Api --> $jsonData");
+       return jsonData;
+     }
+   }catch(e){
+     log(e.toString());
+   }
   }
 
   removeFromAnimalGallery(int idImage) async {
