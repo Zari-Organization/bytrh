@@ -352,6 +352,39 @@ class AdoptionController extends GetxController {
     }
   }
 
+  var isLoadingAddMyAdoptionAnimalStatus = false.obs;
+
+  addMyAdoptionAnimalStatus( String IDAdoption, String AdoptionStatus, BuildContext context) async {
+    try {
+      isLoadingAddMyAdoptionAnimalStatus(true);
+      var response = await AdoptionsServices.addMyAdoptionAnimalStatus(
+        IDAdoption,
+        AdoptionStatus,
+      );
+      if (response["Success"]) {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     duration: Duration(seconds: 2),
+        //     backgroundColor: AppColors.MAIN_COLOR,
+        //     content: Text(
+        //       response["ApiMsg"].toString(),
+        //     ),
+        //   ),
+        // );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(response["ApiMsg"].toString(),),
+          ),
+        );
+      }
+    } finally {
+      isLoadingAddMyAdoptionAnimalStatus(false);
+    }
+  }
+
+
   void openEmail(String path) async {
     final Uri params = Uri(
       scheme: 'mailto',
@@ -364,6 +397,8 @@ class AdoptionController extends GetxController {
       print('Could not launch $url');
     }
   }
+
+
 
   final ImagePicker _picker = ImagePicker();
   Rx<File?> animalImageFile = File("").obs;

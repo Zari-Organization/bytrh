@@ -224,4 +224,31 @@ class AdoptionsServices {
       return decodedData;
     }
   }
+
+  static addMyAdoptionAnimalStatus(
+      String IDAdoption,
+      String AdoptionStatus,
+      ) async {
+    var response = await http.post(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/adoption/status'),
+      body: {
+        'IDAdoption': IDAdoption,
+        'AdoptionStatus': AdoptionStatus,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData["Success"]) {
+        log("Add My Adoption Animal Status Api Success --> $decodedData");
+      return decodedData;
+    }else {
+      log("Add My Adoption Animal Status Api Success --> $decodedData");
+      return decodedData;
+    }
+  }
+
 }

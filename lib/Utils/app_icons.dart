@@ -43,4 +43,5 @@ class AppIcons {
   static const String message_icon = "assets/icons/message_icon.svg";
   static const String upload_icon = "assets/icons/upload_icon.svg";
   static const String delete_icon = "assets/icons/delete_icon.svg";
+  static const String list_icon = "assets/icons/list_icon.svg";
 }

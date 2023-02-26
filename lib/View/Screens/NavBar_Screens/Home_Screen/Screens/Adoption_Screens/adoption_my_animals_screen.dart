@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bytrh/Routes/routes.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -29,8 +31,7 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
               centerTitle: true,
               title: Text("حيواناتي"),
             ),
-            body:CustomCircleProgress()
-        );
+            body: CustomCircleProgress());
       } else if (adoptionController.myAdoptionsList.isEmpty) {
         return Scaffold(
             backgroundColor: AppColors.WHITE_COLOR,
@@ -42,34 +43,42 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
             ),
             body: Center(
               child: Text("لايوجد حيوانات متاحة للتبني الان"),
-            )
-        );
-      }
-      else{
+            ));
+      } else {
         return Scaffold(
-          bottomSheet: Padding(
-            padding: EdgeInsets.all(16),
-            child: ConditionalBuilder(
-              condition:
-              (!adoptionController.isLoadingAdoptionAnimalsCategory.value &&
-                  !adoptionController.isLoadingCountries.value &&
-                  !adoptionController.isLoadingCountries.value),
-              builder: (context) => CustomButton(
-                title: "إضافة حيوان جديد",
-                backgroundColor: AppColors.WHITE_COLOR,
-                foregroundColor: AppColors.MAIN_COLOR,
-                overlayColor: AppColors.MAIN_COLOR,
-                onPress: () async {
-                  await adoptionController.getAdoptionAnimalsCategory();
-                  adoptionController.selectedAdoptionAnimalsGenderValue.value = adoptionController.adoptionAnimalsGenderList[0].toString();
-                  await adoptionController.getCountries();
-                  await adoptionController.getCities();
-                  adoptionController.idCity.value = adoptionController.citiesList[0].idCity.toString();
-                  Get.toNamed(Routes.adoptionAddAnimalScreen);
-                },
-              ),
-              fallback: (context) => const CustomCircleProgress(),
-            ),
+          bottomSheet: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                color: AppColors.WHITE_COLOR,
+                padding: EdgeInsets.all(16),
+                child: ConditionalBuilder(
+                  condition: (!adoptionController
+                          .isLoadingAdoptionAnimalsCategory.value &&
+                      !adoptionController.isLoadingCountries.value &&
+                      !adoptionController.isLoadingCountries.value),
+                  builder: (context) => CustomButton(
+                    title: "إضافة حيوان جديد",
+                    backgroundColor: AppColors.WHITE_COLOR,
+                    foregroundColor: AppColors.MAIN_COLOR,
+                    overlayColor: AppColors.MAIN_COLOR,
+                    onPress: () async {
+                      await adoptionController.getAdoptionAnimalsCategory();
+                      adoptionController
+                              .selectedAdoptionAnimalsGenderValue.value =
+                          adoptionController.adoptionAnimalsGenderList[0]
+                              .toString();
+                      await adoptionController.getCountries();
+                      await adoptionController.getCities();
+                      adoptionController.idCity.value =
+                          adoptionController.citiesList[0].idCity.toString();
+                      Get.toNamed(Routes.adoptionAddAnimalScreen);
+                    },
+                  ),
+                  fallback: (context) => const CustomCircleProgress(),
+                ),
+              )
+            ],
           ),
           backgroundColor: AppColors.WHITE_COLOR,
           appBar: AppBar(
@@ -86,9 +95,9 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  adoptionController.setDataToAdoptionMyAnimalsDetails(adoptionController
-                      .myAdoptionsList[index].idAdoption
-                      .toString());
+                  adoptionController.setDataToAdoptionMyAnimalsDetails(
+                      adoptionController.myAdoptionsList[index].idAdoption
+                          .toString());
                 },
                 child: Card(
                   shape: OutlineInputBorder(
@@ -131,7 +140,8 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                adoptionController.myAdoptionsList[index].petName,
+                                adoptionController
+                                    .myAdoptionsList[index].petName,
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -151,7 +161,8 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
                                   Text(
                                     adoptionController
                                         .myAdoptionsList[index].cityName,
-                                    style: TextStyle(color: AppColors.GREY_COLOR),
+                                    style:
+                                        TextStyle(color: AppColors.GREY_COLOR),
                                   ),
                                 ],
                               )
@@ -161,9 +172,32 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.all(16),
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 15,
+                        child: Column(
+                          children: [
+                            DropdownButton<String>(
+                              icon: SvgPicture.asset(AppIcons.list_icon),
+                              underline: SizedBox(),
+                              items: <String>['غير نشط', 'تم التبني']
+                                  .map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value)async {
+                                log(value.toString());
+                              await  adoptionController.addMyAdoptionAnimalStatus(
+                                  adoptionController
+                                      .myAdoptionsList[index].idAdoption
+                                      .toString(),
+                                  value=="غير نشط"?"CANCELLED":"ADOPTED",
+                                  context,
+                                );
+                              adoptionController.getMyAdoptionsList();
+                              },
+                            ),
+                            Text(getCountDownTitle(adoptionController.myAdoptionsList[index].adoptionStatus),style: TextStyle(fontSize: 12,color: AppColors.GREY_COLOR),),
+                          ],
                         ),
                       )
                     ],
@@ -176,5 +210,17 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
         );
       }
     });
+  }
+  String getCountDownTitle(status) {
+    switch (status) {
+      case "PENDING":
+        return "معلقة";
+      case "ADOPTED":
+        return "تم التبني";
+      case "CANCELLED":
+        return "غير نشط";
+      default:
+        return "";
+    }
   }
 }
