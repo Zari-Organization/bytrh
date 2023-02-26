@@ -106,4 +106,23 @@ class ChatServices {
       log(e.toString());
     }
   }
+
+  static endConsultChat(String id) async {
+    var response = await http.get(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/consult/chat/end/$id'),
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData["Success"]) {
+      log("End Chat Api --> $decodedData");
+      return decodedData;
+    }else {
+      log("End Chat Api --> $decodedData");
+      return decodedData;
+    }
+  }
 }

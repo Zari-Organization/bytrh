@@ -2,11 +2,13 @@ import 'dart:developer';
 
 import 'package:chat_package/chat_package.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../../Logic/controllers/Chat_Controllers/chat_controllers.dart';
 import '../../../../../../Utils/app_colors.dart';
+import '../../../../../../Utils/app_icons.dart';
 
 
 class ConsultationsChatScreen extends StatelessWidget {
@@ -23,6 +25,23 @@ class ConsultationsChatScreen extends StatelessWidget {
           backgroundColor: AppColors.MAIN_COLOR,
           title: const Text("المحادثة مع الطبيب"),
           centerTitle: true,
+          actions: [
+           Padding(padding: EdgeInsets.symmetric(horizontal: 10),
+           child:  DropdownButton<String>(
+             icon: SvgPicture.asset(AppIcons.list_icon,color: AppColors.WHITE_COLOR,),
+             underline: SizedBox(),
+             items: <String>['انهاء المحادثة']
+                 .map((String value) {
+               return DropdownMenuItem<String>(
+                 value: value,
+                 child: Text(value),
+               );
+             }).toList(),
+             onChanged: (value) async {
+               consultationsChatController.endConsultChat(consultationsChatController.consultId.value,context);
+             },
+           ),)
+          ],
         ),
         body: ChatScreen(
           disableInput: consultationsChatController.consultStatus.value=="ENDED"?true:false,

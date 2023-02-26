@@ -170,36 +170,60 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Padding(
+                      Expanded(child: Padding(
                         padding: EdgeInsets.all(16),
                         child: Column(
                           children: [
+                            if(adoptionController.myAdoptionsList[index].adoptionStatus!="ADOPTED")
                             DropdownButton<String>(
                               icon: SvgPicture.asset(AppIcons.list_icon),
                               underline: SizedBox(),
-                              items: <String>['غير نشط', 'تم التبني']
+                              items: adoptionController
+                  .myAdoptionsList[index].adoptionStatus=="PENDING"?<String>['تعديل','حذف',]
+                                  .map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList():<String>['تعديل','حذف', 'تم التبني']
                                   .map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
                                 );
                               }).toList(),
-                              onChanged: (value)async {
+                              onChanged: (value) async {
                                 log(value.toString());
-                              await  adoptionController.addMyAdoptionAnimalStatus(
-                                  adoptionController
-                                      .myAdoptionsList[index].idAdoption
-                                      .toString(),
-                                  value=="غير نشط"?"CANCELLED":"ADOPTED",
-                                  context,
-                                );
-                              adoptionController.getMyAdoptionsList();
+                                if(value == "تعديل"){
+                                  adoptionController.setDataToAdoptionMyAnimalsDetails(
+                                      adoptionController.myAdoptionsList[index].idAdoption
+                                          .toString());
+                                }
+                                else{
+                                  await adoptionController.addMyAdoptionAnimalStatus(
+                                    adoptionController
+                                        .myAdoptionsList[index].idAdoption
+                                        .toString(),
+                                    value == "حذف" ? "CANCELLED" : "ADOPTED",
+                                    context,
+                                  );
+                                  adoptionController.getMyAdoptionsList();
+                                }
                               },
                             ),
-                            Text(getCountDownTitle(adoptionController.myAdoptionsList[index].adoptionStatus),style: TextStyle(fontSize: 12,color: AppColors.GREY_COLOR),),
+                            Text(
+                              getCountDownTitle(adoptionController
+                                  .myAdoptionsList[index].adoptionStatus),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.GREY_COLOR,
+                                  // overflow: TextOverflow.ellipsis
+                              ),
+                            ),
                           ],
                         ),
-                      )
+                      ))
                     ],
                   ),
                 ),
@@ -211,10 +235,11 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
       }
     });
   }
+
   String getCountDownTitle(status) {
     switch (status) {
       case "PENDING":
-        return "معلقة";
+        return "في انتظار موافقة الأدمن";
       case "ADOPTED":
         return "تم التبني";
       case "CANCELLED":

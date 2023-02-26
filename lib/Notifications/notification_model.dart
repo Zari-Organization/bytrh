@@ -12,37 +12,33 @@ String notificationsModelToJson(NotificationsModel data) =>
 
 class NotificationsModel {
   NotificationsModel({
-    required this.idData,
-    required this.notificationType,
-    required this.screen,
-    required this.idUser,
-    required this.dataType,
     required this.message,
+    required this.idData,
+    required this.screen,
+    required this.notificationType,
+    required this.dataType,
   });
 
-  String idData;
-  String notificationType;
-  String screen;
-  String idUser;
-  String dataType;
   String message;
+  String idData;
+  String screen;
+  String notificationType;
+  String dataType;
 
   factory NotificationsModel.fromJson(Map<String, dynamic> json) =>
       NotificationsModel(
-        idData: json["IDData"],
-        notificationType: json["NotificationType"],
-        screen: json["Screen"],
-        idUser: json["IDUser"],
-        dataType: json["DataType"],
         message: json["Message"],
+        idData: json["IDData"],
+        screen: json["Screen"],
+        notificationType: json["NotificationType"],
+        dataType: json["DataType"],
       );
 
   Map<String, dynamic> toJson() => {
+    "Message": message,
         "IDData": idData,
-        "NotificationType": notificationType,
         "Screen": screen,
-        "IDUser": idUser,
-        "DataType": dataType,
-        "Message": message,
+    "NotificationType": notificationType,
+    "DataType": dataType,
       };
 }

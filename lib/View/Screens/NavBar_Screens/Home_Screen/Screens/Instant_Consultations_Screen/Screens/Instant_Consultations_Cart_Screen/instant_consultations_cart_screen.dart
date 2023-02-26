@@ -73,8 +73,7 @@ class InstantsConsultationsCartScreen extends StatelessWidget {
                               "ONGOING"||instantConsultationsController
                               .consultationsCartList[index].consultStatus ==
                               "ENDED") {
-                            consultationsChatController.consultStatus.value = instantConsultationsController
-                                .consultationsCartList[index].consultStatus;
+                            consultationsChatController.consultStatus.value = instantConsultationsController.consultationsCartList[index].consultStatus;
                             await consultationsChatController
                                 .getConsultationsChatDetails(
                               instantConsultationsController

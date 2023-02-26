@@ -362,15 +362,6 @@ class AdoptionController extends GetxController {
         AdoptionStatus,
       );
       if (response["Success"]) {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     duration: Duration(seconds: 2),
-        //     backgroundColor: AppColors.MAIN_COLOR,
-        //     content: Text(
-        //       response["ApiMsg"].toString(),
-        //     ),
-        //   ),
-        // );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

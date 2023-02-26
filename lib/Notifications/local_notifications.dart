@@ -32,7 +32,7 @@ class NotificationService {
   }
 
   Future<void> showLocalNotification(
-          {int id = 0, String? title, String? body, String? payload}) async =>
+      {int id = 0, String? title, String? body, String? payload}) async =>
       FlutterLocalNotificationsPlugin().show(
         id,
         title,

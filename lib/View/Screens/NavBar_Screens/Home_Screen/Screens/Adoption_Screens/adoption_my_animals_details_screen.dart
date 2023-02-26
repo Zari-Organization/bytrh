@@ -30,7 +30,8 @@ class AdoptionMyAnimalsDetailsScreen extends StatelessWidget {
         centerTitle: true,
         title: Text("التفاصيل"),
       ),
-      bottomSheet: Column(
+      bottomSheet:Obx(() =>  adoptionController
+          .adoptionsMyAnimalsDetails.value.adoptionStatus=="ADOPTED"?SizedBox():Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Obx(
@@ -71,7 +72,7 @@ class AdoptionMyAnimalsDetailsScreen extends StatelessWidget {
             ),
           )
         ],
-      ),
+      ),),
       body: Obx(() {
         if (adoptionController.isLoadingAdoptionMyAnimalsDetails.value) {
           return CustomCircleProgress();

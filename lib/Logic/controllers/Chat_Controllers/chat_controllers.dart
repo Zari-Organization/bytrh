@@ -70,9 +70,10 @@ class ConsultationsChatController extends GetxController {
       <consultations_chat_messages_import.ChatDetail>[].obs;
 
   var consultStatus = ''.obs;
-
+var consultId = ''.obs;
   getConsultationsChatDetails(String idConsult) async {
     try {
+      consultId.value = idConsult;
       isLoadingConsultationsChatDetail(true);
       var response = await ChatServices.getConsultationsChatDetails(
         idConsult: idConsult,
@@ -172,6 +173,35 @@ class ConsultationsChatController extends GetxController {
       }
     } finally {
       isLoadingSendChatMessage(false);
+    }
+  }
+
+  var isLoadingEndConsultChat = false.obs;
+
+  endConsultChat( String id, BuildContext context) async {
+    try {
+      isLoadingEndConsultChat(true);
+      var response = await ChatServices.endConsultChat(
+        id,
+      );
+      if (response["Success"]) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text("تم انهاء المحادثة"),
+          ),
+        );
+        Get.back();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(response["ApiMsg"].toString(),),
+          ),
+        );
+      }
+    } finally {
+      isLoadingEndConsultChat(false);
     }
   }
 }

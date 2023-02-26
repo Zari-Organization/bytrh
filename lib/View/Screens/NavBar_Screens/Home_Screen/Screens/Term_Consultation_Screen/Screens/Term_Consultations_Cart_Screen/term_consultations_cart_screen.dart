@@ -70,8 +70,7 @@ class TermConsultationsCartScreen extends StatelessWidget {
                                       .consultationsCartList[index]
                                       .consultStatus ==
                                   "ENDED") {
-                            consultationsChatController.consultStatus.value = termConsultationsController
-                                .consultationsCartList[index].consultStatus;
+                            consultationsChatController.consultStatus.value = termConsultationsController.consultationsCartList[index].consultStatus;
                             await consultationsChatController
                                 .getConsultationsChatDetails(
                               termConsultationsController
