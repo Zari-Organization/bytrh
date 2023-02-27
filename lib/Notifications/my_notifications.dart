@@ -69,7 +69,7 @@ try{
     final instantConsultationsController = Get.find<InstantConsultationsController>();
     final consultationsChatController = Get.find<ConsultationsChatController>();
     await instantConsultationsController.getConsultationsCart();
-
+    consultationsChatController.consultStatus.value ="ONGOING";
     await consultationsChatController
         .getConsultationsChatDetails(
       value.idData,
@@ -94,6 +94,7 @@ try{
     final termConsultationsController = Get.find<TermConsultationsController>();
     final consultationsChatController = Get.find<ConsultationsChatController>();
     await termConsultationsController.getConsultationsCart();
+    consultationsChatController.consultStatus.value ="ONGOING";
     await consultationsChatController
         .getConsultationsChatDetails(
      value.idData,
@@ -192,6 +193,7 @@ void handlingOnRefreshScreens(RemoteMessage message)async {
       final instantConsultationsController = Get.find<InstantConsultationsController>();
       final consultationsChatController = Get.find<ConsultationsChatController>();
       await instantConsultationsController.getConsultationsCart();
+      consultationsChatController.consultStatus.value ="ONGOING";
       onClickNotification(String? payload) async{
           await consultationsChatController
               .getConsultationsChatDetails(
@@ -208,6 +210,7 @@ void handlingOnRefreshScreens(RemoteMessage message)async {
       final termConsultationsController = Get.find<TermConsultationsController>();
       final consultationsChatController = Get.find<ConsultationsChatController>();
       await termConsultationsController.getConsultationsCart();
+      consultationsChatController.consultStatus.value ="ONGOING";
       onClickNotification(String? payload) async{
         await consultationsChatController
             .getConsultationsChatDetails(

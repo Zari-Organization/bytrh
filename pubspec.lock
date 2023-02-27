@@ -78,7 +78,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "11b65516848edc75ea973c07e2f115db2d19df7e"
+      resolved-ref: "43c3480cb1f83fa60e2100ed9912506bf6a5edb4"
       url: "https://github.com/Zari-Organization/chat_package.git"
     source: git
     version: "1.0.0"

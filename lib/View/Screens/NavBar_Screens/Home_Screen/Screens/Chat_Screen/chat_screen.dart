@@ -10,7 +10,6 @@ import '../../../../../../Logic/controllers/Chat_Controllers/chat_controllers.da
 import '../../../../../../Utils/app_colors.dart';
 import '../../../../../../Utils/app_icons.dart';
 
-
 class ConsultationsChatScreen extends StatelessWidget {
   ConsultationsChatScreen({Key? key}) : super(key: key);
 
@@ -26,25 +25,36 @@ class ConsultationsChatScreen extends StatelessWidget {
           title: const Text("المحادثة مع الطبيب"),
           centerTitle: true,
           actions: [
-           Padding(padding: EdgeInsets.symmetric(horizontal: 10),
-           child:  DropdownButton<String>(
-             icon: SvgPicture.asset(AppIcons.list_icon,color: AppColors.WHITE_COLOR,),
-             underline: SizedBox(),
-             items: <String>['انهاء المحادثة']
-                 .map((String value) {
-               return DropdownMenuItem<String>(
-                 value: value,
-                 child: Text(value),
-               );
-             }).toList(),
-             onChanged: (value) async {
-               consultationsChatController.endConsultChat(consultationsChatController.consultId.value,context);
-             },
-           ),)
+            consultationsChatController.consultStatus.value == "ENDED"
+                ? SizedBox()
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: DropdownButton<String>(
+                      icon: SvgPicture.asset(
+                        AppIcons.list_icon,
+                        color: AppColors.WHITE_COLOR,
+                      ),
+                      underline: SizedBox(),
+                      items: <String>['انهاء المحادثة'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) async {
+                        consultationsChatController.endConsultChat(
+                            consultationsChatController.consultId.value,
+                            context);
+                      },
+                    ),
+                  )
           ],
         ),
         body: ChatScreen(
-          disableInput: consultationsChatController.consultStatus.value=="ENDED"?true:false,
+          disableInput:
+              consultationsChatController.consultStatus.value == "ENDED"
+                  ? true
+                  : false,
           messageContainerTextStyle: TextStyle(color: AppColors.RED_COLOR),
           sendMessageHintText: "اكتب رسالتك",
           scrollController: consultationsChatController.scrollController.value,
@@ -58,12 +68,13 @@ class ConsultationsChatScreen extends StatelessWidget {
               consultationsChatController.messages.add(textMessage);
               consultationsChatController.scrollController.value.jumpTo(
                 consultationsChatController
-                    .scrollController.value.position.maxScrollExtent +
+                        .scrollController.value.position.maxScrollExtent +
                     50,
               );
               consultationsChatController.sendChatMessageText(
                 IDConsult: consultationsChatController
-                    .consultationsChatDetails.value.idConsult.toString(),
+                    .consultationsChatDetails.value.idConsult
+                    .toString(),
                 ConsultChatType: "TEXT",
                 ConsultChatMessageText: textMessage.text,
                 // context: context,
@@ -75,43 +86,43 @@ class ConsultationsChatScreen extends StatelessWidget {
           },
           handleRecord: (audioMessage, canceled) {
             if (!canceled) {
-                consultationsChatController.messages.add(audioMessage!);
-                consultationsChatController.scrollController.value.jumpTo(
-                  consultationsChatController
-                      .scrollController.value.position.maxScrollExtent +
-                      90,
-                );
-                log(audioMessage.chatMedia!.url);
-                var file = XFile(audioMessage.chatMedia!.url);
-                consultationsChatController.sendChatMessageFile(
-                  IDConsult: consultationsChatController
-                      .consultationsChatDetails.value.idConsult
-                      .toString(),
-                  ConsultChatType: "AUDIO",
-                  ConsultChatMessage: file,
-                  context: context,
-                );
+              consultationsChatController.messages.add(audioMessage!);
+              consultationsChatController.scrollController.value.jumpTo(
+                consultationsChatController
+                        .scrollController.value.position.maxScrollExtent +
+                    90,
+              );
+              log(audioMessage.chatMedia!.url);
+              var file = XFile(audioMessage.chatMedia!.url);
+              consultationsChatController.sendChatMessageFile(
+                IDConsult: consultationsChatController
+                    .consultationsChatDetails.value.idConsult
+                    .toString(),
+                ConsultChatType: "AUDIO",
+                ConsultChatMessage: file,
+                context: context,
+              );
             }
           },
           handleImageSelect: (imageMessage) async {
             if (imageMessage != null) {
-                consultationsChatController.messages.add(
-                  imageMessage,
-                );
-                consultationsChatController.scrollController.value.jumpTo(
-                  consultationsChatController
-                      .scrollController.value.position.maxScrollExtent +
-                      300,
-                );
-                var file = XFile(imageMessage.chatMedia!.url);
-                consultationsChatController.sendChatMessageFile(
-                  IDConsult: consultationsChatController
-                      .consultationsChatDetails.value.idConsult
-                      .toString(),
-                  ConsultChatType: "IMAGE",
-                  ConsultChatMessage: file,
-                  context: context,
-                );
+              consultationsChatController.messages.add(
+                imageMessage,
+              );
+              consultationsChatController.scrollController.value.jumpTo(
+                consultationsChatController
+                        .scrollController.value.position.maxScrollExtent +
+                    300,
+              );
+              var file = XFile(imageMessage.chatMedia!.url);
+              consultationsChatController.sendChatMessageFile(
+                IDConsult: consultationsChatController
+                    .consultationsChatDetails.value.idConsult
+                    .toString(),
+                ConsultChatType: "IMAGE",
+                ConsultChatMessage: file,
+                context: context,
+              );
             }
           },
         ),
