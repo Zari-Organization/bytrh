@@ -85,7 +85,7 @@ class SignUpScreen extends StatelessWidget {
                       children: [
                         Text("رقم الجوال"),
                         const SizedBox(height: 10),
-                        IntlPhoneField(
+                        Directionality(textDirection: TextDirection.ltr, child: IntlPhoneField(
                           controller:
                           authController.loginPhoneWithoutCodeController.value,
                           decoration: InputDecoration(
@@ -122,15 +122,14 @@ class SignUpScreen extends StatelessWidget {
                                   .registerClientPhoneController.value.text);
                             }
                           },
-                        )
+                        ),)
                       ],
                     );
                   }
                 },
               ),
               // TitledTextField(
-              //   controller:
-              //       authController.registerClientPhoneController.value,
+              //   controller:authController.registerClientPhoneController.value,
               //   title: "رقم الجوال",
               //   hintText: "رقم الجوال........",
               //   fillColor: AppColors.GREY_Light_COLOR,
@@ -212,7 +211,7 @@ class SignUpScreen extends StatelessWidget {
                             !authController.termsCheck.value;
                       },
                       // checkColor: AppColors.MAIN_COLOR,
-                      activeColor: AppColors.MAIN_COLOR,
+                      activeColor: AppColors.SECOND_COLOR,
                     ),
                     const Text(
                       "أوافق على",
@@ -225,7 +224,7 @@ class SignUpScreen extends StatelessWidget {
                       child: const Text(
                         "الشروط والأحكام",
                         style: TextStyle(
-                            fontSize: 12, color: AppColors.MAIN_COLOR),
+                            fontSize: 12, color: AppColors.SECOND_COLOR),
                       ),
                     )
                   ],
@@ -237,7 +236,8 @@ class SignUpScreen extends StatelessWidget {
                   condition: !authController.isRegisterLoading.value,
                   builder: (context) => CustomButton(
                     title: "إنشاء حساب",
-                    backgroundColor: AppColors.MAIN_COLOR,
+                    backgroundColor: AppColors.SECOND_COLOR,
+                    borderSideColor: AppColors.SECOND_COLOR,
                     foregroundColor: AppColors.WHITE_COLOR,
                     overlayColor: AppColors.WHITE_COLOR,
                     onPress: () {
@@ -315,7 +315,7 @@ class SignUpScreen extends StatelessWidget {
                     child: const Text(
                       "تسجيل الدخول",
                       style:
-                          TextStyle(fontSize: 12, color: AppColors.MAIN_COLOR),
+                          TextStyle(fontSize: 12, color: AppColors.SECOND_COLOR),
                     ),
                   )
                 ],

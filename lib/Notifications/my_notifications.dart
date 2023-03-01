@@ -10,6 +10,7 @@ import '../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
 import '../Logic/controllers/Chat_Controllers/chat_controllers.dart';
 import '../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import '../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
+import '../Logic/controllers/My_Account_Controllers/my_account_controller.dart';
 import '../Routes/routes.dart';
 import '../Utils/app_alerts.dart';
 import 'local_notifications.dart';
@@ -55,8 +56,7 @@ void handlingOnClickNotification(NotificationsModel value) async {
     try {
       Get.put(AdoptionController());
       final adoptionController = Get.find<AdoptionController>();
-      await adoptionController
-          .getAdoptionChatDetails(
+      await adoptionController.getAdoptionChatDetails(
         "CLIENT",
         value.idData,
       );
@@ -160,6 +160,24 @@ Future<void> foregroundHandler() async {
 void handlingOnRefreshScreens(RemoteMessage message) async {
   try {
     log("handlingOnRefreshScreens ----> ${message.data['Screen']}");
+    if (message.data['Screen'] == "/chatSupportEndScreen") {
+      AppAlerts().chatSupportEndedPop();
+      NotificationService().showLocalNotification(
+          title: "Bytrh Support",
+          body: message.data['Message'].toString(),
+          payload: "");
+    }
+    if (message.data['Screen'] == "/chatSupportScreen") {
+      final myAccountController = Get.find<MyAccountController>();
+      myAccountController.chatSupportReceiveMessage(
+        message.data['DataType'],
+        message.data['Message'],
+      );
+      NotificationService().showLocalNotification(
+          title: "Bytrh Support",
+          body: message.data['Message'].toString(),
+          payload: "");
+    }
     if (message.data['Screen'] == "/adoptionChatScreen") {
       final adoptionController = Get.find<AdoptionController>();
       adoptionController.adoptionReceiveMessageFromChat(

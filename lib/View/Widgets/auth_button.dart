@@ -4,10 +4,11 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import '../../Utils/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
-   CustomButton({Key? key, this.title, this.backgroundColor, this.foregroundColor, this.overlayColor,this.onPress}) : super(key: key);
+   CustomButton({Key? key, this.title, this.backgroundColor, this.foregroundColor, this.overlayColor,this.onPress, this.borderSideColor=AppColors.MAIN_COLOR}) : super(key: key);
    final title;
    final backgroundColor;
    final foregroundColor;
+   Color? borderSideColor;
    final overlayColor ;
    Function()? onPress;
 
@@ -24,7 +25,7 @@ class CustomButton extends StatelessWidget {
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              side: const BorderSide(color: AppColors.MAIN_COLOR),
+              side:  BorderSide(color: borderSideColor!),
               borderRadius: BorderRadius.circular(10),
             ),
           ),

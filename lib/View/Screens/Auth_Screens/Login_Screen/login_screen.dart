@@ -47,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          IntlPhoneField(
+                          Directionality(textDirection: TextDirection.ltr, child: IntlPhoneField(
                             controller:
                             authController.loginPhoneWithoutCodeController.value,
                             decoration: InputDecoration(
@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                                     .registerClientPhoneController.value.text);
                               }
                             },
-                          )
+                          ),)
                         ],
                       );
                     }
@@ -143,7 +143,8 @@ class LoginScreen extends StatelessWidget {
                     condition: !authController.isLogInLoading.value,
                     builder: (context) => CustomButton(
                       title: "تسجيل الدخول",
-                      backgroundColor: AppColors.MAIN_COLOR,
+                      backgroundColor: AppColors.SECOND_COLOR,
+                      borderSideColor: AppColors.SECOND_COLOR,
                       foregroundColor: AppColors.WHITE_COLOR,
                       overlayColor: AppColors.WHITE_COLOR,
                       onPress: () {
@@ -216,7 +217,7 @@ class LoginScreen extends StatelessWidget {
                       child: const Text(
                         "إنشاء حساب",
                         style: TextStyle(
-                            fontSize: 12, color: AppColors.MAIN_COLOR),
+                            fontSize: 12, color: AppColors.SECOND_COLOR),
                       ),
                     )
                   ],

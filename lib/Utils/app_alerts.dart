@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:bytrh/Routes/routes.dart';
@@ -277,8 +278,7 @@ class AppAlerts {
       title: "",
       content: Column(
         children: [
-          Text(
-            "تم الطلب بنجاح",
+          Text("تم الطلب بنجاح",
             style: const TextStyle(
               color: AppColors.MAIN_COLOR,
               fontSize: 20,
@@ -300,8 +300,7 @@ class AppAlerts {
     }
   }
 
-  Future<bool>? consultationsCountDownPop(
-      String consultId, String consultStatus) async {
+  Future<bool>? consultationsCountDownPop(String consultId, String consultStatus) async {
     Get.put(ConsultationsChatController());
     final result = await Get.defaultDialog(
       title: '',
@@ -390,6 +389,87 @@ class AppAlerts {
     } else {
       return result;
     }
+  }
+  Future<bool>? chatSupportEndedPop() async {
+    final result = await Get.defaultDialog(
+      barrierDismissible: false,
+      contentPadding: EdgeInsets.zero,
+      titlePadding: EdgeInsets.zero,
+      title: "",
+      content: Column(
+        children: [
+          Text(
+            "تم انتهاء المحادثة مع الدعم",
+            style: const TextStyle(
+              color: AppColors.MAIN_COLOR,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+      cancel: const SizedBox(),
+      confirm: Expanded(child: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            AppColors.MAIN_COLOR,
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            AppColors.BLACK_COLOR,
+          ),
+        ),
+        onPressed: () {
+          Timer(const Duration(seconds: 1), () => Get.back());
+          Timer(const Duration(seconds: 1), () => Get.back());
+        },
+        child: Text(
+          "موافق",
+          style: const TextStyle(color: AppColors.WHITE_COLOR),
+        ),
+      )),
+      confirmTextColor: AppColors.WHITE_COLOR,
+    );
+    if (result == null) {
+      return false;
+    } else {
+      return result;
+    }
+  }
+}
+
+Future<bool>? consultationsCreatedSuccessfullyPop() async {
+  final result = await Get.defaultDialog(
+    contentPadding: EdgeInsets.zero,
+    titlePadding: EdgeInsets.zero,
+    title: "",
+    content: Column(
+      children: [
+        Text(
+          "تم إرسال طلب إستشارتك",
+          style: const TextStyle(
+            color: AppColors.MAIN_COLOR,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 20),
+        Image.asset(AppImages.saudi_man_image),
+      ],
+    ),
+    cancel: const SizedBox(),
+    confirm: const SizedBox(),
+    confirmTextColor: AppColors.WHITE_COLOR,
+  );
+  if (result == null) {
+    return false;
+  } else {
+    return result;
   }
 }
 

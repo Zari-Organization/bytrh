@@ -1,4 +1,5 @@
 import 'package:bytrh/View/Screens/Auth_Screens/Policies_Screens/terms_screen.dart';
+import 'package:bytrh/View/Screens/NavBar_Screens/My_Account_Screen/Screens/chat_support_screen.dart';
 import 'package:get/get.dart';
 
 import '../Logic/binding/Adoption_Bindings/adoption_binding.dart';
@@ -91,6 +92,7 @@ class AppRoutes {
   static const myAdoptionChatScreen = Routes.myAdoptionChatScreen;
   static const adoptionChatListScreen = Routes.adoptionChatListScreen;
   static const adoptionChatScreen = Routes.adoptionChatScreen;
+  static const chatSupportScreen = Routes.chatSupportScreen;
 
   //getPages
   static final routes = [
@@ -287,6 +289,11 @@ class AppRoutes {
       page: () => AdoptionChatScreen(),
       binding: AdoptionBinding(),
     ),
+    GetPage(
+      name: Routes.chatSupportScreen,
+      page: () => ChatSupportScreen(),
+      binding: MyAccountBinding(),
+    ),
   ];
 }
 
@@ -330,4 +337,5 @@ class Routes {
   static const myAdoptionChatScreen = '/myAdoptionChatScreen';
   static const adoptionChatListScreen = '/adoptionChatListScreen';
   static const adoptionChatScreen = '/adoptionChatScreen';
+  static const chatSupportScreen = '/chatSupportScreen';
 }

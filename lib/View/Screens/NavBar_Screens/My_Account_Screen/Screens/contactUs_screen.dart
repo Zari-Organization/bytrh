@@ -67,7 +67,9 @@ class ContactUsScreen extends StatelessWidget {
                         icon: AppIcons.square_message_icon,
                         iconColor: null,
                         title: "شات الدعم الفني",
-                        onTap: () {},
+                        onTap: () {
+                          myAccountController.requestChatSupport(context);
+                        },
                       ),
                       CustomListTile(
                         borderRadius: 10,
