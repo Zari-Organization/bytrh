@@ -111,11 +111,35 @@ class TermConsultationsController extends GetxController
   getConsultationsDoctorProfile(String consultId) async {
     try {
       isLoadingConsultationsDoctorProfile(true);
-      var profileResponse =
-          await ConsultationsServices.getConsultationsDoctorProfile(
+      var profileResponse = await ConsultationsServices.getConsultationsDoctorProfile(
         "",
         doctorServiceKey.value,
         consultId,
+      );
+      if (profileResponse.success) {
+        consultationsDoctorProfileData.value = profileResponse.response;
+        setDoctorProfileDays(
+            consultationsDoctorProfileData.value.idDoctor.toString());
+      }
+    } finally {
+      isLoadingConsultationsDoctorProfile(false);
+    }
+  }
+
+  setDataDoctorProfileFromAdvertisement(String id, String serviceKey) async {
+    IDDoctor.value = id;
+    doctorServiceKey.value = serviceKey;
+    getConsultationsDoctorProfileFromAdvertisement(IDDoctor.value);
+    await Get.toNamed(Routes.termConsultationsDoctorProfileScreen);
+  }
+
+  getConsultationsDoctorProfileFromAdvertisement(String doctorId) async {
+    try {
+      isLoadingConsultationsDoctorProfile(true);
+      var profileResponse = await ConsultationsServices.getConsultationsDoctorProfile(
+        doctorId,
+        doctorServiceKey.value,
+        "",
       );
       if (profileResponse.success) {
         consultationsDoctorProfileData.value = profileResponse.response;

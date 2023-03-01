@@ -7,7 +7,7 @@ class AdvertisementsController extends GetxController {
   void onInit() async {
     super.onInit();
     advertisementLocation.value = "HOME";
-    advertisementService.value = "NONE";
+    advertisementService.value = "";
   }
   var currentAdvertisement = 0.obs;
 

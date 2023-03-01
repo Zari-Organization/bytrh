@@ -78,7 +78,7 @@ class InstantConsultationsScreen extends StatelessWidget {
   }
   Future<bool>? onWillPop() async {
     advertisementsController.advertisementLocation.value = "HOME";
-    advertisementsController.advertisementService.value = "NONE";
+    advertisementsController.advertisementService.value = "";
     advertisementsController.getAdvertisements();
     return true;
   }

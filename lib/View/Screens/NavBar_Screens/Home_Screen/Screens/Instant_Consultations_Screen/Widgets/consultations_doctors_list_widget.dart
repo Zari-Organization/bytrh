@@ -10,8 +10,7 @@ import '../../../../../../../Utils/app_colors.dart';
 
 class ConsultationsDoctorsListWidget extends StatelessWidget {
   ConsultationsDoctorsListWidget({Key? key}) : super(key: key);
-  final instantConsultationsController =
-      Get.find<InstantConsultationsController>();
+  final instantConsultationsController = Get.find<InstantConsultationsController>();
 
   @override
   Widget build(BuildContext context) {
