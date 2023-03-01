@@ -100,7 +100,7 @@ class Response {
     clientPhone: json["ClientPhone"],
     clientName: json["ClientName"],
     clientEmail: json["ClientEmail"],
-    clientPicture: json["ClientPicture"],
+    clientPicture: json["ClientPicture"]??"",
     petColor: json["PetColor"]??"",
     petGender: json["PetGender"]??"",
     petSize: json["PetSize"]??"",

@@ -30,49 +30,40 @@ class AdoptionMyAnimalsDetailsScreen extends StatelessWidget {
         centerTitle: true,
         title: Text("التفاصيل"),
       ),
-      bottomSheet:Obx(() =>  adoptionController
-          .adoptionsMyAnimalsDetails.value.adoptionStatus=="ADOPTED"?SizedBox():Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Obx(
-            () => Container(
-              color: AppColors.WHITE_COLOR,
-              padding: EdgeInsets.all(16),
-              child: ConditionalBuilder(
-                condition: !adoptionController.isLoadingAdoptionAnimalsCategory.value,
-                builder: (context) => CustomButton(
-                  title: "تعديل",
-                  backgroundColor: AppColors.WHITE_COLOR,
-                  foregroundColor: AppColors.MAIN_COLOR,
-                  overlayColor: AppColors.MAIN_COLOR,
-                  onPress: () async {
-                    await adoptionController.getAdoptionAnimalsCategory();
-                    adoptionController
-                            .selectedAdoptionAnimalsGenderValue.value =
-                        adoptionController.adoptionAnimalsGenderList[0]
-                            .toString();
-                    await adoptionController.getCountries();
-                    adoptionController.idCountry.value = adoptionController
-                        .adoptionsMyAnimalsDetails.value.idCountry
-                        .toString();
-                    adoptionController.idCity.value = adoptionController
-                        .adoptionsMyAnimalsDetails.value.idCity
-                        .toString();
-                    await adoptionController.getCities();
-                    adoptionController
-                            .selectedAdoptionAnimalsCategoryValue.value =
-                        adoptionController
-                            .adoptionsMyAnimalsDetails.value.idAnimalSubCategory
-                            .toString();
-                    Get.toNamed(Routes.adoptionEditMyAnimalScreen);
-                  },
-                ),
-                fallback: (context) => const CustomCircleProgress(),
+      bottomSheet: Obx(
+        () => adoptionController
+                    .adoptionsMyAnimalsDetails.value.adoptionStatus ==
+                "ADOPTED"
+            ? SizedBox()
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Obx(
+                    () => Container(
+                      color: AppColors.WHITE_COLOR,
+                      padding: EdgeInsets.all(16),
+                      child: ConditionalBuilder(
+                        condition: !adoptionController
+                            .isLoadingMyAdoptionsChatList.value,
+                        builder: (context) => CustomButton(
+                          title: "المحادثات",
+                          backgroundColor: AppColors.WHITE_COLOR,
+                          foregroundColor: AppColors.MAIN_COLOR,
+                          overlayColor: AppColors.MAIN_COLOR,
+                          onPress: () async {
+                            adoptionController.chatIdAdoption.value = adoptionController.adoptionsMyAnimalsDetails.value.idAdoption.toString();
+                            adoptionController.chatClientType.value = "CLIENT";
+                            await adoptionController.getMyAdoptionsChatList();
+                            Get.toNamed(Routes.myAdoptionChatListScreen);
+                          },
+                        ),
+                        fallback: (context) => const CustomCircleProgress(),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ),
-          )
-        ],
-      ),),
+      ),
       body: Obx(() {
         if (adoptionController.isLoadingAdoptionMyAnimalsDetails.value) {
           return CustomCircleProgress();

@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
 import '../../Models/Adoptions_Models/adoption_animals_categories_model.dart';
+import '../../Models/Adoptions_Models/adoption_chat_messages_model.dart';
+import '../../Models/Adoptions_Models/adoption_chat_list_model.dart';
 import '../../Models/Adoptions_Models/adoption_details_model.dart';
 import '../../Models/Adoptions_Models/adoption_list_model.dart';
 import '../../Utils/app_constants.dart';
@@ -251,4 +253,53 @@ class AdoptionsServices {
     }
   }
 
+
+  static Future<AdoptionChatListModel> getAdoptionsChatList(String IDAdoption,String ClientType) async {
+    var response = await http.post(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/adoption/chat'),
+      body: {
+        'IDAdoption': IDAdoption,
+        'ClientType': ClientType,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    log(IDAdoption);
+    log(ClientType);
+    if (decodedData['Success']) {
+      log("Adoptions Chat List Api --> $decodedData");
+      return adoptionChatListModelFromJson(jsonData);
+    } else {
+      log("Adoptions Chat List Api --> $decodedData");
+      return adoptionChatListModelFromJson(jsonData);
+    }
+  }
+
+  static requestAdoptionAnimalChat(
+      String IDAdoption,
+      ) async {
+    var response = await http.post(
+      Uri.parse(AppConstants.apiUrl + '/api/client' + '/adoption/chat/request'),
+      body: {
+        'IDAdoption': IDAdoption,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData["Success"]) {
+      log("Request Adoption Animal Chat Api --> $decodedData");
+      return decodedData;
+    }else {
+      log("Request Adoption Animal Chat Api --> $decodedData");
+      return decodedData;
+    }
+  }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'dart:developer';
 
+import '../../../../../Logic/controllers/Advertisements_Controllers/advertisements_controller.dart';
 import '../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import '../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../../../../Notifications/local_notifications.dart';
@@ -19,6 +20,7 @@ class ConsultationWidget extends StatelessWidget {
   final instantConsultationsController =
       Get.find<InstantConsultationsController>();
   final termConsultationsController = Get.find<TermConsultationsController>();
+  final advertisementsController = Get.find<AdvertisementsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,8 @@ class ConsultationWidget extends StatelessWidget {
                 child: InkWell(
               onTap: () async {
                 await instantConsultationsController.getGeoLocationPosition();
+                advertisementsController.advertisementLocation.value = "INNER_PAGES";
+                advertisementsController.advertisementService.value = "URGENT_CONSULT";
                 await Get.toNamed(Routes.instantConsultationsScreen);
               },
               child: SizedBox(
@@ -81,6 +85,8 @@ class ConsultationWidget extends StatelessWidget {
                 child: InkWell(
               onTap: () async {
                 await termConsultationsController.getGeoLocationPosition();
+                advertisementsController.advertisementLocation.value = "INNER_PAGES";
+                advertisementsController.advertisementService.value = "CONSULT";
                 await Get.toNamed(Routes.termConsultationsScreen);
               },
               child: SizedBox(

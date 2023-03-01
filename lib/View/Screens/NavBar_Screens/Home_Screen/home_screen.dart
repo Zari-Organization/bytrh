@@ -3,6 +3,7 @@ import 'package:bytrh/Utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../Widgets/advertisements_Widget.dart';
 import 'Widgets/instant_consultations_cart_icon.dart';
 import 'Widgets/consultations_widget.dart';
 import 'Widgets/other_services_widget.dart';
@@ -27,6 +28,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AdvertisementsWidget(),
               ConsultationWidget(),
               const SizedBox(height: 20),
               OtherServicesWidget()

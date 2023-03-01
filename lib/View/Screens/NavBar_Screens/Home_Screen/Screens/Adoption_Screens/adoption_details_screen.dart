@@ -280,10 +280,14 @@ class AdoptionDetailsScreen extends StatelessWidget {
                                                     MaterialStateProperty.all(
                                                         AppColors.MAIN_COLOR)),
                                             onPressed: () {
-                                              adoptionController.openEmail(adoptionController
-                                                  .adoptionsDetails
-                                                  .value
-                                                  .clientEmail);
+                                              adoptionController
+                                                  .requestAdoptionAnimalChat(
+                                                  adoptionController
+                                                      .adoptionsDetails
+                                                      .value
+                                                      .idAdoption
+                                                      .toString(),
+                                                  context,);
                                             },
                                             child: SvgPicture.asset(
                                                 AppIcons.message_icon,

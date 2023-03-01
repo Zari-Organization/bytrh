@@ -48,6 +48,7 @@ class Response {
      this.doctorName,
      this.createDate,
      this.chatDetails,
+    this.consultCountDown
   });
 
   final idConsult;
@@ -59,6 +60,7 @@ class Response {
   final doctorName;
   final createDate;
   List<ChatDetail>? chatDetails;
+  ConsultCountDown? consultCountDown;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     idConsult: json["IDConsult"],
@@ -70,6 +72,7 @@ class Response {
     doctorName: json["DoctorName"],
     createDate: DateTime.parse(json["CreateDate"]),
     chatDetails: List<ChatDetail>.from(json["ChatDetails"].map((x) => ChatDetail.fromJson(x))),
+    consultCountDown: ConsultCountDown.fromJson(json["ConsultCountDown"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -82,6 +85,7 @@ class Response {
     "DoctorName": doctorName,
     "CreateDate": createDate.toIso8601String(),
     "ChatDetails": List<dynamic>.from(chatDetails!.map((x) => x.toJson())),
+    "ConsultCountDown": consultCountDown!.toJson(),
   };
 }
 
@@ -114,5 +118,28 @@ class ChatDetail {
     "ConsultChatType": consultChatType,
     "ConsultChatSender": consultChatSender,
     "CreateDate": createDate.toIso8601String(),
+  };
+}
+class ConsultCountDown {
+  ConsultCountDown({
+    this.days,
+    this.hours,
+    this.minutes,
+  });
+
+  final days;
+  final hours;
+  final minutes;
+
+  factory ConsultCountDown.fromJson(Map<String, dynamic> json) => ConsultCountDown(
+    days: json["Days"],
+    hours: json["Hours"],
+    minutes: json["Minutes"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "Days": days,
+    "Hours": hours,
+    "Minutes": minutes,
   };
 }

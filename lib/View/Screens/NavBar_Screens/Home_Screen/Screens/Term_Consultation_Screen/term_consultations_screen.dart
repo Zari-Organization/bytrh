@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../Logic/controllers/Advertisements_Controllers/advertisements_controller.dart';
 import '../../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../Widgets/instant_consultations_cart_icon.dart';
 import '../../Widgets/term_consultations_cart_icon.dart';
@@ -16,21 +17,24 @@ import '../../Widgets/term_consultations_cart_icon.dart';
 class TermConsultationsScreen extends StatelessWidget {
   TermConsultationsScreen({Key? key}) : super(key: key);
   final termConsultationsController = Get.find<TermConsultationsController>();
+  final advertisementsController = Get.find<AdvertisementsController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.WHITE_COLOR,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: AppColors.MAIN_COLOR,
-          centerTitle: true,
-          title: Text("إستشارة آجلة"),
-          actions: [
-            TermConsultationsCartIcon(),
-          ],
-        ),
-        body: Column(
+      backgroundColor: AppColors.WHITE_COLOR,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppColors.MAIN_COLOR,
+        centerTitle: true,
+        title: Text("إستشارة آجلة"),
+        actions: [
+          TermConsultationsCartIcon(),
+        ],
+      ),
+      body: WillPopScope(
+        onWillPop: () => onWillPop()!,
+        child: Column(
           children: [
             TabBar(
               controller: termConsultationsController.tabController.value,
@@ -46,9 +50,12 @@ class TermConsultationsScreen extends StatelessWidget {
                   termConsultationsController.onInit();
                 } else {
                   termConsultationsController.selectedAreaValue.value = "";
-                  Position position = await termConsultationsController.getGeoLocationPosition();
-                  termConsultationsController.userLatitude.value = position.latitude.toString();
-                  termConsultationsController.userLongitude.value = position.longitude.toString();
+                  Position position = await termConsultationsController
+                      .getGeoLocationPosition();
+                  termConsultationsController.userLatitude.value =
+                      position.latitude.toString();
+                  termConsultationsController.userLongitude.value =
+                      position.longitude.toString();
                 }
               },
               tabs: [
@@ -67,6 +74,15 @@ class TermConsultationsScreen extends StatelessWidget {
               ),
             ),
           ],
-        ));
+        ),
+      ),
+    );
+  }
+
+  Future<bool>? onWillPop() async {
+    advertisementsController.advertisementLocation.value = "HOME";
+    advertisementsController.advertisementService.value = "NONE";
+    advertisementsController.getAdvertisements();
+    return true;
   }
 }

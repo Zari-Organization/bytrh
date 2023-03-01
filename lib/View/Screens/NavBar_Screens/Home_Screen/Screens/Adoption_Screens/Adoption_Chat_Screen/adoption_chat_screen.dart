@@ -9,29 +9,28 @@ import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../../../Logic/controllers/Chat_Controllers/chat_controllers.dart';
-import '../../../../../../Utils/app_colors.dart';
-import '../../../../../../Utils/app_icons.dart';
+import '../../../../../../../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
+import '../../../../../../../Utils/app_colors.dart';
+import '../../../../../../../Utils/app_icons.dart';
 
-class ConsultationsChatScreen extends StatelessWidget {
-  ConsultationsChatScreen({Key? key}) : super(key: key);
 
-  final consultationsChatController = Get.find<ConsultationsChatController>();
+class AdoptionChatScreen extends StatelessWidget {
+  AdoptionChatScreen({Key? key}) : super(key: key);
+
+  final adoptionController = Get.find<AdoptionController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      log("build list --> ${consultationsChatController.messages.length}");
+      log("build list --> ${adoptionController.adoptionMessages.length}");
       return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.MAIN_COLOR,
           title: Text(
-              "المحادثة مع ${consultationsChatController.consultationsChatDetails.value.doctorName}"),
+              "المحادثة مع ${adoptionController.adoptionChatDetails.value.clientName}"),
           centerTitle: true,
           actions: [
-            consultationsChatController.consultStatus.value == "ENDED"
-                ? SizedBox()
-                : PopupMenuButton(
+            PopupMenuButton(
                     onSelected: (value) async {},
                     elevation: 20,
                     icon: Icon(
@@ -44,10 +43,10 @@ class ConsultationsChatScreen extends StatelessWidget {
                             value: 3,
                             child: InkWell(
                                 onTap: () {
-                                  consultationsChatController.endConsultChat(
-                                      consultationsChatController
-                                          .consultId.value,
-                                      context);
+                                  // consultationsChatController.endConsultChat(
+                                  //     consultationsChatController
+                                  //         .consultId.value,
+                                  //     context);
                                 },
                                 child: Row(
                                   children: [
@@ -67,10 +66,10 @@ class ConsultationsChatScreen extends StatelessWidget {
                               onTap: () async {
                                 Get.back();
                                 AppAlerts().chatComplaintPop(
-                                    consultationsChatController
-                                        .consultationsChatDetails
+                                    adoptionController
+                                        .adoptionChatDetails
                                         .value
-                                        .idConsult
+                                        .idAdoptionChat
                                         .toString(),
                                     context);
                               },
@@ -93,78 +92,36 @@ class ConsultationsChatScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              consultationsChatController.consultStatus.value == "ENDED"
-                  ? SizedBox(
-                      height: 80,
-                    )
-                  : Column(
-                      children: [
-                        Text(getCountDownTitle(
-                            consultationsChatController.consultStatus.value)),
-                        SizedBox(height: 10),
-                        TimerCountdown(
-                          format: CountDownTimerFormat.daysHoursMinutes,
-                          daysDescription: "يوم",
-                          hoursDescription: "ساعة",
-                          minutesDescription: "دقيقة",
-                          endTime: DateTime.now().add(
-                            Duration(
-                              days: consultationsChatController
-                                  .consultationsChatDetails
-                                  .value
-                                  .consultCountDown!
-                                  .days,
-                              hours: consultationsChatController
-                                  .consultationsChatDetails
-                                  .value
-                                  .consultCountDown!
-                                  .hours,
-                              minutes: consultationsChatController
-                                  .consultationsChatDetails
-                                  .value
-                                  .consultCountDown!
-                                  .minutes,
-                            ),
-                          ),
-                          onEnd: () {
-                            print("Timer finished");
-                          },
-                        ),
-                      ],
-                    ),
               SizedBox(
-                  height: AppConstants.mediaHeight(context) / 1.3,
+                height: 10,
+              ),
+              SizedBox(
+                  height: AppConstants.mediaHeight(context) / 1.15,
                   child: ChatScreen(
-                    disableInput:
-                        consultationsChatController.consultStatus.value ==
-                                "ENDED"
-                            ? true
-                            : false,
                     messageContainerTextStyle:
                         TextStyle(color: AppColors.RED_COLOR),
                     sendMessageHintText: "اكتب رسالتك",
                     scrollController:
-                        consultationsChatController.scrollController.value,
-                    messages: consultationsChatController.messages,
+                    adoptionController.scrollController.value,
+                    messages: adoptionController.adoptionMessages,
                     senderColor: AppColors.MAIN_COLOR,
                     onSlideToCancelRecord: () {
                       log('not sent');
                     },
                     onTextSubmit: (textMessage) {
                       try {
-                        consultationsChatController.messages.add(textMessage);
-                        consultationsChatController.scrollController.value
+                        adoptionController.adoptionMessages.add(textMessage);
+                        adoptionController.scrollController.value
                             .jumpTo(
-                          consultationsChatController.scrollController.value
+                          adoptionController.scrollController.value
                                   .position.maxScrollExtent +
                               50,
                         );
-                        consultationsChatController.sendChatMessageText(
-                          IDConsult: consultationsChatController
-                              .consultationsChatDetails.value.idConsult
-                              .toString(),
-                          ConsultChatType: "TEXT",
-                          ConsultChatMessageText: textMessage.text,
+                        adoptionController.sendChatMessageText(
+                          ClientType: "ADOPTER",
+                          IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
+                          AdoptionChatType: "TEXT",
+                          AdoptionChatMessage: textMessage.text,
                           // context: context,
                         );
                         log(textMessage.text);
@@ -174,44 +131,44 @@ class ConsultationsChatScreen extends StatelessWidget {
                     },
                     handleRecord: (audioMessage, canceled) {
                       if (!canceled) {
-                        consultationsChatController.messages.add(audioMessage!);
-                        consultationsChatController.scrollController.value
+                        adoptionController.adoptionMessages.add(audioMessage!);
+                        adoptionController.scrollController.value
                             .jumpTo(
-                          consultationsChatController.scrollController.value
+                          adoptionController.scrollController.value
                                   .position.maxScrollExtent +
                               90,
                         );
                         log(audioMessage.chatMedia!.url);
                         var file = XFile(audioMessage.chatMedia!.url);
-                        consultationsChatController.sendChatMessageFile(
-                          IDConsult: consultationsChatController
-                              .consultationsChatDetails.value.idConsult
-                              .toString(),
-                          ConsultChatType: "AUDIO",
-                          ConsultChatMessage: file,
+                        adoptionController.sendChatMessageFile(
+                          ClientType: "ADOPTER",
+                          IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
+                          AdoptionChatType: "AUDIO",
+                          AdoptionChatMessage: file,
                           context: context,
+                          // context: context,
                         );
                       }
                     },
                     handleImageSelect: (imageMessage) async {
                       if (imageMessage != null) {
-                        consultationsChatController.messages.add(
+                        adoptionController.adoptionMessages.add(
                           imageMessage,
                         );
-                        consultationsChatController.scrollController.value
+                        adoptionController.scrollController.value
                             .jumpTo(
-                          consultationsChatController.scrollController.value
+                          adoptionController.scrollController.value
                                   .position.maxScrollExtent +
                               300,
                         );
                         var file = XFile(imageMessage.chatMedia!.url);
-                        consultationsChatController.sendChatMessageFile(
-                          IDConsult: consultationsChatController
-                              .consultationsChatDetails.value.idConsult
-                              .toString(),
-                          ConsultChatType: "IMAGE",
-                          ConsultChatMessage: file,
+                        adoptionController.sendChatMessageFile(
+                          ClientType: "ADOPTER",
+                          IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
+                          AdoptionChatType: "IMAGE",
+                          AdoptionChatMessage: file,
                           context: context,
+                          // context: context,
                         );
                       }
                     },

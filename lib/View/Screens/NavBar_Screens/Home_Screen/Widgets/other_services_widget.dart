@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer';
 
+import '../../../../../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
+import '../../../../../Logic/controllers/Advertisements_Controllers/advertisements_controller.dart';
 import '../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import '../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../../../../Notifications/local_notifications.dart';
@@ -18,15 +20,8 @@ import '../../../../Widgets/custom_circle_progress.dart';
 
 class OtherServicesWidget extends StatelessWidget {
   OtherServicesWidget({Key? key}) : super(key: key);
-
-  onClickNotification(String? payload) {
-    try {
-      Get.toNamed(payload!);
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
+  final adoptionController = Get.find<AdoptionController>();
+  final advertisementsController = Get.find<AdvertisementsController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,12 +34,9 @@ class OtherServicesWidget extends StatelessWidget {
         SizedBox(height: 8),
         InkWell(
           onTap: () async {
-            // await NotificationService().listenNotifications(onClickNotification: onClickNotification);
-            // NotificationService().showLocalNotification(
-            //   title: "Bytrh",
-            //   body: "Test OnClick",
-            //   payload: "/adoptionScreen",
-            // );
+            advertisementsController.advertisementLocation.value = "INNER_PAGES";
+            advertisementsController.advertisementService.value = "ADOPTION";
+            advertisementsController.getAdvertisements();
             Get.toNamed(Routes.adoptionScreen);
           },
           child: SizedBox(

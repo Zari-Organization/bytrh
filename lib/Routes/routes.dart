@@ -8,6 +8,7 @@ import '../Logic/binding/Consultations_Chat_Bindings/consultations_chat_binding.
 import '../Logic/binding/My_Account_Bindings/change_password_binding.dart';
 import '../Logic/binding/My_Account_Bindings/myAccount_binding.dart';
 import '../Logic/binding/Wallet_Bindings/wallet_binding.dart';
+import '../Logic/binding/advertisements_binding.dart';
 import '../Logic/binding/auth_binding.dart';
 import '../Logic/binding/main_binding.dart';
 import '../Logic/binding/My_Account_Bindings/personal_data_binding.dart';
@@ -22,12 +23,16 @@ import '../View/Screens/Auth_Screens/SignUp_Screen/signUp_screen.dart';
 import '../View/Screens/Auth_Screens/SignUp_Type_Screen/signUp_type_screen.dart';
 import '../View/Screens/Auth_Screens/verify_account_screen.dart';
 import '../View/Screens/Main_Screen/main_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/Adoption_Chat_Screen/adoption_chat_list_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/Adoption_Chat_Screen/adoption_chat_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/Adoption_Chat_Screen/my_adoption_chat_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_add_animal_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_details_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_edit_my_animal_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_my_animals_details_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_my_animals_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/adoption_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/Adoption_Chat_Screen/my_adoption_chat_list_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Chat_Screen/chat_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Consultations_Doctor_Profile_Screen/consultations_doctor_profile_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/Screens/Consultations_Doctor_Profile_Screen/instants_consultations_doctor_reservation_time_screen.dart';
@@ -82,6 +87,10 @@ class AppRoutes {
   static const adoptionMyAnimalsScreen = Routes.adoptionMyAnimalsScreen;
   static const adoptionMyAnimalsDetailsScreen = Routes.adoptionMyAnimalsDetailsScreen;
   static const adoptionEditMyAnimalScreen = Routes.adoptionEditMyAnimalScreen;
+  static const myAdoptionChatListScreen = Routes.myAdoptionChatListScreen;
+  static const myAdoptionChatScreen = Routes.myAdoptionChatScreen;
+  static const adoptionChatListScreen = Routes.adoptionChatListScreen;
+  static const adoptionChatScreen = Routes.adoptionChatScreen;
 
   //getPages
   static final routes = [
@@ -123,6 +132,7 @@ class AppRoutes {
       page: () => MainScreen(),
       bindings: [
         MainBinding(),
+        AdvertisementsBinding(),
       ],
     ),
     GetPage(
@@ -257,6 +267,26 @@ class AppRoutes {
       page: () => AdoptionEditMyAnimalScreen(),
       binding: AdoptionBinding(),
     ),
+    GetPage(
+      name: Routes.myAdoptionChatListScreen,
+      page: () => MyAdoptionChatListScreen(),
+      binding: AdoptionBinding(),
+    ),
+    GetPage(
+      name: Routes.myAdoptionChatScreen,
+      page: () => MyAdoptionChatScreen(),
+      binding: AdoptionBinding(),
+    ),
+    GetPage(
+      name: Routes.adoptionChatListScreen,
+      page: () => AdoptionChatListScreen(),
+      binding: AdoptionBinding(),
+    ),
+    GetPage(
+      name: Routes.adoptionChatScreen,
+      page: () => AdoptionChatScreen(),
+      binding: AdoptionBinding(),
+    ),
   ];
 }
 
@@ -296,4 +326,8 @@ class Routes {
   static const adoptionMyAnimalsScreen = '/adoptionMyAnimalsScreen';
   static const adoptionMyAnimalsDetailsScreen = '/adoptionMyAnimalsDetailsScreen';
   static const adoptionEditMyAnimalScreen = '/adoptionEditMyAnimalScreen';
+  static const myAdoptionChatListScreen = '/myAdoptionChatListScreen';
+  static const myAdoptionChatScreen = '/myAdoptionChatScreen';
+  static const adoptionChatListScreen = '/adoptionChatListScreen';
+  static const adoptionChatScreen = '/adoptionChatScreen';
 }

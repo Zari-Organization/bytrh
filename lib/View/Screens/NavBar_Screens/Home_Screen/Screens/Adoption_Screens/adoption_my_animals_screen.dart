@@ -34,6 +34,40 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
             body: CustomCircleProgress());
       } else if (adoptionController.myAdoptionsList.isEmpty) {
         return Scaffold(
+            bottomSheet: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  color: AppColors.WHITE_COLOR,
+                  padding: EdgeInsets.all(16),
+                  child: ConditionalBuilder(
+                    condition: (!adoptionController
+                        .isLoadingAdoptionAnimalsCategory.value &&
+                        !adoptionController.isLoadingCountries.value &&
+                        !adoptionController.isLoadingCountries.value),
+                    builder: (context) => CustomButton(
+                      title: "إضافة حيوان جديد",
+                      backgroundColor: AppColors.WHITE_COLOR,
+                      foregroundColor: AppColors.MAIN_COLOR,
+                      overlayColor: AppColors.MAIN_COLOR,
+                      onPress: () async {
+                        await adoptionController.getAdoptionAnimalsCategory();
+                        adoptionController
+                            .selectedAdoptionAnimalsGenderValue.value =
+                            adoptionController.adoptionAnimalsGenderList[0]
+                                .toString();
+                        await adoptionController.getCountries();
+                        await adoptionController.getCities();
+                        adoptionController.idCity.value =
+                            adoptionController.citiesList[0].idCity.toString();
+                        Get.toNamed(Routes.adoptionAddAnimalScreen);
+                      },
+                    ),
+                    fallback: (context) => const CustomCircleProgress(),
+                  ),
+                )
+              ],
+            ),
             backgroundColor: AppColors.WHITE_COLOR,
             appBar: AppBar(
               elevation: 0,
@@ -87,150 +121,177 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
             centerTitle: true,
             title: Text("حيواناتي"),
           ),
-          body: ListView.separated(
-            padding: EdgeInsets.all(16),
-            itemCount: adoptionController.myAdoptionsList.length,
-            shrinkWrap: true,
+          body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  adoptionController.setDataToAdoptionMyAnimalsDetails(
-                      adoptionController.myAdoptionsList[index].idAdoption
-                          .toString());
-                },
-                child: Card(
-                  shape: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: AppColors.GREY_Light_COLOR,
-                    ),
-                    borderRadius: BorderRadius.circular(17),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(17),
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              width: 100,
-                              height: 100,
-                              imageUrl: adoptionController
-                                  .myAdoptionsList[index].petPicture,
-                              placeholder: (context, url) => Image.asset(
-                                AppImages.placeholder,
-                                width: 100,
-                                // height: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                              errorWidget: (context, url, error) => Image.asset(
-                                AppImages.placeholder,
-                                width: 100,
-                                // height: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+            child: Column(
+              children: [
+                ListView.separated(
+                  padding: EdgeInsets.all(16),
+                  itemCount: adoptionController.myAdoptionsList.length,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () async{
+                        await  adoptionController.setDataToAdoptionMyAnimalsDetails(
+                            adoptionController.myAdoptionsList[index].idAdoption
+                                .toString());
+                         Get.toNamed(Routes.adoptionMyAnimalsDetailsScreen);
+                      },
+                      child: Card(
+                        shape: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.GREY_Light_COLOR,
                           ),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                adoptionController
-                                    .myAdoptionsList[index].petName,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                " ${adoptionController.myAdoptionsList[index].animalSubCategoryName} / ${adoptionController.myAdoptionsList[index].petStrain}",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    AppIcons.location_icon,
-                                    color: AppColors.GREY_COLOR,
+                          borderRadius: BorderRadius.circular(17),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(17),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    width: 100,
+                                    height: 100,
+                                    imageUrl: adoptionController
+                                        .myAdoptionsList[index].petPicture,
+                                    placeholder: (context, url) => Image.asset(
+                                      AppImages.placeholder,
+                                      width: 100,
+                                      // height: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    errorWidget: (context, url, error) => Image.asset(
+                                      AppImages.placeholder,
+                                      width: 100,
+                                      // height: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
+                                ),
+                                SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      adoptionController
+                                          .myAdoptionsList[index].petName,
+                                      style: TextStyle(
+                                          fontSize: 16, fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      " ${adoptionController.myAdoptionsList[index].animalSubCategoryName} / ${adoptionController.myAdoptionsList[index].petStrain}",
+                                      style: TextStyle(
+                                          fontSize: 14, fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          AppIcons.location_icon,
+                                          color: AppColors.GREY_COLOR,
+                                        ),
+                                        Text(
+                                          adoptionController
+                                              .myAdoptionsList[index].cityName,
+                                          style:
+                                          TextStyle(color: AppColors.GREY_COLOR),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Expanded(child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                children: [
+                                  if(adoptionController.myAdoptionsList[index].adoptionStatus!="ADOPTED")
+                                    DropdownButton<String>(
+                                      icon: SvgPicture.asset(AppIcons.list_icon),
+                                      underline: SizedBox(),
+                                      items: adoptionController
+                                          .myAdoptionsList[index].adoptionStatus=="PENDING"?<String>['تعديل','حذف',]
+                                          .map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList():<String>['تعديل','حذف', 'تم التبني']
+                                          .map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) async {
+                                        log(value.toString());
+                                        if(value == "تعديل"){
+                                       await   adoptionController.setDataToAdoptionMyAnimalsDetails(
+                                              adoptionController.myAdoptionsList[index].idAdoption
+                                                  .toString());
+                                          await adoptionController.getAdoptionAnimalsCategory();
+                                          adoptionController.selectedAdoptionAnimalsGenderValue.value =
+                                              adoptionController.adoptionAnimalsGenderList[0]
+                                                  .toString();
+                                          await adoptionController.getCountries();
+                                          adoptionController.idCountry.value = adoptionController
+                                              .adoptionsMyAnimalsDetails.value.idCountry
+                                              .toString();
+                                          adoptionController.idCity.value = adoptionController
+                                              .adoptionsMyAnimalsDetails.value.idCity
+                                              .toString();
+                                          await adoptionController.getCities();
+                                          adoptionController
+                                              .selectedAdoptionAnimalsCategoryValue.value =
+                                              adoptionController
+                                                  .adoptionsMyAnimalsDetails.value.idAnimalSubCategory
+                                                  .toString();
+                                          Get.toNamed(Routes.adoptionEditMyAnimalScreen);
+                                        }
+                                        else{
+                                          await adoptionController.addMyAdoptionAnimalStatus(
+                                            adoptionController
+                                                .myAdoptionsList[index].idAdoption
+                                                .toString(),
+                                            value == "حذف" ? "CANCELLED" : "ADOPTED",
+                                            context,
+                                          );
+                                          adoptionController.getMyAdoptionsList();
+                                        }
+                                      },
+                                    ),
                                   Text(
-                                    adoptionController
-                                        .myAdoptionsList[index].cityName,
-                                    style:
-                                        TextStyle(color: AppColors.GREY_COLOR),
+                                    getCountDownTitle(adoptionController
+                                        .myAdoptionsList[index].adoptionStatus),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.GREY_COLOR,
+                                      // overflow: TextOverflow.ellipsis
+                                    ),
                                   ),
                                 ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      Expanded(child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            if(adoptionController.myAdoptionsList[index].adoptionStatus!="ADOPTED")
-                            DropdownButton<String>(
-                              icon: SvgPicture.asset(AppIcons.list_icon),
-                              underline: SizedBox(),
-                              items: adoptionController
-                  .myAdoptionsList[index].adoptionStatus=="PENDING"?<String>['تعديل','حذف',]
-                                  .map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList():<String>['تعديل','حذف', 'تم التبني']
-                                  .map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                              onChanged: (value) async {
-                                log(value.toString());
-                                if(value == "تعديل"){
-                                  adoptionController.setDataToAdoptionMyAnimalsDetails(
-                                      adoptionController.myAdoptionsList[index].idAdoption
-                                          .toString());
-                                }
-                                else{
-                                  await adoptionController.addMyAdoptionAnimalStatus(
-                                    adoptionController
-                                        .myAdoptionsList[index].idAdoption
-                                        .toString(),
-                                    value == "حذف" ? "CANCELLED" : "ADOPTED",
-                                    context,
-                                  );
-                                  adoptionController.getMyAdoptionsList();
-                                }
-                              },
-                            ),
-                            Text(
-                              getCountDownTitle(adoptionController
-                                  .myAdoptionsList[index].adoptionStatus),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.GREY_COLOR,
-                                  // overflow: TextOverflow.ellipsis
                               ),
-                            ),
+                            ))
                           ],
                         ),
-                      ))
-                    ],
-                  ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(height: 16),
                 ),
-              );
-            },
-            separatorBuilder: (context, index) => const SizedBox(height: 16),
-          ),
+                SizedBox(height: 100,)
+              ],
+            ),
+          )
         );
       }
     });

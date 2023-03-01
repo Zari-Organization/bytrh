@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:bytrh/Services/Consultations_Services/chat_services.dart';
+import 'package:bytrh/Utils/app_colors.dart';
 import 'package:chat_package/models/chat_message.dart';
 import 'package:chat_package/models/media/chat_media.dart';
 import 'package:chat_package/models/media/media_type.dart';
@@ -13,6 +15,8 @@ import '../../../Models/Consultations_Models/consultations_chat_messages_model.d
     as payment_methods_import;
 import '../../../Models/Consultations_Models/consultations_chat_messages_model.dart'
     as consultations_chat_messages_import;
+import '../Consultations_Controllers/instant_consultations_controller.dart';
+import '../Consultations_Controllers/term_consultations_controller.dart';
 
 class ConsultationsChatController extends GetxController {
   @override
@@ -20,15 +24,14 @@ class ConsultationsChatController extends GetxController {
     super.onInit();
   }
 
-  receiveMessageFromChatAdmin(String messageType,String message) {
+  receiveMessageFromChatAdmin(String messageType, String message) {
     if (messageType == "TEXT") {
       messages.add(ChatMessage(
         isSender: false,
         text: message,
       ));
       scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent +
-            50,
+        scrollController.value.position.maxScrollExtent + 50,
       );
     }
     if (messageType == "IMAGE") {
@@ -40,8 +43,7 @@ class ConsultationsChatController extends GetxController {
         ),
       ));
       scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent +
-            300,
+        scrollController.value.position.maxScrollExtent + 300,
       );
     }
     if (messageType == "AUDIO") {
@@ -53,8 +55,7 @@ class ConsultationsChatController extends GetxController {
         ),
       ));
       scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent +
-            90,
+        scrollController.value.position.maxScrollExtent + 90,
       );
     }
     log("Chat Messages List ----> ${messages.toString()}");
@@ -64,13 +65,12 @@ class ConsultationsChatController extends GetxController {
   var messages = <ChatMessage>[].obs;
 
   var isLoadingConsultationsChatDetail = false.obs;
-  var consultationsChatDetails =
-      consultations_chat_messages_import.Response().obs;
-  var consultationsChatDetailsList =
-      <consultations_chat_messages_import.ChatDetail>[].obs;
+  var consultationsChatDetails = consultations_chat_messages_import.Response().obs;
+  var consultationsChatDetailsList = <consultations_chat_messages_import.ChatDetail>[].obs;
 
   var consultStatus = ''.obs;
-var consultId = ''.obs;
+  var consultId = ''.obs;
+
   getConsultationsChatDetails(String idConsult) async {
     try {
       consultId.value = idConsult;
@@ -151,6 +151,7 @@ var consultId = ''.obs;
       isLoadingSendChatMessage(false);
     }
   }
+
   sendChatMessageFile({
     required String IDConsult,
     required String ConsultChatType,
@@ -178,30 +179,80 @@ var consultId = ''.obs;
 
   var isLoadingEndConsultChat = false.obs;
 
-  endConsultChat( String id, BuildContext context) async {
+  final instantConsultationsController =
+      Get.find<InstantConsultationsController>();
+  final termConsultationsController = Get.find<TermConsultationsController>();
+
+  endConsultChat(String id, BuildContext context) async {
     try {
       isLoadingEndConsultChat(true);
       var response = await ChatServices.endConsultChat(
         id,
       );
       if (response["Success"]) {
+        void _goNext() async {
+          await instantConsultationsController.getConsultationsCart();
+          await termConsultationsController.getConsultationsCart();
+          Get.back();
+        }
+
+        Timer(const Duration(seconds: 1), _goNext);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: Duration(seconds: 2),
             content: Text("تم انهاء المحادثة"),
           ),
         );
-        Get.back();
+        Timer(const Duration(seconds: 1), () => Get.back());
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: Duration(seconds: 2),
-            content: Text(response["ApiMsg"].toString(),),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
           ),
         );
       }
     } finally {
       isLoadingEndConsultChat(false);
+    }
+  }
+
+  var isLoadingSendComplaint = false.obs;
+  var chatComplaintController = TextEditingController().obs;
+
+  sendComplaintConsultChat(
+      String idConsult, String complainBody, BuildContext context) async {
+    try {
+      isLoadingSendComplaint(true);
+      var response = await ChatServices.sendComplaintConsultChat(
+        idConsult,
+        complainBody,
+      );
+      if (response["Success"]) {
+        Get.back();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            backgroundColor: AppColors.MAIN_COLOR,
+            content: Text(
+              "تم إرسال شكوتك",
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingSendComplaint(false);
     }
   }
 }

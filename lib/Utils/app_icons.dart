@@ -44,4 +44,6 @@ class AppIcons {
   static const String upload_icon = "assets/icons/upload_icon.svg";
   static const String delete_icon = "assets/icons/delete_icon.svg";
   static const String list_icon = "assets/icons/list_icon.svg";
+  static const String alert_icon = "assets/icons/alert_icon.svg";
+  static const String end_chat_icon = "assets/icons/end_chat_icon.svg";
 }

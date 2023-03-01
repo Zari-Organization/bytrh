@@ -22,11 +22,13 @@ import '../../../Models/Location_Models/areas_model.dart' as areas_import;
 import '../../../Routes/routes.dart';
 import '../../../Services/Consultations_Services/consultations_services.dart';
 import '../../../Utils/app_alerts.dart';
+import '../Advertisements_Controllers/advertisements_controller.dart';
 
 class TermConsultationsController extends GetxController
     with GetTickerProviderStateMixin {
   late Rx<TabController> tabController =
       TabController(length: 2, vsync: this).obs;
+  final advertisementsController = Get.find<AdvertisementsController>();
 
   @override
   void onInit() async {
@@ -48,6 +50,7 @@ class TermConsultationsController extends GetxController
         DateFormat.yMd('ar')
             .format(DateTime.now());
     await getConsultationsDoctors();
+    await  advertisementsController.getAdvertisements();
   }
 
   var isLoadingConsultationsDoctors = false.obs;

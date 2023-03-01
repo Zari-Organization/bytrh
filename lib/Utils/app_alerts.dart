@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import '../Logic/controllers/Chat_Controllers/chat_controllers.dart';
 import '../Logic/controllers/My_Account_Controllers/my_account_controller.dart';
 import '../Models/Consultations_Models/consultations_doctor_profile_model.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/Widgets/custom_textField_widget.dart';
 import 'app_colors.dart';
 import 'app_constants.dart';
 import 'app_images.dart';
@@ -328,7 +329,70 @@ class AppAlerts {
       return result;
     }
   }
+  Future<bool>? chatComplaintPop(String idConsult ,BuildContext context) async {
+    final consultationsChatController = Get.find<ConsultationsChatController>();
+    final result = await Get.defaultDialog(
+      title: 'إرسال شكوي',
+      titleStyle: const TextStyle(color: AppColors.MAIN_COLOR),
+      content:  CustomTextFieldWidget(
+        hintText: "اكتب شكوتك ...",
+        maxLines: 3,
+        controller: consultationsChatController.chatComplaintController.value,
+      ),
+      cancel: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+              side: const BorderSide(
+                color: AppColors.MAIN_COLOR,
+                width: 1,
+              ),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            AppColors.WHITE_COLOR,
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            AppColors.MAIN_COLOR,
+          ),
+        ),
+        onPressed: () {
+          consultationsChatController.sendComplaintConsultChat(idConsult, consultationsChatController.chatComplaintController.value.text, context);
+        },
+        child: Text("إرسال"),
+      ),
+      confirm: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            AppColors.MAIN_COLOR,
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            AppColors.BLACK_COLOR,
+          ),
+        ),
+        onPressed: () {
+          Get.back();
+        },
+        child: Text(
+          "إلغاء",
+          style: const TextStyle(color: AppColors.WHITE_COLOR),
+        ),
+      ),
+    );
+    if (result == null) {
+      return false;
+    } else {
+      return result;
+    }
+  }
 }
+
 String getStatus(status) {
   switch (status) {
     case "ONGOING":

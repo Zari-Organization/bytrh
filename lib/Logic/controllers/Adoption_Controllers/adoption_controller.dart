@@ -1,12 +1,18 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:bytrh/Utils/app_colors.dart';
+import 'package:chat_package/models/chat_message.dart';
+import 'package:chat_package/models/media/chat_media.dart';
+import 'package:chat_package/models/media/media_type.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../../../Models/Adoptions_Models/adoption_chat_messages_model.dart' as adoption_chat_messages_import;
+import '../../../Models/Adoptions_Models/adoption_chat_list_model.dart'as adoption_chat_list_import;
+import '../../../Models/Consultations_Models/consultations_chat_messages_model.dart'
+as consultations_chat_messages_import;
 import '../../../Models/Adoptions_Models/adoption_animals_categories_model.dart'
     as adoption_animals_categories_import;
 import '../../../Models/Adoptions_Models/adoption_details_model.dart'
@@ -19,6 +25,7 @@ import '../../../Services/Adoptions_Services/adoptions_services.dart';
 import '../../../Models/Location_Models/countries_model.dart'
     as countries_import;
 import '../../../Models/Location_Models/cities_model.dart' as cities_import;
+import '../../../Services/Consultations_Services/chat_services.dart';
 import '../../../Services/auth_services.dart';
 
 class AdoptionController extends GetxController {
@@ -26,6 +33,43 @@ class AdoptionController extends GetxController {
   void onInit() async {
     super.onInit();
     getAdoptionsList();
+  }
+
+  adoptionReceiveMessageFromChat(String messageType, String message) {
+    if (messageType == "TEXT") {
+      adoptionMessages.add(ChatMessage(
+        isSender: false,
+        text: message,
+      ));
+      scrollController.value.jumpTo(
+        scrollController.value.position.maxScrollExtent + 50,
+      );
+    }
+    if (messageType == "IMAGE") {
+      adoptionMessages.add(ChatMessage(
+        isSender: false,
+        chatMedia: ChatMedia(
+          url: message,
+          mediaType: const MediaType.imageMediaType(),
+        ),
+      ));
+      scrollController.value.jumpTo(
+        scrollController.value.position.maxScrollExtent + 300,
+      );
+    }
+    if (messageType == "AUDIO") {
+      adoptionMessages.add(ChatMessage(
+        isSender: false,
+        chatMedia: ChatMedia(
+          url: message,
+          mediaType: const MediaType.audioMediaType(),
+        ),
+      ));
+      scrollController.value.jumpTo(
+        scrollController.value.position.maxScrollExtent + 90,
+      );
+    }
+    log("Chat Messages List ----> ${adoptionMessages.toString()}");
   }
 
   var isLoadingAdoptions = false.obs;
@@ -90,7 +134,7 @@ class AdoptionController extends GetxController {
   setDataToAdoptionMyAnimalsDetails(String id) async {
     idAdoptionMyAnimals.value = id;
     getAdoptionMyAnimalsDetails();
-    await Get.toNamed(Routes.adoptionMyAnimalsDetailsScreen);
+    // await Get.toNamed(Routes.adoptionMyAnimalsDetailsScreen);
   }
 
   getAdoptionMyAnimalsDetails() async {
@@ -421,4 +465,201 @@ class AdoptionController extends GetxController {
       editNewAnimalGallery.addAll(pickedFile);
     }
   }
+
+  var isLoadingMyAdoptionsChatList = false.obs;
+  var myAdoptionsChatList = <adoption_chat_list_import.Response>[].obs;
+  var chatIdAdoption = ''.obs;
+  var chatClientType = ''.obs;
+
+  getMyAdoptionsChatList() async {
+    try {
+      isLoadingMyAdoptionsChatList(true);
+      var response = await AdoptionsServices.getAdoptionsChatList(chatIdAdoption.value,chatClientType.value);
+      if (response.success) {
+        myAdoptionsChatList.value = response.response;
+      }
+    } finally {
+      isLoadingMyAdoptionsChatList(false);
+    }
+  }
+
+  var scrollController = ScrollController().obs;
+  var adoptionMessages = <ChatMessage>[].obs;
+
+  var adoptionChatDetails = adoption_chat_messages_import.Response().obs;
+  var adoptionChatDetailsList = <adoption_chat_messages_import.ChatDetail>[].obs;
+  var isLoadingAdoptionChatDetail = false.obs;
+  var clientType = ''.obs;
+  var idAdoptionChat = ''.obs;
+
+  getAdoptionChatDetails(String ClientType,String IDAdoptionChat) async {
+    try {
+      clientType.value = ClientType;
+      idAdoptionChat.value = IDAdoptionChat;
+      isLoadingAdoptionChatDetail(true);
+      var response = await ChatServices.getAdoptionChatDetails(
+        clientType: ClientType,
+        idAdoptionChat: IDAdoptionChat,
+      );
+      if (response.success) {
+        adoptionChatDetails.value = response.response;
+        adoptionChatDetailsList.value = response.response.chatDetails!;
+        adoptionMessages.clear();
+        if(ClientType =="CLIENT"){
+          await addApiMessagesToClientChatUi();
+        }
+        if(ClientType =="ADOPTER"){
+          await addApiMessagesToAdopterChatUi();
+        }
+      }
+    } finally {
+      isLoadingAdoptionChatDetail(false);
+    }
+  }
+  addApiMessagesToClientChatUi() {
+    for (int i = 0; i < adoptionChatDetailsList.length; i++) {
+      if (adoptionChatDetailsList[i].adoptionChatType == "TEXT") {
+        adoptionMessages.add(ChatMessage(
+          isSender:
+          adoptionChatDetailsList[i].adoptionChatSender == "ADOPTER"
+              ? false
+              : true,
+          text: adoptionChatDetailsList[i].adoptionChatMessage,
+        ));
+      } else if (adoptionChatDetailsList[i].adoptionChatType == "IMAGE") {
+        adoptionMessages.add(ChatMessage(
+          isSender:
+          adoptionChatDetailsList[i].adoptionChatSender == "ADOPTER"
+              ? false
+              : true,
+          chatMedia: ChatMedia(
+            url: adoptionChatDetailsList[i].adoptionChatMessage,
+            mediaType: const MediaType.imageMediaType(),
+          ),
+        ));
+      } else if (adoptionChatDetailsList[i].adoptionChatType == "AUDIO") {
+        adoptionMessages.add(ChatMessage(
+          isSender:
+          adoptionChatDetailsList[i].adoptionChatSender == "ADOPTER"
+              ? false
+              : true,
+          chatMedia: ChatMedia(
+            url: adoptionChatDetailsList[i].adoptionChatMessage,
+            mediaType: const MediaType.audioMediaType(),
+          ),
+        ));
+      }
+    }
+  }
+  addApiMessagesToAdopterChatUi() {
+    for (int i = 0; i < adoptionChatDetailsList.length; i++) {
+      if (adoptionChatDetailsList[i].adoptionChatType == "TEXT") {
+        adoptionMessages.add(ChatMessage(
+          isSender:
+          adoptionChatDetailsList[i].adoptionChatSender == "CLIENT"
+              ? false
+              : true,
+          text: adoptionChatDetailsList[i].adoptionChatMessage,
+        ));
+      } else if (adoptionChatDetailsList[i].adoptionChatType == "IMAGE") {
+        adoptionMessages.add(ChatMessage(
+          isSender:
+          adoptionChatDetailsList[i].adoptionChatSender == "CLIENT"
+              ? false
+              : true,
+          chatMedia: ChatMedia(
+            url: adoptionChatDetailsList[i].adoptionChatMessage,
+            mediaType: const MediaType.imageMediaType(),
+          ),
+        ));
+      } else if (adoptionChatDetailsList[i].adoptionChatType == "AUDIO") {
+        adoptionMessages.add(ChatMessage(
+          isSender:
+          adoptionChatDetailsList[i].adoptionChatSender == "CLIENT"
+              ? false
+              : true,
+          chatMedia: ChatMedia(
+            url: adoptionChatDetailsList[i].adoptionChatMessage,
+            mediaType: const MediaType.audioMediaType(),
+          ),
+        ));
+      }
+    }
+  }
+
+  var isLoadingSendAdoptionChatMessage = false.obs;
+
+  sendChatMessageText({
+    required String ClientType,
+    required String IDAdoptionChat,
+    required String AdoptionChatType,
+    required String AdoptionChatMessage,
+  }) async {
+    try {
+      isLoadingSendAdoptionChatMessage(true);
+      var response = await ChatServices.sendAdoptionChatMessageText(
+        ClientType: ClientType,
+        IDAdoptionChat: IDAdoptionChat,
+        AdoptionChatType: AdoptionChatType,
+        AdoptionChatMessage: AdoptionChatMessage,
+        // context: context,
+      );
+      log(response["Success"].toString());
+      if (response["Success"]) {
+        log(response["Success"].toString());
+      } else {
+        log(response["Success"].toString());
+      }
+    } finally {
+      isLoadingSendAdoptionChatMessage(false);
+    }
+  }
+
+  sendChatMessageFile({
+    required String ClientType,
+    required String IDAdoptionChat,
+    required String AdoptionChatType,
+    XFile? AdoptionChatMessage,
+    required BuildContext context,
+  }) async {
+    try {
+      isLoadingSendAdoptionChatMessage(true);
+      var response = await ChatServices.sendAdoptionChatMessageFile(
+        ClientType: ClientType,
+        IDAdoptionChat: IDAdoptionChat,
+        AdoptionChatType: AdoptionChatType,
+        AdoptionChatMessage: AdoptionChatMessage,
+        context: context,
+      );
+      log(response["Success"].toString());
+      if (response["Success"]) {
+        log(response["Success"].toString());
+      } else {
+        log(response["Success"].toString());
+      }
+    } finally {
+      isLoadingSendAdoptionChatMessage(false);
+    }
+  }
+
+  var isLoadingRequestAdoptionAnimalChat = false.obs;
+
+  requestAdoptionAnimalChat( String IDAdoption, BuildContext context) async {
+    try {
+      isLoadingRequestAdoptionAnimalChat(true);
+      var response = await AdoptionsServices.requestAdoptionAnimalChat(
+        IDAdoption,
+      );
+      if (response["Success"]) {
+        await getAdoptionChatDetails(
+          "ADOPTER",
+          response["Response"].toString(),
+        );
+        Get.toNamed(Routes.adoptionChatScreen);
+      }else{}
+    } finally {
+      isLoadingRequestAdoptionAnimalChat(false);
+    }
+  }
+
 }
