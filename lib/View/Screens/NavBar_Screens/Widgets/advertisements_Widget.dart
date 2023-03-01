@@ -42,7 +42,7 @@ class AdvertisementsWidget extends StatelessWidget {
                   return Builder(
                     builder: (BuildContext context) {
                       return Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: InkWell(
                           onTap: () {},
                           child: ClipRRect(

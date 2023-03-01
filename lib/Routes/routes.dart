@@ -11,6 +11,7 @@ import '../Logic/binding/My_Account_Bindings/myAccount_binding.dart';
 import '../Logic/binding/Wallet_Bindings/wallet_binding.dart';
 import '../Logic/binding/advertisements_binding.dart';
 import '../Logic/binding/auth_binding.dart';
+import '../Logic/binding/home_binding.dart';
 import '../Logic/binding/main_binding.dart';
 import '../Logic/binding/My_Account_Bindings/personal_data_binding.dart';
 import '../Logic/binding/verification_binding.dart';
@@ -135,6 +136,7 @@ class AppRoutes {
       bindings: [
         MainBinding(),
         AdvertisementsBinding(),
+        HomeBinding(),
       ],
     ),
     GetPage(

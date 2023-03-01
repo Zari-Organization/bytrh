@@ -24,7 +24,7 @@ class ConsultationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Padding(padding: EdgeInsets.all(16),child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -36,103 +36,103 @@ class ConsultationWidget extends StatelessWidget {
           children: [
             Expanded(
                 child: InkWell(
-              onTap: () async {
-                await instantConsultationsController.getGeoLocationPosition();
-                advertisementsController.advertisementLocation.value = "INNER_PAGES";
-                advertisementsController.advertisementService.value = "URGENT_CONSULT";
-                await Get.toNamed(Routes.instantConsultationsScreen);
-              },
-              child: SizedBox(
-                height: 150,
-                child: Obx(() => Card(
-                    elevation: 5,
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: instantConsultationsController
+                  onTap: () async {
+                    await instantConsultationsController.getGeoLocationPosition();
+                    advertisementsController.advertisementLocation.value = "INNER_PAGES";
+                    advertisementsController.advertisementService.value = "URGENT_CONSULT";
+                    await Get.toNamed(Routes.instantConsultationsScreen);
+                  },
+                  child: SizedBox(
+                    height: 150,
+                    child: Obx(() => Card(
+                        elevation: 5,
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: instantConsultationsController
                               .isLoadingLocation.value
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                CustomCircleProgress(),
-                                Text(
-                                  "جاري الحصول علي موقعك ...",
-                                  style: TextStyle(fontSize: 10),
-                                  textAlign: TextAlign.center,
+                              ? Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CustomCircleProgress(),
+                              Text(
+                                "جاري الحصول علي موقعك ...",
+                                style: TextStyle(fontSize: 10),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          )
+                              : Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                AppIcons.instant_consultation_icon,
+                                height: 50,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                "إستشارة فورية",
+                                style: TextStyle(
+                                  color: AppColors.MAIN_COLOR,
                                 ),
-                              ],
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  AppIcons.instant_consultation_icon,
-                                  height: 50,
-                                ),
-                                SizedBox(height: 16),
-                                Text(
-                                  "إستشارة فورية",
-                                  style: TextStyle(
-                                    color: AppColors.MAIN_COLOR,
-                                  ),
-                                ),
-                              ],
-                            ),
-                    ))),
-              ),
-            )),
+                              ),
+                            ],
+                          ),
+                        ))),
+                  ),
+                )),
             Expanded(
                 child: InkWell(
-              onTap: () async {
-                await termConsultationsController.getGeoLocationPosition();
-                advertisementsController.advertisementLocation.value = "INNER_PAGES";
-                advertisementsController.advertisementService.value = "CONSULT";
-                await Get.toNamed(Routes.termConsultationsScreen);
-              },
-              child: SizedBox(
-                height: 150,
-                child: Obx(
-                  () => Card(
-                    elevation: 5,
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: termConsultationsController.isLoadingLocation.value
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                CustomCircleProgress(),
-                                Text(
-                                  "جاري الحصول علي موقعك ...",
-                                  style: TextStyle(fontSize: 10),
-                                  textAlign: TextAlign.center,
+                  onTap: () async {
+                    await termConsultationsController.getGeoLocationPosition();
+                    advertisementsController.advertisementLocation.value = "INNER_PAGES";
+                    advertisementsController.advertisementService.value = "CONSULT";
+                    await Get.toNamed(Routes.termConsultationsScreen);
+                  },
+                  child: SizedBox(
+                    height: 150,
+                    child: Obx(
+                          () => Card(
+                        elevation: 5,
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: termConsultationsController.isLoadingLocation.value
+                              ? Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CustomCircleProgress(),
+                              Text(
+                                "جاري الحصول علي موقعك ...",
+                                style: TextStyle(fontSize: 10),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          )
+                              : Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                AppIcons.term_consultation_icon,
+                                height: 50,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                "إستشارة آجلة",
+                                style: TextStyle(
+                                  color: AppColors.MAIN_COLOR,
                                 ),
-                              ],
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  AppIcons.term_consultation_icon,
-                                  height: 50,
-                                ),
-                                SizedBox(height: 16),
-                                Text(
-                                  "إستشارة آجلة",
-                                  style: TextStyle(
-                                    color: AppColors.MAIN_COLOR,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            )),
+                )),
           ],
         ),
       ],
-    );
+    ),);
   }
 }

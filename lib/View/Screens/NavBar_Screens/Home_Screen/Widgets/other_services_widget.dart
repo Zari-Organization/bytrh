@@ -24,7 +24,7 @@ class OtherServicesWidget extends StatelessWidget {
   final advertisementsController = Get.find<AdvertisementsController>();
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Padding(padding: EdgeInsets.all(16),child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -68,6 +68,6 @@ class OtherServicesWidget extends StatelessWidget {
           ),
         )
       ],
-    );
+    ),);
   }
 }

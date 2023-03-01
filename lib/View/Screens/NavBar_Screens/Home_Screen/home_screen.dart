@@ -7,6 +7,7 @@ import '../Widgets/advertisements_Widget.dart';
 import 'Widgets/instant_consultations_cart_icon.dart';
 import 'Widgets/consultations_widget.dart';
 import 'Widgets/other_services_widget.dart';
+import 'Widgets/our_new_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.WHITE_COLOR,
       appBar: AppBar(
         backgroundColor: AppColors.MAIN_COLOR,
         centerTitle: true,
@@ -23,18 +25,17 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AdvertisementsWidget(),
-              ConsultationWidget(),
-              const SizedBox(height: 20),
-              OtherServicesWidget()
-            ],
-          ),
-        )
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AdvertisementsWidget(),
+            ConsultationWidget(),
+            const SizedBox(height: 20),
+            OurNewWidget(),
+            const SizedBox(height: 20),
+            OtherServicesWidget()
+          ],
+        ),
       ),
     );
   }
