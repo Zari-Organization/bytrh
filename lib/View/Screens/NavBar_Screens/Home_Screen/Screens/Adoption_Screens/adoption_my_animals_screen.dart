@@ -48,8 +48,6 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
                     builder: (context) => CustomButton(
                       title: "إضافة حيوان جديد",
                       backgroundColor: AppColors.WHITE_COLOR,
-                      foregroundColor: AppColors.MAIN_COLOR,
-                      overlayColor: AppColors.MAIN_COLOR,
                       onPress: () async {
                         await adoptionController.getAdoptionAnimalsCategory();
                         adoptionController
@@ -94,8 +92,6 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
                   builder: (context) => CustomButton(
                     title: "إضافة حيوان جديد",
                     backgroundColor: AppColors.WHITE_COLOR,
-                    foregroundColor: AppColors.MAIN_COLOR,
-                    overlayColor: AppColors.MAIN_COLOR,
                     onPress: () async {
                       await adoptionController.getAdoptionAnimalsCategory();
                       adoptionController

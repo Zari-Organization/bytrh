@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import '../../../../../../../../Logic/controllers/Chat_Controllers/chat_controll
 import '../../../../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../../../../../../../Routes/routes.dart';
 import '../../../../../../../../Utils/app_colors.dart';
+import '../../../../../../../../Utils/app_images.dart';
 import '../../../../../../../Widgets/custom_circle_progress.dart';
 
 class TermConsultationsCartScreen extends StatelessWidget {
@@ -134,13 +136,31 @@ class TermConsultationsCartScreen extends StatelessWidget {
                                   Row(
                                     children: [
                                       CircleAvatar(
-                                        radius: 20,
                                         backgroundColor: AppColors.MAIN_COLOR,
-                                        backgroundImage: NetworkImage(
-                                          termConsultationsController
-                                                  .consultationsCartList[index]
-                                                  .doctorPicture ??
-                                              "",
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(50),
+                                          child: CachedNetworkImage(
+                                            fit: BoxFit.cover,
+                                            width: 40,
+                                            // height: double.infinity,
+                                            imageUrl: termConsultationsController
+                                                .consultationsCartList[index]
+                                                .doctorPicture ??
+                                                "",
+                                            placeholder: (context, url) => Image.asset(
+                                              width: 20,
+                                              color: AppColors.BLACK_COLOR,
+                                              // height: double.infinity,
+                                              AppImages.user_placeholder,
+                                            ),
+                                            errorWidget: (context, url, error) =>
+                                                Image.asset(
+                                                  width: 20,
+                                                  color: AppColors.WHITE_COLOR,
+                                                  // height: double.infinity,
+                                                  AppImages.user_placeholder,
+                                                ),
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: 5),
@@ -162,7 +182,7 @@ class TermConsultationsCartScreen extends StatelessWidget {
                                             style: const TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
-                                              color: AppColors.MAIN_COLOR,
+                                              color: AppColors.SECOND_COLOR,
                                             ),
                                           ),
                                         ],

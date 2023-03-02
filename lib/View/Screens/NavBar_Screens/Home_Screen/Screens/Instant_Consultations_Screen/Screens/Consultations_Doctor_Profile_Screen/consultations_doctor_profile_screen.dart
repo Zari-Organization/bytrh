@@ -73,7 +73,7 @@ class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
                     ),
                   ),
                   backgroundColor:
-                      MaterialStateProperty.all(AppColors.MAIN_COLOR),
+                      MaterialStateProperty.all(AppColors.SECOND_COLOR),
                   foregroundColor:
                       MaterialStateProperty.all(AppColors.WHITE_COLOR),
                 ),
@@ -132,6 +132,7 @@ class InstantConsultationsDoctorProfileScreen extends StatelessWidget {
                                         .doctorName,
                                     style: const TextStyle(
                                         fontSize: 15,
+                                        color: AppColors.SECOND_COLOR,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(

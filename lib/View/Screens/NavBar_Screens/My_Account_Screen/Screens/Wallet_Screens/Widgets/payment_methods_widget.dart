@@ -55,7 +55,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                         ? true
                         : false,
                     onChanged: (_) {},
-                    activeColor: AppColors.MAIN_COLOR,
+                    activeColor: AppColors.SECOND_COLOR,
                   ),
                   title:  Text(
                     "${walletController.paymentMethodsList[index].paymentMethod}",

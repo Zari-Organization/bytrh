@@ -108,7 +108,7 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                         title: Text(
                           instantConsultationsController
                               .consultationsDoctorsList[index].doctorName,
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16,color: AppColors.SECOND_COLOR),
                         ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,

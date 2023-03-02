@@ -13,8 +13,8 @@ class CustomListTile extends StatelessWidget {
     this.borderRadius,
     this.trailing,
     this.textDirection = TextDirection.rtl,
-    this.titleColor= AppColors.MAIN_COLOR,
-    this.iconColor= AppColors.MAIN_COLOR,
+    this.titleColor= AppColors.SECOND_COLOR,
+    this.iconColor= AppColors.SECOND_COLOR,
   }) : super(key: key);
 
   String icon;

@@ -114,7 +114,7 @@ class AdvertisementsWidget extends StatelessWidget {
                           Icons.circle,
                           size: 10,
                           color: advertisementsController.currentAdvertisement.value == index
-                              ? AppColors.MAIN_COLOR
+                              ? AppColors.SECOND_COLOR
                               : AppColors.GREY_COLOR,
                         ),
                       );

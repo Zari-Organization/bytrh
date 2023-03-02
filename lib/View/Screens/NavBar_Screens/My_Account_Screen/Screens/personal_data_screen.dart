@@ -41,18 +41,19 @@ class PersonalDataScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Stack(
-                          alignment: AlignmentDirectional.bottomEnd,
+                          alignment: AlignmentDirectional.bottomStart,
                           children: [
                             Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: AppColors.MAIN_COLOR),
+                                  color: AppColors.SECOND_COLOR,
+                                  ),
                               child: personalDataController
                                   .profileImageFile.value!.path.isEmpty
                                   ? CircleAvatar(
                                 radius: 60,
-                                backgroundColor: AppColors.MAIN_COLOR,
+                                backgroundColor: AppColors.SECOND_COLOR,
                                 backgroundImage: NetworkImage(
                                     personalDataController.clientData
                                         .value.clientPicture ??
@@ -100,8 +101,8 @@ class PersonalDataScreen extends StatelessWidget {
                                   ],
                                 ),
                                 child: CircleAvatar(
-                                  backgroundColor: AppColors.WHITE_COLOR,
-                                  child: SvgPicture.asset(AppIcons.camera_icon),
+                                  backgroundColor: AppColors.SECOND_COLOR,
+                                  child: SvgPicture.asset(AppIcons.camera_icon,color: AppColors.WHITE_COLOR,),
                                 ),
                               ),
                             ),
@@ -216,7 +217,6 @@ class PersonalDataScreen extends StatelessWidget {
                         height: 50,
                         child: CustomButton(
                           title: "حفظ",
-                          backgroundColor: AppColors.MAIN_COLOR,
                           foregroundColor: AppColors.WHITE_COLOR,
                           overlayColor: AppColors.WHITE_COLOR,
                           onPress: () {

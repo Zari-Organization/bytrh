@@ -39,8 +39,8 @@ class TermConsultationsScreen extends StatelessWidget {
             TabBar(
               controller: termConsultationsController.tabController.value,
               unselectedLabelColor: AppColors.GREY_COLOR,
-              labelColor: AppColors.MAIN_COLOR,
-              indicatorColor: AppColors.MAIN_COLOR,
+              labelColor: AppColors.SECOND_COLOR,
+              indicatorColor: AppColors.SECOND_COLOR,
               labelStyle: TextStyle(fontSize: 20),
               unselectedLabelStyle: TextStyle(fontSize: 17),
               onTap: (index) async {

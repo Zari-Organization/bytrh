@@ -16,30 +16,30 @@ class MainScreen extends StatelessWidget {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: mainController.currentIndex.value,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: AppColors.MAIN_COLOR,
+          selectedItemColor: AppColors.SECOND_COLOR,
           items: [
             BottomNavigationBarItem(
                 icon: SvgPicture.asset(AppIcons.home_icon,
                     color: mainController.currentIndex.value == 0
-                        ? AppColors.MAIN_COLOR
+                        ? AppColors.SECOND_COLOR
                         : AppColors.GREY_COLOR),
                 label: 'الرئيسية'),
             BottomNavigationBarItem(
                 icon: SvgPicture.asset(AppIcons.category_icon,
                     color: mainController.currentIndex.value == 1
-                        ? AppColors.MAIN_COLOR
+                        ? AppColors.SECOND_COLOR
                         : AppColors.GREY_COLOR),
                 label: 'المنتجات'),
             BottomNavigationBarItem(
                 icon: SvgPicture.asset(AppIcons.auction_icon,
                     color: mainController.currentIndex.value == 2
-                        ? AppColors.MAIN_COLOR
+                        ? AppColors.SECOND_COLOR
                         : AppColors.GREY_COLOR),
                 label: 'مزاد'),
             BottomNavigationBarItem(
                 icon: SvgPicture.asset(AppIcons.user_icon,
                     color: mainController.currentIndex.value == 3
-                        ? AppColors.MAIN_COLOR
+                        ? AppColors.SECOND_COLOR
                         : AppColors.GREY_COLOR),
                 label: 'حسابي'),
           ],

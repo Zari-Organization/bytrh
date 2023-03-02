@@ -48,8 +48,6 @@ class AdoptionMyAnimalsDetailsScreen extends StatelessWidget {
                         builder: (context) => CustomButton(
                           title: "المحادثات",
                           backgroundColor: AppColors.WHITE_COLOR,
-                          foregroundColor: AppColors.MAIN_COLOR,
-                          overlayColor: AppColors.MAIN_COLOR,
                           onPress: () async {
                             adoptionController.chatIdAdoption.value = adoptionController.adoptionsMyAnimalsDetails.value.idAdoption.toString();
                             adoptionController.chatClientType.value = "CLIENT";

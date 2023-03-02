@@ -4,7 +4,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import '../../Utils/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
-   CustomButton({Key? key, this.title, this.backgroundColor, this.foregroundColor, this.overlayColor,this.onPress, this.borderSideColor=AppColors.MAIN_COLOR}) : super(key: key);
+   CustomButton({Key? key, this.title, this.backgroundColor=AppColors.SECOND_COLOR, this.foregroundColor=AppColors.SECOND_COLOR, this.overlayColor=AppColors.SECOND_COLOR,this.onPress, this.borderSideColor=AppColors.SECOND_COLOR}) : super(key: key);
    final title;
    final backgroundColor;
    final foregroundColor;

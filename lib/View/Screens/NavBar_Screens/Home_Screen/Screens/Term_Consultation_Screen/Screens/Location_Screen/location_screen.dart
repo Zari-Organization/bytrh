@@ -81,7 +81,7 @@ class LocationScreen extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all(
                         termConsultationsController.doctorChecked.isEmpty
                             ? AppColors.GREY_COLOR
-                            : AppColors.MAIN_COLOR),
+                            : AppColors.SECOND_COLOR),
                     foregroundColor:
                         MaterialStateProperty.all(AppColors.WHITE_COLOR),
                   ),
@@ -94,7 +94,7 @@ class LocationScreen extends StatelessWidget {
             fallback: (context) => const Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: CircularProgressIndicator(
-                color: AppColors.MAIN_COLOR,
+                color: AppColors.SECOND_COLOR,
               ),
             ),
           ),

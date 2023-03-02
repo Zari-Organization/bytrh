@@ -94,9 +94,8 @@ class AreaScreen extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all(
                         termConsultationsController.doctorChecked.isEmpty
                             ? AppColors.GREY_COLOR
-                            : AppColors.MAIN_COLOR),
-                    foregroundColor:
-                        MaterialStateProperty.all(AppColors.WHITE_COLOR),
+                            : AppColors.SECOND_COLOR),
+                    foregroundColor: MaterialStateProperty.all(AppColors.WHITE_COLOR),
                   ),
                   child: Text(
                     "طلب إستشارة",
@@ -107,7 +106,7 @@ class AreaScreen extends StatelessWidget {
             fallback: (context) => const Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: CircularProgressIndicator(
-                color: AppColors.MAIN_COLOR,
+                color: AppColors.SECOND_COLOR,
               ),
             ),
           ),

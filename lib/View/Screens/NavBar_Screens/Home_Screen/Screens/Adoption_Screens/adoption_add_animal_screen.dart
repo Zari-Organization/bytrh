@@ -62,13 +62,13 @@ class AdoptionAddAnimalScreen extends StatelessWidget {
                                   children: [
                                     SvgPicture.asset(
                                       AppIcons.upload_icon,
-                                      color: AppColors.MAIN_COLOR,
+                                      color: AppColors.SECOND_COLOR,
                                     ),
                                     SizedBox(width: 5),
                                     Text(
                                       "إضافة صورة",
                                       style: TextStyle(
-                                        color: AppColors.MAIN_COLOR,
+                                        color: AppColors.SECOND_COLOR,
                                       ),
                                     ),
                                   ],
@@ -231,12 +231,12 @@ class AdoptionAddAnimalScreen extends StatelessWidget {
                                 children: [
                                   SvgPicture.asset(
                                     AppIcons.upload_icon,
-                                    color: AppColors.MAIN_COLOR,
+                                    color: AppColors.SECOND_COLOR,
                                   ),
                                   Text(
                                     "إضافة صورة",
                                     style: TextStyle(
-                                      color: AppColors.MAIN_COLOR,
+                                      color: AppColors.SECOND_COLOR,
                                     ),
                                   )
                                 ],
@@ -253,7 +253,7 @@ class AdoptionAddAnimalScreen extends StatelessWidget {
                         !adoptionController.isLoadingAddAdoptionAnimal.value,
                     builder: (context) => CustomButton(
                         title: "حفظ",
-                        backgroundColor: AppColors.MAIN_COLOR,
+                        // backgroundColor: AppColors.MAIN_COLOR,
                         foregroundColor: AppColors.WHITE_COLOR,
                         overlayColor: AppColors.WHITE_COLOR,
                         onPress: () {

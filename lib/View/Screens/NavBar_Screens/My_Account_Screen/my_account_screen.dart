@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:bytrh/Routes/routes.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,7 @@ import '../../../../Logic/controllers/Adoption_Controllers/adoption_controller.d
 import '../../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
 import '../../../../Utils/app_alerts.dart';
 import '../../../../Utils/app_colors.dart';
+import '../../../../Utils/app_images.dart';
 import 'Widgets/custom_listTile.dart';
 
 class MyAccountScreen extends StatefulWidget {
@@ -58,6 +60,27 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 10),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        width: 60,
+                        height: double.infinity,
+                        imageUrl: personalDataController
+                            .clientData.value.clientPicture,
+                        placeholder: (context, url) => Image.asset(
+                          width: 60,
+                          height: double.infinity,
+                          AppImages.user_placeholder,
+                        ),
+                        errorWidget: (context, url, error) =>
+                            Image.asset(
+                              width: 60,
+                              height: double.infinity,
+                              AppImages.user_placeholder,
+                            ),
+                      ),
+                    ),
                     title: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -72,7 +95,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       ],
                     ),
                     subtitle:
-                        Text(personalDataController.emailController.value.text),
+                        Text(personalDataController
+                            .emailController.value.text),
                   ),
                 );
               }

@@ -124,7 +124,6 @@ class ContactUsScreen extends StatelessWidget {
                           height: 50,
                           child: CustomButton(
                             title: "ارسال",
-                            backgroundColor: AppColors.MAIN_COLOR,
                             foregroundColor: AppColors.WHITE_COLOR,
                             overlayColor: AppColors.WHITE_COLOR,
                             onPress: () {

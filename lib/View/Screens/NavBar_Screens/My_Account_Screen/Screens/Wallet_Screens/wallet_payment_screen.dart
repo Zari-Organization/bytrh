@@ -48,7 +48,6 @@ class WalletPaymentScreen extends StatelessWidget {
                     condition: !walletController.isLoadingWalletPayment.value,
                     builder: (context) =>  CustomButton(
                       title: "دفع الآن",
-                      backgroundColor: AppColors.MAIN_COLOR,
                       foregroundColor: AppColors.WHITE_COLOR,
                       overlayColor: AppColors.WHITE_COLOR,
                       onPress: () {

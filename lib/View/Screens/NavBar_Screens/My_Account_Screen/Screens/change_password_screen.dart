@@ -111,7 +111,6 @@ class ChangePasswordScreen extends StatelessWidget {
                     height: 50,
                     child: CustomButton(
                       title: "حفظ",
-                      backgroundColor: AppColors.MAIN_COLOR,
                       foregroundColor: AppColors.WHITE_COLOR,
                       overlayColor: AppColors.WHITE_COLOR,
                       onPress: () {

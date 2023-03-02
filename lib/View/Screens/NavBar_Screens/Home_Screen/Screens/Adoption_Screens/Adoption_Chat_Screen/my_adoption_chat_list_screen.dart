@@ -88,7 +88,7 @@ class MyAdoptionChatListScreen extends StatelessWidget {
                                     .myAdoptionsChatList[index].adopterName,
                                 style: TextStyle(
                                     fontSize: 17,
-                                    color: AppColors.MAIN_COLOR,
+                                    color: AppColors.SECOND_COLOR,
                                     fontWeight: FontWeight.bold,
                                     overflow: TextOverflow.ellipsis),
                               ),
@@ -125,7 +125,7 @@ class MyAdoptionChatListScreen extends StatelessWidget {
                                           ),
                                           backgroundColor:
                                           MaterialStateProperty.all(
-                                              AppColors.MAIN_COLOR)),
+                                              AppColors.SECOND_COLOR)),
                                       onPressed: () async {
                                         await adoptionController
                                             .getAdoptionChatDetails(

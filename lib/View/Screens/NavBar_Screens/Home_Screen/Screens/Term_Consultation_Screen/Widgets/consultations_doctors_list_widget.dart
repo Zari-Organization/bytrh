@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../../../../../../Routes/routes.dart';
 import '../../../../../../../Utils/app_colors.dart';
+import '../../../../../../../Utils/app_images.dart';
 
 class ConsultationsDoctorsListWidget extends StatelessWidget {
   ConsultationsDoctorsListWidget({Key? key}) : super(key: key);
@@ -55,18 +57,36 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                       ),
                       // contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       tileColor: Color(0xffFAFAFA),
-                      leading: CircleAvatar(
-                        radius: 25,
-                        backgroundColor: AppColors.MAIN_COLOR,
-                        backgroundImage: NetworkImage(
-                          termConsultationsController
-                              .consultationsDoctorsList[index].doctorPicture,
-                        ),
-                      ),
+                     leading: CircleAvatar(
+                       backgroundColor: AppColors.MAIN_COLOR,
+                       child: ClipRRect(
+                         borderRadius: BorderRadius.circular(30),
+                         child: CachedNetworkImage(
+                           fit: BoxFit.cover,
+
+                           width: 40,
+                           height: 40,
+                           imageUrl: termConsultationsController
+                               .consultationsDoctorsList[index].doctorPicture,
+                           placeholder: (context, url) => Image.asset(
+                             width: 20,
+                             // height: double.infinity,
+                             AppImages.user_placeholder,
+                           ),
+                           errorWidget: (context, url, error) =>
+                               Image.asset(
+                                 width: 20,
+                                 color: AppColors.WHITE_COLOR,
+                                 // height: double.infinity,
+                                 AppImages.user_placeholder,
+                               ),
+                         ),
+                       ),
+                     ),
                       title: Text(
                         termConsultationsController
                             .consultationsDoctorsList[index].doctorName,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16,color: AppColors.SECOND_COLOR),
                       ),
                       trailing: Column(
                         children: [
@@ -89,7 +109,7 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                               onChanged: (value) {
                                 termConsultationsController.onSelectedDoctor(value!,termConsultationsController.consultationsDoctorsList[index].idDoctor);
                               },
-                              activeColor: AppColors.MAIN_COLOR,
+                              activeColor: AppColors.SECOND_COLOR,
                               value: termConsultationsController.doctorChecked.contains(termConsultationsController.consultationsDoctorsList[index].idDoctor),
                             ),
                           ),

@@ -98,14 +98,14 @@ class WalletScreen extends StatelessWidget {
                         Text(
                           "${walletController.myWalletData.value.clientCurrentPoints}",
                           style: const TextStyle(
-                            color: AppColors.GOLD_COLOR,
+                            color: AppColors.MAIN_COLOR,
                           ),
                         ),
                         const SizedBox(width: 5),
                         const Text(
                           "نقطة",
                           style: TextStyle(
-                            color: AppColors.GOLD_COLOR,
+                            color: AppColors.MAIN_COLOR,
                           ),
                         ),
                       ],
@@ -121,14 +121,14 @@ class WalletScreen extends StatelessWidget {
                         Text(
                           "${walletController.myWalletData.value.giftCards}",
                           style: const TextStyle(
-                            color: AppColors.GOLD_COLOR,
+                            color: AppColors.MAIN_COLOR,
                           ),
                         ),
                         const SizedBox(width: 5),
                         const Text(
                           "قسيمة",
                           style: TextStyle(
-                            color: AppColors.GOLD_COLOR,
+                            color: AppColors.MAIN_COLOR,
                           ),
                         ),
                       ],
@@ -138,7 +138,6 @@ class WalletScreen extends StatelessWidget {
                   const SizedBox(height: 100),
                   CustomButton(
                     title: "شحن المحفظة",
-                    backgroundColor: AppColors.MAIN_COLOR,
                     foregroundColor: AppColors.WHITE_COLOR,
                     overlayColor: AppColors.WHITE_COLOR,
                     onPress: () {

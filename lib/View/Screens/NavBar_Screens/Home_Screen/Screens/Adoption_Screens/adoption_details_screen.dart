@@ -232,7 +232,7 @@ class AdoptionDetailsScreen extends StatelessWidget {
                                           .adoptionsDetails.value.clientName,
                                       style: TextStyle(
                                           fontSize: 17,
-                                          color: AppColors.MAIN_COLOR,
+                                          color: AppColors.SECOND_COLOR,
                                           fontWeight: FontWeight.bold,
                                           overflow: TextOverflow.ellipsis),
                                     ),
@@ -278,7 +278,7 @@ class AdoptionDetailsScreen extends StatelessWidget {
                                                 ),
                                                 backgroundColor:
                                                     MaterialStateProperty.all(
-                                                        AppColors.MAIN_COLOR)),
+                                                        AppColors.SECOND_COLOR)),
                                             onPressed: () {
                                               adoptionController
                                                   .requestAdoptionAnimalChat(
@@ -309,7 +309,7 @@ class AdoptionDetailsScreen extends StatelessWidget {
                                                     .all(RoundedRectangleBorder(
                                                         side: BorderSide(
                                                             color: AppColors
-                                                                .MAIN_COLOR),
+                                                                .SECOND_COLOR),
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(
@@ -323,7 +323,7 @@ class AdoptionDetailsScreen extends StatelessWidget {
                                             },
                                             child: SvgPicture.asset(
                                                 AppIcons.call_icon,
-                                                color: AppColors.MAIN_COLOR,
+                                                color: AppColors.SECOND_COLOR,
                                                 width: 16),
                                           ),
                                         )
