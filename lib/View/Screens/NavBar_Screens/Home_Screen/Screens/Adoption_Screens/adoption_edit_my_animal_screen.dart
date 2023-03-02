@@ -143,7 +143,7 @@ class AdoptionEditMyAnimalScreen extends StatelessWidget {
                   ),
                   CustomTextFieldWidget(
                     hintText:
-                        "السن : مثال (1=عام واحد & 1.2=عام وشهرين & 0.5= 5 اشهر)",
+                        "السن : مثال ( 1.2=عام وشهرين )",
                     keyboardType: TextInputType.number,
                     controller:
                         adoptionController.editAnimalAgeController.value,
@@ -339,7 +339,6 @@ class AdoptionEditMyAnimalScreen extends StatelessWidget {
                         !adoptionController.isLoadingEditMyAdoptionAnimal.value,
                     builder: (context) => CustomButton(
                       title: "حفظ",
-                      backgroundColor: AppColors.MAIN_COLOR,
                       foregroundColor: AppColors.WHITE_COLOR,
                       overlayColor: AppColors.WHITE_COLOR,
                       onPress: () {

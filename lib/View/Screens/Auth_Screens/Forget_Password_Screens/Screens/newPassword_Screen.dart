@@ -77,7 +77,7 @@ class NewPasswordScreen extends StatelessWidget {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
-                        AppColors.MAIN_COLOR,
+                        AppColors.SECOND_COLOR,
                       ),
                       foregroundColor: MaterialStateProperty.all(
                         AppColors.WHITE_COLOR,

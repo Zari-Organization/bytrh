@@ -37,6 +37,7 @@ class OtherServicesWidget extends StatelessWidget {
             advertisementsController.advertisementLocation.value = "INNER_PAGES";
             advertisementsController.advertisementService.value = "ADOPTION";
             advertisementsController.getAdvertisements();
+            adoptionController.onInit();
             Get.toNamed(Routes.adoptionScreen);
           },
           child: SizedBox(

@@ -125,7 +125,7 @@ class PersonalDataScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    IntlPhoneField(
+                    Directionality(textDirection: TextDirection.ltr, child: IntlPhoneField(
                       controller: personalDataController.phoneController.value,
                       decoration: InputDecoration(
                         filled: true,
@@ -164,15 +164,9 @@ class PersonalDataScreen extends StatelessWidget {
                           log("phoneCodeController -->${personalDataController.phoneCodeController.value.text}");
                         }
                       },
-                    )
+                    ))
                   ],
                 ),),
-                // TitledTextField(
-                //   title: "رقم الجوال",
-                //   controller: personalDataController.phoneController.value,
-                //   fillColor: AppColors.GREY_Light_COLOR,
-                //   textDirection: TextDirection.ltr,
-                // ),
 
                 Form(
                   autovalidateMode: AutovalidateMode.always,

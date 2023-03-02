@@ -96,8 +96,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
 
       skipStyle: TextButton.styleFrom(primary: AppColors.GREY_COLOR),
-      doneStyle: TextButton.styleFrom(primary: AppColors.MAIN_COLOR),
-      nextStyle: TextButton.styleFrom(primary: AppColors.MAIN_COLOR),
+      doneStyle: TextButton.styleFrom(primary: AppColors.SECOND_COLOR),
+      nextStyle: TextButton.styleFrom(primary: AppColors.SECOND_COLOR),
       // backStyle: TextButton.styleFrom(primary: AppColors.GREY_COLOR),
       showNextButton: true,
       showDoneButton: true,

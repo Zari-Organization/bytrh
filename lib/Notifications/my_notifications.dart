@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bytrh/Notifications/notification_model.dart';
@@ -212,6 +213,8 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
         final instantConsultationsController =
             Get.find<InstantConsultationsController>();
         await instantConsultationsController.getConsultationsCart();
+        NotificationService().showLocalNotification(
+            title: "Bytrh", body: message.data['Message'].toString());
         onClickNotification(String? payload) {
           try {
             Get.toNamed(Routes.instantsConsultationsCartScreen);
@@ -219,11 +222,9 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
             log(e.toString());
           }
         }
-
         await NotificationService()
             .listenNotifications(onClickNotification: onClickNotification);
-        NotificationService().showLocalNotification(
-            title: "Bytrh", body: message.data['Message'].toString());
+
       } catch (e) {
         log(e.toString());
       }
@@ -237,6 +238,10 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
             Get.find<InstantConsultationsController>();
         await instantConsultationsController.getConsultationsCart();
         log(message.data['IDData']);
+        NotificationService().showLocalNotification(
+            title: "Bytrh",
+            body: message.data['Message'].toString(),
+            payload: "/urgenttimeScreen");
         onClickNotification(String? payload) {
           try {
             log(message.data['IDData']);
@@ -249,66 +254,63 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
 
         await NotificationService()
             .listenNotifications(onClickNotification: onClickNotification);
-        NotificationService().showLocalNotification(
-            title: "Bytrh",
-            body: message.data['Message'].toString(),
-            payload: "/urgenttimeScreen");
+
       } catch (e) {
         log(e.toString());
       }
     }
     if (message.data['Screen'] == "/urgentactivechatScreen") {
       Get.put(InstantConsultationsController());
-      final instantConsultationsController =
-          Get.find<InstantConsultationsController>();
-      final consultationsChatController =
-          Get.find<ConsultationsChatController>();
+      Get.put(ConsultationsChatController());
+      final instantConsultationsController = Get.find<InstantConsultationsController>();
+      final consultationsChatController = Get.find<ConsultationsChatController>();
       await instantConsultationsController.getConsultationsCart();
       consultationsChatController.consultStatus.value = "ONGOING";
+      NotificationService().showLocalNotification(
+        title: "Bytrh",
+        body: message.data['Message'].toString(),
+        payload: json.encode(message.data),
+      );
       onClickNotification(String? payload) async {
         await consultationsChatController.getConsultationsChatDetails(
-          message.data['IDData'],
+          json.decode(payload!)['IDData'].toString(),
         );
         Get.toNamed(Routes.consultationsChatScreenScreen);
       }
+      await NotificationService().listenNotifications(onClickNotification: onClickNotification);
 
-      await NotificationService()
-          .listenNotifications(onClickNotification: onClickNotification);
-      NotificationService().showLocalNotification(
-          title: "Bytrh",
-          body: message.data['Message'].toString(),
-          payload: "/urgentconsultationsChatScreenScreen");
       // Get.toNamed(Routes.consultationsChatScreenScreen);
     }
     if (message.data['Screen'] == "/activechatScreen") {
+      Get.put(ConsultationsChatController());
       Get.put(TermConsultationsController());
-      final termConsultationsController =
-          Get.find<TermConsultationsController>();
-      final consultationsChatController =
-          Get.find<ConsultationsChatController>();
+      final termConsultationsController = Get.find<TermConsultationsController>();
+      final consultationsChatController = Get.find<ConsultationsChatController>();
       await termConsultationsController.getConsultationsCart();
       consultationsChatController.consultStatus.value = "ONGOING";
+
+      NotificationService().showLocalNotification(
+        title: "Bytrh",
+        body: message.data['Message'].toString(),
+        payload: json.encode(message.data),
+      );
       onClickNotification(String? payload) async {
         await consultationsChatController.getConsultationsChatDetails(
-          message.data['IDData'],
+          json.decode(payload!)['IDData'].toString(),
         );
-        Get.toNamed(payload!);
+        Get.toNamed(Routes.consultationsChatScreenScreen);
       }
+      await NotificationService().listenNotifications(onClickNotification: onClickNotification);
 
-      await NotificationService()
-          .listenNotifications(onClickNotification: onClickNotification);
-      NotificationService().showLocalNotification(
-          title: "Bytrh",
-          body: message.data['Message'].toString(),
-          payload: "/consultationsChatScreenScreen");
-      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
-      // Get.toNamed(Routes.consultationsChatScreenScreen);
     }
     if (message.data['Screen'] == "/normaltimeScreen") {
       Get.put(TermConsultationsController());
-      final termConsultationsController =
-          Get.find<TermConsultationsController>();
+      final termConsultationsController = Get.find<TermConsultationsController>();
       await termConsultationsController.getConsultationsCart();
+      NotificationService().showLocalNotification(
+          title: "Bytrh",
+          body: message.data['Message'].toString(),
+          payload: "normaltimeScreen");
       onClickNotification(String? payload) {
         try {
           termConsultationsController.setDataDoctorProfile(
@@ -317,21 +319,17 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
           log(e.toString());
         }
       }
-
-      await NotificationService()
-          .listenNotifications(onClickNotification: onClickNotification);
-      NotificationService().showLocalNotification(
-          title: "Bytrh",
-          body: message.data['Message'].toString(),
-          payload: "normaltimeScreen");
-      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
-      // Get.toNamed(Routes.consultationsChatScreenScreen);
+      await NotificationService().listenNotifications(onClickNotification: onClickNotification);
     }
     if (message.data['Screen'] == "/normalconsultScreen") {
       Get.put(TermConsultationsController());
       final termConsultationsController =
           Get.find<TermConsultationsController>();
       await termConsultationsController.getConsultationsCart();
+      NotificationService().showLocalNotification(
+          title: "Bytrh",
+          body: message.data['Message'].toString(),
+          payload: "/termConsultationsCartScreen");
       onClickNotification(String? payload) {
         try {
           Get.toNamed(payload!);
@@ -339,20 +337,16 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
           log(e.toString());
         }
       }
-
-      await NotificationService()
-          .listenNotifications(onClickNotification: onClickNotification);
-      NotificationService().showLocalNotification(
-          title: "Bytrh",
-          body: message.data['Message'].toString(),
-          payload: "/termConsultationsCartScreen");
-      // await consultationsChatController.getConsultationsChatDetails(message.data['IDData'].toString());
-      // Get.toNamed(Routes.consultationsChatScreenScreen);
+      await NotificationService().listenNotifications(onClickNotification: onClickNotification);
     }
     if (message.data['Screen'] == "/adoptionStatusScreen") {
       Get.put(AdoptionController());
       final adoptionController = Get.find<AdoptionController>();
       await adoptionController.getMyAdoptionsList();
+      NotificationService().showLocalNotification(
+          title: "Bytrh",
+          body: message.data['Message'].toString(),
+          payload: "/adoptionStatusScreen");
       onClickNotification(String? payload) {
         try {
           adoptionController
@@ -361,13 +355,7 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
           log(e.toString());
         }
       }
-
-      await NotificationService()
-          .listenNotifications(onClickNotification: onClickNotification);
-      NotificationService().showLocalNotification(
-          title: "Bytrh",
-          body: message.data['Message'].toString(),
-          payload: "/adoptionStatusScreen");
+      await NotificationService().listenNotifications(onClickNotification: onClickNotification);
     }
   } catch (e) {
     log(e.toString());

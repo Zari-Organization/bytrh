@@ -45,26 +45,26 @@ class ForgetPasswordScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 45),
-                IntlPhoneField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColors.GREY_Light_COLOR,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  // style: TextStyle(color: AppColors.WHITE_COLOR),
-                  dropdownTextStyle: TextStyle(color: AppColors.BLACK_COLOR),
-                  cursorColor: AppColors.MAIN_COLOR,
-                  initialCountryCode: 'SA',
-                  onChanged: (phone) {
-                    verificationController.phoneController.value.text =
-                        phone.completeNumber.toString();
-                    log(verificationController.phoneController.value.text as num);
-                  },
-                ),
+               Directionality(textDirection: TextDirection.ltr, child:  IntlPhoneField(
+                 decoration: InputDecoration(
+                   filled: true,
+                   fillColor: AppColors.GREY_Light_COLOR,
+                   contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                   border: OutlineInputBorder(
+                     borderSide: BorderSide.none,
+                     borderRadius: BorderRadius.circular(10),
+                   ),
+                 ),
+                 // style: TextStyle(color: AppColors.WHITE_COLOR),
+                 dropdownTextStyle: TextStyle(color: AppColors.BLACK_COLOR),
+                 cursorColor: AppColors.MAIN_COLOR,
+                 initialCountryCode: 'SA',
+                 onChanged: (phone) {
+                   verificationController.phoneController.value.text =
+                       phone.completeNumber.toString();
+                   log(verificationController.phoneController.value.text as num);
+                 },
+               ),),
                 const SizedBox(height: 45),
                 ConditionalBuilder(
                   condition: !verificationController.sendCodeLoading.value,
@@ -77,7 +77,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         )),
                         backgroundColor: MaterialStateProperty.all(
-                          AppColors.MAIN_COLOR,
+                          AppColors.SECOND_COLOR,
                         ),
                         foregroundColor: MaterialStateProperty.all(
                           AppColors.WHITE_COLOR,
