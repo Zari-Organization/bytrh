@@ -20,7 +20,6 @@ class AreaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: AlignmentDirectional.bottomCenter,
       children: [
         SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -57,12 +56,11 @@ class AreaScreen extends StatelessWidget {
             ),
           ),
         ),
-        Obx(
-          () => ConditionalBuilder(
+        Obx(() => Align(alignment: AlignmentDirectional.bottomCenter,child: ConditionalBuilder(
             condition:
-                !termConsultationsController.isLoadingTermRequestConsult.value,
+            !termConsultationsController.isLoadingTermRequestConsult.value,
             builder: (context) => Obx(
-              () => Container(
+                  () => Container(
                 padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
                 width: double.infinity,
                 child: ElevatedButton(
@@ -109,7 +107,7 @@ class AreaScreen extends StatelessWidget {
                 color: AppColors.SECOND_COLOR,
               ),
             ),
-          ),
+          ),),
         ),
       ],
     );

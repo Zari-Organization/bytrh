@@ -31,6 +31,7 @@ Future<void> selectReservationDay(BuildContext context) async {
     termConsultationsController.selectedDoctorDate.value = DateFormat('yyyy-MM-dd').format(selectedDate);
     termConsultationsController.selectedDoctorDayLocale.value = DateFormat.EEEE(Localizations.localeOf(context).languageCode).format(selectedDate).toUpperCase();
     termConsultationsController.selectedDoctorDateLocale.value = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate);
+    termConsultationsController.daySelectedIndex.value = -1;
     termConsultationsController.setDoctorProfileDays(
         termConsultationsController.consultationsDoctorProfileData.value.idDoctor.toString(),
     );

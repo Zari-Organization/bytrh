@@ -13,11 +13,21 @@ import '../../../../../../../Logic/controllers/Adoption_Controllers/adoption_con
 import '../../../../../../../Utils/app_colors.dart';
 import '../../../../../../../Utils/app_icons.dart';
 
+class MyAdoptionChatScreen extends StatefulWidget {
+  const MyAdoptionChatScreen({Key? key}) : super(key: key);
 
-class MyAdoptionChatScreen extends StatelessWidget {
-  MyAdoptionChatScreen({Key? key}) : super(key: key);
+  @override
+  State<MyAdoptionChatScreen> createState() => _MyAdoptionChatScreenState();
+}
 
+class _MyAdoptionChatScreenState extends State<MyAdoptionChatScreen> {
   final adoptionController = Get.find<AdoptionController>();
+
+  @override
+  void initState() {
+    super.initState();
+    adoptionController.inChatScreen.value=true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,151 +41,154 @@ class MyAdoptionChatScreen extends StatelessWidget {
           centerTitle: true,
           actions: [
             PopupMenuButton(
-                    onSelected: (value) async {},
-                    elevation: 20,
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: Colors.white,
-                      size: 30.0,
-                    ),
-                    itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: 3,
-                            child: InkWell(
-                                onTap: () {
-                                  // consultationsChatController.endConsultChat(
-                                  //     consultationsChatController
-                                  //         .consultId.value,
-                                  //     context);
-                                },
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppIcons.end_chat_icon,
-                                      color: AppColors.BLACK_COLOR,
-                                      height: 30,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text("انهاء المحادثة"),
-                                  ],
-                                )),
-                          ),
-                          PopupMenuItem(
-                            value: 3,
-                            child: InkWell(
-                              onTap: () async {
-                                Get.back();
-                                AppAlerts().chatComplaintPop(
-                                    adoptionController
-                                        .adoptionChatDetails
-                                        .value
-                                        .idAdoptionChat
-                                        .toString(),
-                                    context);
-                              },
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    AppIcons.Info_icon,
-                                    color: AppColors.BLACK_COLOR,
-                                    height: 30,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text("ارسال شكوي"),
-                                ],
-                              ),
+                onSelected: (value) async {},
+                elevation: 20,
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 3,
+                    child: InkWell(
+                        onTap: () {
+                          // consultationsChatController.endConsultChat(
+                          //     consultationsChatController
+                          //         .consultId.value,
+                          //     context);
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AppIcons.end_chat_icon,
+                              color: AppColors.BLACK_COLOR,
+                              height: 30,
                             ),
+                            SizedBox(width: 5),
+                            Text("انهاء المحادثة"),
+                          ],
+                        )),
+                  ),
+                  PopupMenuItem(
+                    value: 3,
+                    child: InkWell(
+                      onTap: () async {
+                        Get.back();
+                        AppAlerts().chatComplaintPop(
+                            adoptionController
+                                .adoptionChatDetails
+                                .value
+                                .idAdoptionChat
+                                .toString(),
+                            context);
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppIcons.Info_icon,
+                            color: AppColors.BLACK_COLOR,
+                            height: 30,
                           ),
-                        ]),
+                          SizedBox(width: 5),
+                          Text("ارسال شكوي"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                  height: AppConstants.mediaHeight(context) / 1.15,
-                  child: ChatScreen(
-                    messageContainerTextStyle:
-                        TextStyle(color: AppColors.RED_COLOR),
-                    sendMessageHintText: "اكتب رسالتك",
-                    scrollController:
-                    adoptionController.scrollController.value,
-                    messages: adoptionController.adoptionMessages,
-                    senderColor: AppColors.MAIN_COLOR,
-                    onSlideToCancelRecord: () {
-                      log('not sent');
-                    },
-                    onTextSubmit: (textMessage) {
-                      try {
-                        adoptionController.adoptionMessages.add(textMessage);
-                        adoptionController.scrollController.value
-                            .jumpTo(
+        body: WillPopScope(
+          onWillPop: () => onWillPop()!,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                    height: AppConstants.mediaHeight(context) / 1.15,
+                    child: ChatScreen(
+                      messageContainerTextStyle:
+                      TextStyle(color: AppColors.RED_COLOR),
+                      sendMessageHintText: "اكتب رسالتك",
+                      scrollController:
+                      adoptionController.scrollController.value,
+                      messages: adoptionController.adoptionMessages,
+                      senderColor: AppColors.MAIN_COLOR,
+                      onSlideToCancelRecord: () {
+                        log('not sent');
+                      },
+                      onTextSubmit: (textMessage) {
+                        try {
+                          adoptionController.adoptionMessages.add(textMessage);
                           adoptionController.scrollController.value
-                                  .position.maxScrollExtent +
-                              50,
-                        );
-                        adoptionController.sendChatMessageText(
-                          ClientType: "CLIENT",
-                          IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
-                          AdoptionChatType: "TEXT",
-                          AdoptionChatMessage: textMessage.text,
-                          // context: context,
-                        );
-                        log(textMessage.text);
-                      } catch (e) {
-                        log(e.toString());
-                      }
-                    },
-                    handleRecord: (audioMessage, canceled) {
-                      if (!canceled) {
-                        adoptionController.adoptionMessages.add(audioMessage!);
-                        adoptionController.scrollController.value
-                            .jumpTo(
+                              .jumpTo(
+                            adoptionController.scrollController.value
+                                .position.maxScrollExtent +
+                                50,
+                          );
+                          adoptionController.sendChatMessageText(
+                            ClientType: "CLIENT",
+                            IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
+                            AdoptionChatType: "TEXT",
+                            AdoptionChatMessage: textMessage.text,
+                            // context: context,
+                          );
+                          log(textMessage.text);
+                        } catch (e) {
+                          log(e.toString());
+                        }
+                      },
+                      handleRecord: (audioMessage, canceled) {
+                        if (!canceled) {
+                          adoptionController.adoptionMessages.add(audioMessage!);
                           adoptionController.scrollController.value
-                                  .position.maxScrollExtent +
-                              90,
-                        );
-                        log(audioMessage.chatMedia!.url);
-                        var file = XFile(audioMessage.chatMedia!.url);
-                        adoptionController.sendChatMessageFile(
-                          ClientType: "CLIENT",
-                          IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
-                          AdoptionChatType: "AUDIO",
-                          AdoptionChatMessage: file,
-                          context: context,
-                          // context: context,
-                        );
-                      }
-                    },
-                    handleImageSelect: (imageMessage) async {
-                      if (imageMessage != null) {
-                        adoptionController.adoptionMessages.add(
-                          imageMessage,
-                        );
-                        adoptionController.scrollController.value
-                            .jumpTo(
+                              .jumpTo(
+                            adoptionController.scrollController.value
+                                .position.maxScrollExtent +
+                                90,
+                          );
+                          log(audioMessage.chatMedia!.url);
+                          var file = XFile(audioMessage.chatMedia!.url);
+                          adoptionController.sendChatMessageFile(
+                            ClientType: "CLIENT",
+                            IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
+                            AdoptionChatType: "AUDIO",
+                            AdoptionChatMessage: file,
+                            context: context,
+                            // context: context,
+                          );
+                        }
+                      },
+                      handleImageSelect: (imageMessage) async {
+                        if (imageMessage != null) {
+                          adoptionController.adoptionMessages.add(
+                            imageMessage,
+                          );
                           adoptionController.scrollController.value
-                                  .position.maxScrollExtent +
-                              300,
-                        );
-                        var file = XFile(imageMessage.chatMedia!.url);
-                        adoptionController.sendChatMessageFile(
-                          ClientType: "CLIENT",
-                          IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
-                          AdoptionChatType: "IMAGE",
-                          AdoptionChatMessage: file,
-                          context: context,
-                          // context: context,
-                        );
-                      }
-                    },
-                  ))
-            ],
+                              .jumpTo(
+                            adoptionController.scrollController.value
+                                .position.maxScrollExtent +
+                                300,
+                          );
+                          var file = XFile(imageMessage.chatMedia!.url);
+                          adoptionController.sendChatMessageFile(
+                            ClientType: "CLIENT",
+                            IDAdoptionChat: adoptionController.adoptionChatDetails.value.idAdoptionChat.toString(),
+                            AdoptionChatType: "IMAGE",
+                            AdoptionChatMessage: file,
+                            context: context,
+                            // context: context,
+                          );
+                        }
+                      },
+                    ))
+              ],
+            ),
           ),
-        ),
+        )
       );
     });
   }
@@ -190,4 +203,9 @@ class MyAdoptionChatScreen extends StatelessWidget {
         return "";
     }
   }
+  Future<bool>? onWillPop() async {
+    adoptionController.inChatScreen.value=false;
+    return true;
+  }
 }
+

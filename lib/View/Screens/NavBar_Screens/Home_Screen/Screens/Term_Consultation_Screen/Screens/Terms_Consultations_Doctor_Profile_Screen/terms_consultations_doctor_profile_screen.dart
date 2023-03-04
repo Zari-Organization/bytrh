@@ -48,27 +48,20 @@ class TermConsultationsDoctorProfileScreen extends StatelessWidget {
                   await termConsultationsController.getConsultationsCart();
                   await Get.toNamed(Routes.termConsultationsCartScreen);
                 },
-                icon: SvgPicture.asset(AppIcons.cart_icon),
+                icon: SvgPicture.asset(AppIcons.message_icon),
               )
             ],
           ),
           bottomSheet: ConditionalBuilder(
-            condition:
-                !termConsultationsController.isLoadingRequestConsultation.value,
+            condition: !termConsultationsController.isLoadingRequestConsultation.value,
             builder: (context) => Container(
               color: AppColors.WHITE_COLOR,
-              padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+              padding: EdgeInsets.all(10),
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
                   termConsultationsController.setDoctorConsultTime(
                       DateFormat('yyyy-MM-dd').format(DateTime.now()), context);
-                  // termConsultationsController.requestConsultation(
-                  //   termConsultationsController
-                  //       .consultationsDoctorProfileData.value.idDoctor
-                  //       .toString(),
-                  //   context,
-                  // );
                 },
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all(
@@ -99,186 +92,163 @@ class TermConsultationsDoctorProfileScreen extends StatelessWidget {
               ),
             ),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
-                    margin: EdgeInsets.zero,
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 40,
-                                backgroundColor: AppColors.MAIN_COLOR,
-                                backgroundImage: NetworkImage(
-                                  termConsultationsController
-                                          .consultationsDoctorProfileData
-                                          .value
-                                          .doctorPicture ??
-                                      "",
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
+          body: WillPopScope(
+            onWillPop: () => onWillPop()!,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                      margin: EdgeInsets.zero,
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundColor: AppColors.MAIN_COLOR,
+                                  backgroundImage: NetworkImage(
                                     termConsultationsController
                                         .consultationsDoctorProfileData
                                         .value
-                                        .doctorName,
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        color: AppColors.SECOND_COLOR,
-                                        fontWeight: FontWeight.bold),
+                                        .doctorPicture ??
+                                        "",
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.location_icon,
-                                        color: AppColors.BLACK_COLOR,
-                                        height: 18,
-                                        width: 18,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        termConsultationsController
-                                            .consultationsDoctorProfileData
-                                            .value
-                                            .location,
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.dollar_icon,
-                                        color: AppColors.MAIN_COLOR,
-                                        height: 18,
-                                        width: 18,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "${termConsultationsController.consultationsDoctorProfileData.value.doctorPricing ?? ""}",
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColors.MAIN_COLOR),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      const Text(
-                                        "ر.س",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColors.MAIN_COLOR),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.end,
-                          //   children: [
-                          //     Row(
-                          //       children: [
-                          //         SvgPicture.asset(
-                          //           AppIcons.star_icon,
-                          //           height: 18,
-                          //           width: 18,
-                          //         ),
-                          //         SizedBox(
-                          //           width: 5,
-                          //         ),
-                          //         const Text(
-                          //           "4.9",
-                          //           style: TextStyle(
-                          //               fontSize: 12,
-                          //               color: AppColors.GOLD_COLOR),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //     SizedBox(
-                          //       height: 5,
-                          //     ),
-                          //     const Text(
-                          //       "1700 زائر",
-                          //       style: TextStyle(fontSize: 12),
-                          //     ),
-                          //   ],
-                          // ),
-                        ],
-                      ),
-                    )),
-                const SizedBox(
-                  height: 16,
-                ),
-                if(termConsultationsController
-                    .consultationsDoctorProfileData
-                    .value
-                    .doctorBiography!=null)
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "السيرة الذاتية",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: AppColors.GREY_Light_COLOR,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      termConsultationsController
+                                          .consultationsDoctorProfileData
+                                          .value
+                                          .doctorName,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: AppColors.SECOND_COLOR,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          AppIcons.location_icon,
+                                          color: AppColors.BLACK_COLOR,
+                                          height: 18,
+                                          width: 18,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          termConsultationsController
+                                              .consultationsDoctorProfileData
+                                              .value
+                                              .location,
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          AppIcons.dollar_icon,
+                                          color: AppColors.MAIN_COLOR,
+                                          height: 18,
+                                          width: 18,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "${termConsultationsController.consultationsDoctorProfileData.value.doctorPricing ?? ""}",
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.MAIN_COLOR),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        const Text(
+                                          "ر.س",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.MAIN_COLOR),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        child: Text(
-                          termConsultationsController
+                      )),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  if(termConsultationsController
+                      .consultationsDoctorProfileData
+                      .value
+                      .doctorBiography!=null)
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "السيرة الذاتية",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: AppColors.GREY_Light_COLOR,
+                            ),
+                            child: Text(
+                              termConsultationsController
                                   .consultationsDoctorProfileData
                                   .value
                                   .doctorBiography ??
-                              "",
-                          style: TextStyle(color: AppColors.GREY_COLOR),
-                        ),
+                                  "",
+                              style: TextStyle(color: AppColors.GREY_COLOR),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                DoctorProfileDaysWidgetFilter(),
-              ],
+                    ),
+                  DoctorProfileDaysWidgetFilter(),
+                ],
+              ),
             ),
           ),
         );
       }
     });
+  }
+  Future<bool>? onWillPop() async {
+    termConsultationsController.daySelectedIndex.value = -1;
+    return true;
   }
 }

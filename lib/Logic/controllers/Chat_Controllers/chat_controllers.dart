@@ -10,6 +10,7 @@ import 'package:chat_package/models/media/media_type.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../Models/Consultations_Models/consultations_chat_messages_model.dart'
     as payment_methods_import;
@@ -23,6 +24,7 @@ class ConsultationsChatController extends GetxController {
   void onInit() async {
     super.onInit();
   }
+  var inChatScreen = false.obs;
 
   receiveMessageFromChatAdmin(String messageType, String message) {
     if (messageType == "TEXT") {
@@ -73,6 +75,7 @@ class ConsultationsChatController extends GetxController {
 
   getConsultationsChatDetails(String idConsult) async {
     try {
+      askPermission();
       consultId.value = idConsult;
       isLoadingConsultationsChatDetail(true);
       var response = await ChatServices.getConsultationsChatDetails(
@@ -253,6 +256,15 @@ class ConsultationsChatController extends GetxController {
       }
     } finally {
       isLoadingSendComplaint(false);
+    }
+  }
+  Future<bool> askPermission() async {
+    PermissionStatus status = await Permission.microphone.request();
+    if (status.isDenied == true) {
+      askPermission();
+      return false;
+    } else {
+      return true;
     }
   }
 }

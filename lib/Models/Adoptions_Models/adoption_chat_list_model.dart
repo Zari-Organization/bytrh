@@ -71,7 +71,7 @@ class Response {
     clientPhone: json["ClientPhone"],
     clientPicture: json["ClientPicture"],
     adopterName: json["AdopterName"],
-    adopterPhone: json["AdopterPhone"],
+    adopterPhone: json["AdopterPhone"]??"",
     adopterPicture: json["AdopterPicture"],
     adoptionContact: json["AdoptionContact"],
     adoptionChatSeen: json["AdoptionChatSeen"],

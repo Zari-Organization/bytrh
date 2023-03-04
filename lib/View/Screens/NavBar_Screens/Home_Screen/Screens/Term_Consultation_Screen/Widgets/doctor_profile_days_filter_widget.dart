@@ -28,121 +28,98 @@ class DoctorProfileDaysWidgetFilter extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              // DropdownButtonHideUnderline(
-              //   child: DropdownButton2(
-              //     isExpanded: true,
-              //     hint: Text(
-              //       'اختر يوم الحجز',
-              //       style: TextStyle(
-              //         fontSize: 14,
-              //         color: Theme.of(context).hintColor,
-              //       ),
-              //     ),
-              //     items: termConsultationsController.doctorProfileDays
-              //         .map((item) => DropdownMenuItem<String>(
-              //               value: item,
-              //               child: Text(
-              //                 item,
-              //                 style: const TextStyle(
-              //                   fontSize: 14,
-              //                 ),
-              //               ),
-              //             ))
-              //         .toList(),
-              //     value: termConsultationsController
-              //         .selectedDoctorProfileDayValue.value,
-              //     onChanged: (value) {
-              //       termConsultationsController.selectedDoctorProfileDayValue
-              //           .value = value as String;
-              //       termConsultationsController.setDoctorProfileDays(
-              //           termConsultationsController
-              //               .consultationsDoctorProfileData.value.idDoctor
-              //               .toString(),
-              //           termConsultationsController
-              //               .selectedDoctorProfileDayValue.value);
-              //       log(termConsultationsController
-              //           .selectedDoctorProfileDayValue.value);
-              //     },
-              //   ),
-              // ),
               ListTile(
                 onTap: () {
                   selectReservationDay(context);
                 },
                 tileColor: AppColors.GREY_Light_COLOR,
-                title:
-                termConsultationsController.selectedDoctorDay.value ==
-                    '' ||
-                    termConsultationsController
-                        .selectedDoctorDate.value ==
-                        ''
-                    ?  Text(
-                  "اختر يوم الحجز",
-                  style: TextStyle(color: AppColors.GREY_COLOR),
-                )
-                    : Text("${termConsultationsController
-                    .selectedDoctorDateLocale.value} , ${termConsultationsController
-                    .selectedDoctorDayLocale.value} "),
+                title: termConsultationsController.selectedDoctorDay.value ==
+                            '' ||
+                        termConsultationsController.selectedDoctorDate.value ==
+                            ''
+                    ? Text(
+                        "اختر يوم الحجز",
+                        style: TextStyle(color: AppColors.GREY_COLOR),
+                      )
+                    : Text(
+                        "${termConsultationsController.selectedDoctorDateLocale.value} , ${termConsultationsController.selectedDoctorDayLocale.value} "),
                 trailing: Icon(Icons.arrow_drop_down_outlined),
               ),
               const SizedBox(height: 20),
               termConsultationsController
-                  .isLoadingConsultationsDoctorsDays.value
+                      .isLoadingConsultationsDoctorsDays.value
                   ? const CustomCircleProgress()
                   : termConsultationsController
-                  .consultationsDoctorsDaysList.isEmpty
-                  ? const Center(
-                child: Text("عفوا لا يوجد مواعيد في هذا اليوم"),
-              )
-                  : ListView.separated(
-                itemCount: termConsultationsController
-                    .consultationsDoctorsDaysList.length,
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(16),
-                physics: const BouncingScrollPhysics(),
-                separatorBuilder:
-                    (BuildContext context, int index) =>
-                const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  final time = TimeOfDay(
-                      hour: int.parse(termConsultationsController
-                          .consultationsDoctorsDaysList[index]
-                          .doctorStartHour
-                          .split(":")[0]),
-                      minute: int.parse(termConsultationsController
-                          .consultationsDoctorsDaysList[index]
-                          .doctorStartHour
-                          .split(":")[1]));
-                  return Obx(() {
-                    return InkWell(
-                      onTap: () {
-                        termConsultationsController
-                            .changeSelectedIndex(
-                          index,
-                          termConsultationsController
-                              .consultationsDoctorsDaysList[index].idDoctorHour
-                              .toString(),
+                          .consultationsDoctorsDaysList.isEmpty
+                      ? const Center(
+                          child: Text("عفوا لا يوجد مواعيد في هذا اليوم"),
+                        )
+                      : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "اختر الموعد",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                    ),
+                    itemCount: termConsultationsController.consultationsDoctorsDaysList.length,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final time = TimeOfDay(
+                          hour: int.parse(termConsultationsController
+                              .consultationsDoctorsDaysList[index]
+                              .doctorStartHour
+                              .split(":")[0]),
+                          minute: int.parse(termConsultationsController
+                              .consultationsDoctorsDaysList[index]
+                              .doctorStartHour
+                              .split(":")[1]));
+                      return Obx(() {
+                        return InkWell(
+                          onTap: () {
+                            termConsultationsController
+                                .changeSelectedIndex(
+                              index,
+                              termConsultationsController
+                                  .consultationsDoctorsDaysList[index]
+                                  .idDoctorHour
+                                  .toString(),
+                            );
+                          },
+                          child: Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                color: termConsultationsController
+                                    .daySelectedIndex.value ==
+                                    index
+                                    ? AppColors.SECOND_COLOR
+                                    : AppColors.GREY_Light_COLOR,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Text(
+                                time.format(context),
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ),
+                          ),
                         );
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.all(5),
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: termConsultationsController
-                              .daySelectedIndex.value ==
-                              index
-                              ? AppColors.MAIN_COLOR
-                              : AppColors.GREY_Light_COLOR,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          time.format(context),
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    );
-                  });
-                },
+                      });
+                    },
+                  )
+                ],
               )
             ],
           ),

@@ -323,8 +323,7 @@ class TermConsultationsController extends GetxController
   var doctorHourId = ''.obs;
 
   setDoctorConsultTime(String ConsultDate, BuildContext context) {
-    selectDoctorConsultationTime(
-        IDDoctorConsult.value, doctorHourId.value, ConsultDate, context);
+    selectDoctorConsultationTime(IDDoctorConsult.value, doctorHourId.value, ConsultDate, context);
     log(doctorHourId.value);
   }
 
@@ -479,6 +478,7 @@ class TermConsultationsController extends GetxController
       }
     } finally {
       isLoadingTermRequestConsult(false);
+      doctorChecked.clear();
     }
   }
 }

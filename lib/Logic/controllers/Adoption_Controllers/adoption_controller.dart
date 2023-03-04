@@ -34,7 +34,7 @@ class AdoptionController extends GetxController {
     super.onInit();
     getAdoptionsList();
   }
-
+  var inChatScreen = false.obs;
   adoptionReceiveMessageFromChat(String messageType, String message) {
     if (messageType == "TEXT") {
       adoptionMessages.add(ChatMessage(

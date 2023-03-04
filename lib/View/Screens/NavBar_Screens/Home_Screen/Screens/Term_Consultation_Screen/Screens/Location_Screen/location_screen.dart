@@ -18,7 +18,6 @@ class LocationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: AlignmentDirectional.bottomCenter,
       children: [
         SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -45,59 +44,59 @@ class LocationScreen extends StatelessWidget {
           ),
         ),
         Obx(
-          () => ConditionalBuilder(
-            condition:
+              () => Align(alignment: AlignmentDirectional.bottomCenter,child: ConditionalBuilder(
+                condition:
                 !termConsultationsController.isLoadingTermRequestConsult.value,
-            builder: (context) => Obx(
-              () => Container(
-                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (termConsultationsController.doctorChecked.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          duration: Duration(seconds: 2),
-                          content: Text(
-                            "اختر دكتور او اكثر لطلب الاستشارة",
+                builder: (context) => Obx(
+                      () => Container(
+                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (termConsultationsController.doctorChecked.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              duration: Duration(seconds: 2),
+                              content: Text(
+                                "اختر دكتور او اكثر لطلب الاستشارة",
+                              ),
+                            ),
+                          );
+                        } else {
+                          termConsultationsController.termRequestConsult(
+                              listDays: termConsultationsController.doctorChecked,
+                              context: context);
+                        }
+                      },
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(vertical: 15),
+                        ),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                      );
-                    } else {
-                      termConsultationsController.termRequestConsult(
-                          listDays: termConsultationsController.doctorChecked,
-                          context: context);
-                    }
-                  },
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 15),
-                    ),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        backgroundColor: MaterialStateProperty.all(
+                            termConsultationsController.doctorChecked.isEmpty
+                                ? AppColors.GREY_COLOR
+                                : AppColors.SECOND_COLOR),
+                        foregroundColor:
+                        MaterialStateProperty.all(AppColors.WHITE_COLOR),
+                      ),
+                      child: Text(
+                        "طلب إستشارة",
                       ),
                     ),
-                    backgroundColor: MaterialStateProperty.all(
-                        termConsultationsController.doctorChecked.isEmpty
-                            ? AppColors.GREY_COLOR
-                            : AppColors.SECOND_COLOR),
-                    foregroundColor:
-                        MaterialStateProperty.all(AppColors.WHITE_COLOR),
-                  ),
-                  child: Text(
-                    "طلب إستشارة",
                   ),
                 ),
-              ),
-            ),
-            fallback: (context) => const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: CircularProgressIndicator(
-                color: AppColors.SECOND_COLOR,
-              ),
-            ),
-          ),
+                fallback: (context) => const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: CircularProgressIndicator(
+                    color: AppColors.SECOND_COLOR,
+                  ),
+                ),
+              ),),
         ),
       ],
     );

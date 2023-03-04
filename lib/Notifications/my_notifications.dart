@@ -183,29 +183,34 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
       final adoptionController = Get.find<AdoptionController>();
       adoptionController.adoptionReceiveMessageFromChat(
           message.data['DataType'], message.data['Message']);
-      NotificationService().showLocalNotification(
-          title: "Bytrh",
-          body: message.data['Message'].toString(),
-          payload: "");
+      if(!adoptionController.inChatScreen.value){
+        NotificationService().showLocalNotification(
+            title: "Bytrh",
+            body: message.data['Message'].toString(),
+            payload: "");
+      }
     }
     if (message.data['Screen'] == "/adopterChatScreen") {
       final adoptionController = Get.find<AdoptionController>();
       adoptionController.adoptionReceiveMessageFromChat(
           message.data['DataType'], message.data['Message']);
-      NotificationService().showLocalNotification(
-          title: "Bytrh",
-          body: message.data['Message'].toString(),
-          payload: "");
+      if(!adoptionController.inChatScreen.value){
+        NotificationService().showLocalNotification(
+            title: "Bytrh",
+            body: message.data['Message'].toString(),
+            payload: "");
+      }
     }
     if (message.data['Screen'] == "/consultChatScreen") {
       final consultationsChatController =
           Get.find<ConsultationsChatController>();
-      consultationsChatController.receiveMessageFromChatAdmin(
-          message.data['DataType'], message.data['Message']);
-      NotificationService().showLocalNotification(
-          title: "Bytrh",
-          body: message.data['Message'].toString(),
-          payload: "");
+      consultationsChatController.receiveMessageFromChatAdmin(message.data['DataType'], message.data['Message']);
+      if(!consultationsChatController.inChatScreen.value){
+        NotificationService().showLocalNotification(
+            title: "Bytrh",
+            body: message.data['Message'].toString(),
+            payload: "");
+      }
     }
     if (message.data['Screen'] == "/urgentScreen") {
       try {

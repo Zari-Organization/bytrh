@@ -111,22 +111,22 @@ class AdoptionAddAnimalScreen extends StatelessWidget {
                   ),
                   CustomTextFieldWidget(
                     hintText:
-                    "السن : مثال ( 1.2=عام وشهرين )",
+                    "السن",
                     keyboardType: TextInputType.number,
                     controller: adoptionController.addAnimalAgeController.value,
                   ),
                   CustomTextFieldWidget(
-                    hintText: "اللون : مثال ( ابيض او White )",
+                    hintText: "اللون",
                     controller:
                         adoptionController.addAnimalColorController.value,
                   ),
                   CustomTextFieldWidget(
-                    hintText: "الحجم : مثال ( كبير او Big )",
+                    hintText: "الحجم",
                     controller:
                         adoptionController.addAnimalSizeController.value,
                   ),
                   CustomTextFieldWidget(
-                    hintText: "الحالة : مثال ( نظيف او Clean )",
+                    hintText: "الحالة",
                     controller:
                         adoptionController.addAnimalConditionController.value,
                   ),
