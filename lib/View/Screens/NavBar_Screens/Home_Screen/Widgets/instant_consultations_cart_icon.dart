@@ -18,7 +18,7 @@ class InstantConsultationsCartIcon extends StatelessWidget {
            instantConsultationsController.getConsultationsCart();
           await Get.toNamed(Routes.instantsConsultationsCartScreen);
         },
-        icon: SvgPicture.asset(AppIcons.cart_icon),
+        icon: SvgPicture.asset(AppIcons.message_icon),
     );
   }
 }

@@ -174,10 +174,12 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
         message.data['DataType'],
         message.data['Message'],
       );
-      NotificationService().showLocalNotification(
-          title: "Bytrh Support",
-          body: message.data['Message'].toString(),
-          payload: "");
+      if(!myAccountController.inChatScreen.value){
+        NotificationService().showLocalNotification(
+            title: "Bytrh Support",
+            body: message.data['Message'].toString(),
+            payload: "");
+      }
     }
     if (message.data['Screen'] == "/adoptionChatScreen") {
       final adoptionController = Get.find<AdoptionController>();
@@ -219,7 +221,7 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
             Get.find<InstantConsultationsController>();
         await instantConsultationsController.getConsultationsCart();
         NotificationService().showLocalNotification(
-            title: "Bytrh", body: message.data['Message'].toString());
+            title: "Bytrh", body: message.data['Message'].toString(), payload: json.encode(message.data),);
         onClickNotification(String? payload) {
           try {
             Get.toNamed(Routes.instantsConsultationsCartScreen);
@@ -242,16 +244,13 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
         final instantConsultationsController =
             Get.find<InstantConsultationsController>();
         await instantConsultationsController.getConsultationsCart();
-        log(message.data['IDData']);
         NotificationService().showLocalNotification(
             title: "Bytrh",
             body: message.data['Message'].toString(),
-            payload: "/urgenttimeScreen");
+          payload: json.encode(message.data),);
         onClickNotification(String? payload) {
           try {
-            log(message.data['IDData']);
-            instantConsultationsController
-                .setConsultationsDoctorReservationTime(message.data['IDData']);
+            instantConsultationsController.setConsultationsDoctorReservationTime(json.decode(payload!)['IDData']);
           } catch (e) {
             log(e.toString());
           }
@@ -315,11 +314,11 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
       NotificationService().showLocalNotification(
           title: "Bytrh",
           body: message.data['Message'].toString(),
-          payload: "normaltimeScreen");
+        payload: json.encode(message.data),);
       onClickNotification(String? payload) {
         try {
           termConsultationsController.setDataDoctorProfile(
-              message.data['IDData'], "CONSULT");
+              json.decode(payload!)['IDData'], "CONSULT");
         } catch (e) {
           log(e.toString());
         }
@@ -334,10 +333,10 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
       NotificationService().showLocalNotification(
           title: "Bytrh",
           body: message.data['Message'].toString(),
-          payload: "/termConsultationsCartScreen");
+        payload: json.encode(message.data),);
       onClickNotification(String? payload) {
         try {
-          Get.toNamed(payload!);
+          Get.toNamed(Routes.termConsultationsCartScreen);
         } catch (e) {
           log(e.toString());
         }
@@ -351,11 +350,11 @@ void handlingOnRefreshScreens(RemoteMessage message) async {
       NotificationService().showLocalNotification(
           title: "Bytrh",
           body: message.data['Message'].toString(),
-          payload: "/adoptionStatusScreen");
+        payload: json.encode(message.data),);
       onClickNotification(String? payload) {
         try {
           adoptionController
-              .setDataToAdoptionMyAnimalsDetails(message.data['idData']);
+              .setDataToAdoptionMyAnimalsDetails(json.decode(payload!)['idData']);
         } catch (e) {
           log(e.toString());
         }

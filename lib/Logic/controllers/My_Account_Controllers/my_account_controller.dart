@@ -36,6 +36,8 @@ class MyAccountController extends GetxController {
     getAboutUs();
   }
 
+  var inChatScreen = false.obs;
+
   logout(BuildContext context) async {
     try {
       isLoading(true);

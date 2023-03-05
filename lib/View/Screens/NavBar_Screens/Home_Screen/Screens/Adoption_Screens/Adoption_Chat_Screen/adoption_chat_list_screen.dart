@@ -125,7 +125,7 @@ class AdoptionChatListScreen extends StatelessWidget {
                                           ),
                                           backgroundColor:
                                           MaterialStateProperty.all(
-                                              AppColors.MAIN_COLOR)),
+                                              AppColors.SECOND_COLOR)),
                                       onPressed: () async {
                                         await adoptionController
                                             .getAdoptionChatDetails(

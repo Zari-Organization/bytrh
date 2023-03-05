@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../../Logic/controllers/Consultations_Controllers/instant_consultations_controller.dart';
 import '../../../../../../../Routes/routes.dart';
 import '../../../../../../../Utils/app_colors.dart';
+import '../../../../../../../Utils/app_images.dart';
 
 class ConsultationsDoctorsListWidget extends StatelessWidget {
   ConsultationsDoctorsListWidget({Key? key}) : super(key: key);
@@ -81,12 +83,28 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                           alignment: AlignmentDirectional.bottomEnd,
                           children: [
                             CircleAvatar(
-                              radius: 25,
                               backgroundColor: AppColors.MAIN_COLOR,
-                              backgroundImage: NetworkImage(
-                                instantConsultationsController
-                                    .consultationsDoctorsList[index]
-                                    .doctorPicture,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  width: 40,
+                                  height: 40,
+                                  imageUrl: instantConsultationsController
+                                      .consultationsDoctorsList[index]
+                                      .doctorPicture,
+                                  placeholder: (context, url) => Image.asset(
+                                    width: 20,
+                                    // height: double.infinity,
+                                    AppImages.user_placeholder,
+                                  ),
+                                  errorWidget: (context, url, error) => Image.asset(
+                                    width: 20,
+                                    color: AppColors.WHITE_COLOR,
+                                    // height: double.infinity,
+                                    AppImages.user_placeholder,
+                                  ),
+                                ),
                               ),
                             ),
                             CircleAvatar(
