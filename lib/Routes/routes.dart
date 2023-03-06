@@ -50,6 +50,9 @@ import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/aboutUs_screen.
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/change_password_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/contactUs_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/personal_data_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/product_details_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/products_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/sub_categories_screen.dart';
 import '../View/Screens/Splash_Screen/splash_screen.dart';
 
 class AppRoutes {
@@ -94,6 +97,9 @@ class AppRoutes {
   static const adoptionChatListScreen = Routes.adoptionChatListScreen;
   static const adoptionChatScreen = Routes.adoptionChatScreen;
   static const chatSupportScreen = Routes.chatSupportScreen;
+  static const subCategoriesScreen = Routes.subCategoriesScreen;
+  static const productsScreen = Routes.productsScreen;
+  static const productDetailsScreen = Routes.productDetailsScreen;
 
   //getPages
   static final routes = [
@@ -296,6 +302,21 @@ class AppRoutes {
       page: () => ChatSupportScreen(),
       binding: MyAccountBinding(),
     ),
+    GetPage(
+      name: Routes.subCategoriesScreen,
+      page: () => SubCategoriesScreen(),
+      // binding: MyAccountBinding(),
+    ),
+    GetPage(
+      name: Routes.productsScreen,
+      page: () => ProductsScreen(),
+      // binding: MyAccountBinding(),
+    ),
+    GetPage(
+      name: Routes.productDetailsScreen,
+      page: () => ProductDetailsScreen(),
+      // binding: MyAccountBinding(),
+    ),
   ];
 }
 
@@ -340,4 +361,7 @@ class Routes {
   static const adoptionChatListScreen = '/adoptionChatListScreen';
   static const adoptionChatScreen = '/adoptionChatScreen';
   static const chatSupportScreen = '/chatSupportScreen';
+  static const subCategoriesScreen = '/subCategoriesScreen';
+  static const productsScreen = '/productsScreen';
+  static const productDetailsScreen = '/productDetailsScreen';
 }

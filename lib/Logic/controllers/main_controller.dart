@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../View/Screens/NavBar_Screens/Auction_Screen/auction_screen.dart';
 import '../../View/Screens/NavBar_Screens/Home_Screen/home_screen.dart';
 import '../../View/Screens/NavBar_Screens/My_Account_Screen/my_account_screen.dart';
-import '../../View/Screens/NavBar_Screens/Products_Screen/products_screen.dart';
+import '../../View/Screens/NavBar_Screens/Products_Screen/categories_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 class MainController extends GetxController {
@@ -12,7 +12,7 @@ class MainController extends GetxController {
   var appBarTitle = ''.obs;
   final tabs = [
     const HomeScreen(),
-    const ProductsScreen(),
+    const CategoriesScreen(),
     const AuctionScreen(),
      MyAccountScreen(),
   ].obs;

@@ -39,6 +39,7 @@ class AppIcons {
   static const String dollar_icon = "assets/icons/dollar_icon.svg";
   static const String star_icon = "assets/icons/star_icon.svg";
   static const String cart_icon = "assets/icons/cart_icon.svg";
+  static const String cart_white_icon = "assets/icons/cart_white_icon.svg";
   static const String adoption_icon = "assets/icons/adoption_icon.svg";
   static const String message_icon = "assets/icons/message_icon.svg";
   static const String upload_icon = "assets/icons/upload_icon.svg";
