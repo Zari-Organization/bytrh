@@ -12,9 +12,9 @@ class MainController extends GetxController {
   var appBarTitle = ''.obs;
   final tabs = [
     const HomeScreen(),
-    const CategoriesScreen(),
+    CategoriesScreen(),
     const AuctionScreen(),
-     MyAccountScreen(),
+    MyAccountScreen(),
   ].obs;
 
   @override

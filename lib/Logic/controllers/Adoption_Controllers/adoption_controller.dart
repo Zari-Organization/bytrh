@@ -245,6 +245,7 @@ class AdoptionController extends GetxController {
       isLoadingCities(true);
       if (cities.success) {
         citiesList.value = cities.response.countries;
+        idCity.value = cities.response.countries[0].idCity.toString();
       }
     } finally {
       isLoadingCities(false);

@@ -25,8 +25,7 @@ import '../Advertisements_Controllers/advertisements_controller.dart';
 
 class InstantConsultationsController extends GetxController
     with GetTickerProviderStateMixin {
-  late Rx<TabController> tabController =
-      TabController(length: 2, vsync: this).obs;
+  late Rx<TabController> tabController = TabController(length: 2, vsync: this).obs;
   final advertisementsController = Get.find<AdvertisementsController>();
   @override
   void onInit() async {

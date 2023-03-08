@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 
 import '../../../../../../../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
 import '../../../../../../../Utils/app_colors.dart';
+import '../../../../../Logic/controllers/Products_Controllers/products_controller.dart';
 
 class ProductDetailsWidget extends StatelessWidget {
   ProductDetailsWidget({Key? key}) : super(key: key);
-
+  final productsController = Get.find<ProductsController>();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -14,6 +15,7 @@ class ProductDetailsWidget extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
+          if(productsController.animalProductDetails.value.animalProductAge!=null)
             Container(
               height: 70,
               width: 100,
@@ -24,22 +26,16 @@ class ProductDetailsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "18",
-                        style: TextStyle(color: AppColors.MAIN_COLOR),
-                      ),
-                      SizedBox(width: 5),
-                      Text("شهر",style: TextStyle(color: AppColors.MAIN_COLOR),),
-                    ],
+                  Text(
+                    productsController.animalProductDetails.value.animalProductAge,
+                    style: TextStyle(color: AppColors.MAIN_COLOR),
                   ),
                   Text("السن"),
                 ],
               ),
             ),
           SizedBox(width: 5),
+          if(productsController.animalProductDetails.value.animalProductGender!=null)
             Container(
               height: 70,
               width: 100,
@@ -50,7 +46,7 @@ class ProductDetailsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "أنثى",
+                    productsController.animalProductDetails.value.animalProductGender,
                     style: TextStyle(color: AppColors.MAIN_COLOR),
                   ),
                   Text("النوع"),
@@ -58,6 +54,7 @@ class ProductDetailsWidget extends StatelessWidget {
               ),
             ),
           SizedBox(width: 5),
+          if(productsController.animalProductDetails.value.animalProductSize!=null)
             Container(
               height: 70,
               width: 100,
@@ -68,7 +65,7 @@ class ProductDetailsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "290 كجم",
+                    productsController.animalProductDetails.value.animalProductSize.toString(),
                     style: TextStyle(color: AppColors.MAIN_COLOR),
                   ),
                   Text("الوزن"),

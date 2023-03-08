@@ -118,7 +118,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                     title: "حيواناتي",
                     onTap: () async{
                       adoptionController.getMyAdoptionsList();
-                      Get.toNamed(Routes.adoptionMyAnimalsScreen);
+                      Get.toNamed(Routes.myAnimalsScreen);
                     },
                   ),
                   // CustomListTile(

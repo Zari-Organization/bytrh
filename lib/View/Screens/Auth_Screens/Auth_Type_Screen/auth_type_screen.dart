@@ -16,68 +16,81 @@ class AuthTypeScreenScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // backgroundColor: AppColors.BLACK_COLOR,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: Image.asset(
-                  AppImages.background_white,
-                  fit: BoxFit.cover,
+      // backgroundColor: AppColors.BLACK_COLOR,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.asset(
+                AppImages.background_white,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: AppConstants.mediaHeight(context) / 4),
+                    const Center(
+                        child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: AssetImage(
+                        AppImages.bytrh_logo,
+                      ),
+                    )),
+                    SizedBox(height: AppConstants.mediaHeight(context) * 0.05),
+                    Column(
+                      children: [
+                        CustomButton(
+                          title: "تسجيل دخول",
+                          backgroundColor: AppColors.SECOND_COLOR,
+                          foregroundColor: AppColors.WHITE_COLOR,
+                          borderSideColor: AppColors.SECOND_COLOR,
+                          overlayColor: AppColors.WHITE_COLOR,
+                          onPress: () {
+                            Get.toNamed(Routes.loginScreen);
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        CustomButton(
+                          title: "إنشاء حساب",
+                          backgroundColor: AppColors.WHITE_COLOR,
+                          foregroundColor: AppColors.SECOND_COLOR,
+                          borderSideColor: AppColors.SECOND_COLOR,
+                          overlayColor: AppColors.MAIN_COLOR,
+                          onPress: () {
+                            Get.toNamed(Routes.signUpTypeScreen);
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: AppConstants.mediaHeight(context) * 0.05),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     Get.toNamed(Routes.mainScreen);
+                    //   },
+                    //   child: const Text(
+                    //     "تخطي",
+                    //     style: TextStyle(
+                    //       fontSize: 16,
+                    //       color: AppColors.SECOND_COLOR,
+                    //       decoration: TextDecoration.underline,
+                    //     ),
+                    //   ),
+                    // )
+                  ],
                 ),
               ),
-              SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                  ),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: AppConstants.mediaHeight(context)/4),
-                      const Center(
-                          child: CircleAvatar(
-                            radius: 60,
-                            backgroundImage: AssetImage(
-                              AppImages.bytrh_logo,
-                            ),
-                          )
-                      ),
-                      SizedBox(height: AppConstants.mediaHeight(context)*0.05),
-                      Column(
-                        children: [
-                          CustomButton(
-                            title: "تسجيل دخول",
-                            backgroundColor: AppColors.SECOND_COLOR,
-                            foregroundColor: AppColors.WHITE_COLOR,
-                            borderSideColor: AppColors.SECOND_COLOR,
-                            overlayColor: AppColors.WHITE_COLOR,
-                            onPress: (){
-                              Get.toNamed(Routes.loginScreen);
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          CustomButton(
-                            title: "إنشاء حساب",
-                            backgroundColor: AppColors.WHITE_COLOR,
-                            foregroundColor: AppColors.SECOND_COLOR,
-                            borderSideColor: AppColors.SECOND_COLOR,
-                            overlayColor: AppColors.MAIN_COLOR,
-                            onPress: (){
-                              Get.toNamed(Routes.signUpTypeScreen);
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: AppConstants.mediaHeight(context)*0.05),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),);
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

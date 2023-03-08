@@ -8,12 +8,14 @@ import '../Logic/binding/Consultations_Bindings/term_consultations_binding.dart'
 import '../Logic/binding/Consultations_Chat_Bindings/consultations_chat_binding.dart';
 import '../Logic/binding/My_Account_Bindings/change_password_binding.dart';
 import '../Logic/binding/My_Account_Bindings/myAccount_binding.dart';
+import '../Logic/binding/Products_Bindings/products_binding.dart';
 import '../Logic/binding/Wallet_Bindings/wallet_binding.dart';
 import '../Logic/binding/advertisements_binding.dart';
 import '../Logic/binding/auth_binding.dart';
 import '../Logic/binding/home_binding.dart';
 import '../Logic/binding/main_binding.dart';
 import '../Logic/binding/My_Account_Bindings/personal_data_binding.dart';
+import '../Logic/binding/my_animals_binding.dart';
 import '../Logic/binding/verification_binding.dart';
 import '../View/Screens/Auth_Screens/Auth_Type_Screen/auth_type_screen.dart';
 import '../View/Screens/Auth_Screens/Forget_Password_Screens/Screens/forget_password_screen.dart';
@@ -49,8 +51,11 @@ import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/aboutUs_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/change_password_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/contactUs_screen.dart';
+import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/my_animals_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/personal_data_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/product_details_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/product_purchase_options_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/products_add_animal_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/products_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/sub_categories_screen.dart';
 import '../View/Screens/Splash_Screen/splash_screen.dart';
@@ -100,6 +105,9 @@ class AppRoutes {
   static const subCategoriesScreen = Routes.subCategoriesScreen;
   static const productsScreen = Routes.productsScreen;
   static const productDetailsScreen = Routes.productDetailsScreen;
+  static const productPurchaseOptionsScreen = Routes.productPurchaseOptionsScreen;
+  static const myAnimalsScreen = Routes.myAnimalsScreen;
+  static const productsAddAnimalScreen = Routes.productsAddAnimalScreen;
 
   //getPages
   static final routes = [
@@ -140,6 +148,7 @@ class AppRoutes {
       name: Routes.mainScreen,
       page: () => MainScreen(),
       bindings: [
+        // ProductsBinding(),
         MainBinding(),
         AdvertisementsBinding(),
         HomeBinding(),
@@ -305,17 +314,32 @@ class AppRoutes {
     GetPage(
       name: Routes.subCategoriesScreen,
       page: () => SubCategoriesScreen(),
-      // binding: MyAccountBinding(),
+      binding: ProductsBinding(),
     ),
     GetPage(
       name: Routes.productsScreen,
       page: () => ProductsScreen(),
-      // binding: MyAccountBinding(),
+      binding: ProductsBinding(),
     ),
     GetPage(
       name: Routes.productDetailsScreen,
       page: () => ProductDetailsScreen(),
-      // binding: MyAccountBinding(),
+      binding: ProductsBinding(),
+    ),
+    GetPage(
+      name: Routes.productPurchaseOptionsScreen,
+      page: () => ProductPurchaseOptionsScreen(),
+      binding: ProductsBinding(),
+    ),
+    GetPage(
+      name: Routes.myAnimalsScreen,
+      page: () => MyAnimalsScreen(),
+      binding: MyAnimalsBinding(),
+    ),
+    GetPage(
+      name: Routes.productsAddAnimalScreen,
+      page: () => ProductsAddAnimalScreen(),
+      binding: ProductsBinding(),
     ),
   ];
 }
@@ -364,4 +388,7 @@ class Routes {
   static const subCategoriesScreen = '/subCategoriesScreen';
   static const productsScreen = '/productsScreen';
   static const productDetailsScreen = '/productDetailsScreen';
+  static const productPurchaseOptionsScreen = '/productPurchaseOptionsScreen';
+  static const myAnimalsScreen = '/myAnimalsScreen';
+  static const productsAddAnimalScreen = '/productsAddAnimalScreen';
 }

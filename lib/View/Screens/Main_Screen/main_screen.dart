@@ -1,12 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../../Logic/controllers/Products_Controllers/products_controller.dart';
 import '../../../Logic/controllers/main_controller.dart';
 import '../../../Utils/app_colors.dart';
 import '../../../Utils/app_icons.dart';
 
 class MainScreen extends StatelessWidget {
   final mainController = Get.find<MainController>();
+  final productsController = Get.find<ProductsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +49,9 @@ class MainScreen extends StatelessWidget {
           ],
           onTap: (index) {
             mainController.currentIndex.value = index;
+            if(mainController.currentIndex.value==1){
+              productsController.getProductsCategory();
+            }
           },
         ),
         body: IndexedStack(

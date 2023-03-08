@@ -130,7 +130,8 @@ class ConsultationsServices {
       log("Animals Category Api --> $decodedData");
       return animalsCategoryModelFromJson(jsonData);
     } else {
-      return throw Exception("Failed to load Animals Category");
+      log("Animals Category Api --> $decodedData");
+      return animalsCategoryModelFromJson(jsonData);
     }
   }
 
