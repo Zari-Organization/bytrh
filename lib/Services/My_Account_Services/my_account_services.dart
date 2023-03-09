@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../Models/AboutUs_Models/about_us_model.dart';
 import '../../Models/AboutUs_Models/chat_support_model.dart';
+import '../../Models/my_bookmarks_model.dart';
 import '../../Utils/app_constants.dart';
 import 'package:dio/dio.dart' as dioImport;
 class MyAccountServices {
@@ -230,6 +231,26 @@ class MyAccountServices {
     }else {
       log("End Chat Support Api --> $decodedData");
       return decodedData;
+    }
+  }
+
+  static Future<MyBookmarksModel> getMyBookmarks() async {
+    var response = await http.get(
+      Uri.parse(AppConstants.apiUrl +
+          '/api/client' + '/store/animalproducts/bookmark'),
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("My Bookmarks Screen Api --> $decodedData");
+      return myBookmarksModelFromJson(jsonData);
+    } else {
+      log("My Bookmarks Screen Api --> $decodedData");
+      return myBookmarksModelFromJson(jsonData);
     }
   }
 }

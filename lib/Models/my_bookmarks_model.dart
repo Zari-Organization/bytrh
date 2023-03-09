@@ -1,16 +1,16 @@
 // To parse this JSON data, do
 //
-//     final animalProductsModel = animalProductsModelFromJson(jsonString);
+//     final myBookmarksModel = myBookmarksModelFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-AnimalProductsModel animalProductsModelFromJson(String str) => AnimalProductsModel.fromJson(json.decode(str));
+MyBookmarksModel myBookmarksModelFromJson(String str) => MyBookmarksModel.fromJson(json.decode(str));
 
-String animalProductsModelToJson(AnimalProductsModel data) => json.encode(data.toJson());
+String myBookmarksModelToJson(MyBookmarksModel data) => json.encode(data.toJson());
 
-class AnimalProductsModel {
-  AnimalProductsModel({
+class MyBookmarksModel {
+  MyBookmarksModel({
     required this.success,
     required this.apiMsg,
     required this.apiCode,
@@ -22,7 +22,7 @@ class AnimalProductsModel {
   int apiCode;
   List<Response> response;
 
-  factory AnimalProductsModel.fromJson(Map<String, dynamic> json) => AnimalProductsModel(
+  factory MyBookmarksModel.fromJson(Map<String, dynamic> json) => MyBookmarksModel(
     success: json["Success"],
     apiMsg: json["ApiMsg"],
     apiCode: json["ApiCode"],
@@ -41,26 +41,30 @@ class Response {
   Response({
     required this.idAnimalProduct,
     required this.animalProductPrice,
-    required this.bookmarked,
+    required this.animalProductStatus,
     required this.animalProductImage,
+    required this.bookmarked,
   });
 
   int idAnimalProduct;
   int animalProductPrice;
-  int bookmarked;
+  String animalProductStatus;
   String animalProductImage;
+  int bookmarked;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     idAnimalProduct: json["IDAnimalProduct"],
     animalProductPrice: json["AnimalProductPrice"],
-    bookmarked: json["Bookmarked"],
+    animalProductStatus: json["AnimalProductStatus"],
     animalProductImage: json["AnimalProductImage"],
+    bookmarked: json["Bookmarked"],
   );
 
   Map<String, dynamic> toJson() => {
     "IDAnimalProduct": idAnimalProduct,
     "AnimalProductPrice": animalProductPrice,
-    "Bookmarked": bookmarked,
+    "AnimalProductStatus": animalProductStatus,
     "AnimalProductImage": animalProductImage,
+    "Bookmarked": bookmarked,
   };
 }

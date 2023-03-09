@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
+import '../../../../Logic/controllers/My_Account_Controllers/my_account_controller.dart';
 import '../../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
 import '../../../../Utils/app_alerts.dart';
 import '../../../../Utils/app_colors.dart';
@@ -30,6 +31,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   final personalDataController = Get.find<PersonalDataController>();
   final adoptionController = Get.find<AdoptionController>();
+  final myAccountController = Get.find<MyAccountController>();
 
   @override
   Widget build(BuildContext context) {
@@ -143,11 +145,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   //   title: "العناوين",
                   //   onTap: () {},
                   // ),
-                  // CustomListTile(
-                  //   icon: AppIcons.favorite_icon,
-                  //   title: "المنتجات المفضلة",
-                  //   onTap: () {},
-                  // ),
+                  CustomListTile(
+                    icon: AppIcons.favorite_icon,
+                    title: "المنتجات المفضلة",
+                    onTap: () {
+                      myAccountController.getMyBookmarks();
+                      Get.toNamed(Routes.myBookmarksScreen);
+                    },
+                  ),
                   // CustomListTile(
                   //   icon: AppIcons.category_icon,
                   //   title: "الفئات المفضلة",

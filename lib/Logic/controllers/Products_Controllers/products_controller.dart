@@ -1,6 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:bytrh/Routes/routes.dart';
+import 'package:chat_package/models/chat_message.dart';
+import 'package:chat_package/models/media/chat_media.dart';
+import 'package:chat_package/models/media/media_type.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,9 +16,14 @@ import '../../../Models/Products_Models/animal_product_details_model.dart'
 import '../../../Models/Products_Models/animal_product_details_model.dart';
 import '../../../Models/Products_Models/animal_products_model.dart'
     as animal_products_import;
-import '../../../Models/Products_Models/products_animals_requests_model.dart'as products_animals_requests_import;
+import '../../../Models/Products_Models/products_animals_chat_messages_model.dart'
+    as products_animals_chat_messages_import;
+import '../../../Models/Products_Models/products_animals_requests_model.dart'
+    as products_animals_requests_import;
 import '../../../Models/Products_Models/products_categories_model.dart'
     as products_categories_import;
+import '../../../Models/Products_Models/products_chat_list_model.dart'
+    as products_chat_list_import;
 import '../../../Models/Products_Models/products_my_animals_model.dart'
     as product_my_animals_import;
 import '../../../Models/Products_Models/products_subCategories_model.dart'
@@ -28,6 +36,51 @@ class ProductsController extends GetxController {
   void onInit() async {
     super.onInit();
     // getProductsCategory();
+  }
+
+  var inChatScreen = false.obs;
+
+  productsReceiveMessageFromChat(String messageType, String message) {
+    if (messageType == "TEXT") {
+      productsChatMessages.add(ChatMessage(
+        isSender: false,
+        text: message,
+      ));
+      if (inChatScreen.value) {
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 50,
+        );
+      }
+    }
+    if (messageType == "IMAGE") {
+      productsChatMessages.add(ChatMessage(
+        isSender: false,
+        chatMedia: ChatMedia(
+          url: message,
+          mediaType: const MediaType.imageMediaType(),
+        ),
+      ));
+      if (inChatScreen.value) {
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 300,
+        );
+      }
+    }
+    if (messageType == "AUDIO") {
+      productsChatMessages.add(ChatMessage(
+        isSender: false,
+        chatMedia: ChatMedia(
+          url: message,
+          mediaType: const MediaType.audioMediaType(),
+        ),
+      ));
+      if (inChatScreen.value) {
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 90,
+        );
+      }
+    }
+    log("Chat Messages List ----> ${productsChatMessages.toString()}");
   }
 
   var isLoadingProductsCategory = false.obs;
@@ -101,10 +154,14 @@ class ProductsController extends GetxController {
           getAnimalProductBagging(
               id: response.response.idAnimalProduct.toString());
         }
-        editAnimalAgeController.value.text = response.response.animalProductAge.toString();
-        editAnimalSizeController.value.text = response.response.animalProductSize.toString();
-        editAnimalDescriptionController.value.text = response.response.animalProductDescription.toString();
-        editAnimalPriceController.value.text = response.response.animalProductPrice.toString();
+        editAnimalAgeController.value.text =
+            response.response.animalProductAge.toString();
+        editAnimalSizeController.value.text =
+            response.response.animalProductSize.toString();
+        editAnimalDescriptionController.value.text =
+            response.response.animalProductDescription.toString();
+        editAnimalPriceController.value.text =
+            response.response.animalProductPrice.toString();
         editAnimalGallery.value = response.response.gallery!;
       }
     } finally {
@@ -176,16 +233,16 @@ class ProductsController extends GetxController {
         Note!,
       );
       if (response["Success"]) {
-          getProductsAnimalsRequests();
-          Get.offNamed(Routes.productsAnimalsRequestsScreen);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              duration: Duration(seconds: 2),
-              content: Text(
-                response["ApiMsg"].toString(),
-              ),
+        getProductsAnimalsRequests();
+        Get.offNamed(Routes.productsAnimalsRequestsScreen);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
             ),
-          );
+          ),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -286,8 +343,7 @@ class ProductsController extends GetxController {
         );
         animalImageFile.value = File("");
         animalGallery.clear();
-      }
-      else{
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: AppColors.MAIN_COLOR,
@@ -310,28 +366,27 @@ class ProductsController extends GetxController {
   var editAnimalGallery = <Gallery>[].obs;
 
   editProductAnimal(
-      {
-        required String IDAnimalProduct,
-        String? IDAnimalSubCategory,
-         String? IDCity,
-         String? AnimalProductGender,
-         String? AnimalProductAge,
-        String? AnimalProductSize,
-        String? AnimalProductPrice,
-        String? AnimalProductDescription,
-         String? AnimalProductType,
-         String? HasBagging,
-         String? HasCutting,
-         String? HasDelivery,
-         String? AllowPhone,
-         String? AllowWhatsapp,
-         File? AnimalProductImage,
-        List<XFile>? AnimalProductGalleryList,
-        required BuildContext context}) async {
+      {required String IDAnimalProduct,
+      String? IDAnimalSubCategory,
+      String? IDCity,
+      String? AnimalProductGender,
+      String? AnimalProductAge,
+      String? AnimalProductSize,
+      String? AnimalProductPrice,
+      String? AnimalProductDescription,
+      String? AnimalProductType,
+      String? HasBagging,
+      String? HasCutting,
+      String? HasDelivery,
+      String? AllowPhone,
+      String? AllowWhatsapp,
+      File? AnimalProductImage,
+      List<XFile>? AnimalProductGalleryList,
+      required BuildContext context}) async {
     try {
       isLoadingEditProductAnimal(true);
       var response = await ProductsServices().editProductAnimal(
-        IDAnimalProduct:IDAnimalProduct,
+        IDAnimalProduct: IDAnimalProduct,
         IDAnimalSubCategory: IDAnimalSubCategory,
         IDCity: IDCity,
         AnimalProductGender: AnimalProductGender,
@@ -361,8 +416,7 @@ class ProductsController extends GetxController {
         );
         editAnimalImageFile.value = File("");
         editAnimalGallery.clear();
-      }
-      else{
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: AppColors.MAIN_COLOR,
@@ -379,10 +433,10 @@ class ProductsController extends GetxController {
   var isLoadingRemoveFromAnimalGallery = false.obs;
 
   removeFromAnimalGallery(
-      int idImage,
-      int index,
-      BuildContext context,
-      ) async {
+    int idImage,
+    int index,
+    BuildContext context,
+  ) async {
     try {
       isLoadingRemoveFromAnimalGallery(true);
       var response = await ProductsServices().removeFromAnimalGallery(
@@ -450,9 +504,9 @@ class ProductsController extends GetxController {
     }
   }
 
-
   var isLoadingProductsAnimalsRequests = false.obs;
-  var productsAnimalsRequestsList = <products_animals_requests_import.Response>[].obs;
+  var productsAnimalsRequestsList =
+      <products_animals_requests_import.Response>[].obs;
 
   getProductsAnimalsRequests() async {
     try {
@@ -463,6 +517,207 @@ class ProductsController extends GetxController {
       }
     } finally {
       isLoadingProductsAnimalsRequests(false);
+    }
+  }
+
+  var isLoadingRequestAdoptionAnimalChat = false.obs;
+
+  requestProductAnimalChat(String IDAnimalProduct, BuildContext context) async {
+    try {
+      isLoadingRequestAdoptionAnimalChat(true);
+      var response = await ProductsServices.requestProductsAnimalChat(
+        IDAnimalProduct,
+      );
+      if (response["Success"]) {
+        await getProductsChatDetails(
+          response["Response"].toString(),
+        );
+        Get.toNamed(Routes.productsChatScreen);
+      } else {}
+    } finally {
+      isLoadingRequestAdoptionAnimalChat(false);
+    }
+  }
+
+  var isLoadingProductsChatDetail = false.obs;
+  var productsChatDetails =
+      products_animals_chat_messages_import.Response().obs;
+  var productsChatDetailsList =
+      <products_animals_chat_messages_import.ChatDetail>[].obs;
+  var productsChatMessages = <ChatMessage>[].obs;
+  var scrollController = ScrollController().obs;
+
+  getProductsChatDetails(String IDAnimalProductChat) async {
+    try {
+      isLoadingProductsChatDetail(true);
+      var response = await ProductsServices.getProductsChatDetails(
+        IDAnimalProductChat: IDAnimalProductChat,
+      );
+      if (response.success) {
+        productsChatDetails.value = response.response;
+        productsChatDetailsList.value = response.response.chatDetails!;
+        productsChatMessages.clear();
+        await addApiMessagesToClientChatUi();
+      }
+    } finally {
+      isLoadingProductsChatDetail(false);
+    }
+  }
+
+  addApiMessagesToClientChatUi() {
+    for (int i = 0; i < productsChatDetailsList.length; i++) {
+      if (productsChatDetailsList[i].chatType == "TEXT") {
+        productsChatMessages.add(ChatMessage(
+          isSender:
+              productsChatDetailsList[i].chatSender == "BUYER" ? false : true,
+          text: productsChatDetailsList[i].chatMessage,
+        ));
+      } else if (productsChatDetailsList[i].chatType == "IMAGE") {
+        productsChatMessages.add(ChatMessage(
+          isSender:
+              productsChatDetailsList[i].chatSender == "BUYER" ? false : true,
+          chatMedia: ChatMedia(
+            url: productsChatDetailsList[i].chatMessage,
+            mediaType: const MediaType.imageMediaType(),
+          ),
+        ));
+      } else if (productsChatDetailsList[i].chatType == "AUDIO") {
+        productsChatMessages.add(ChatMessage(
+          isSender:
+              productsChatDetailsList[i].chatSender == "BUYER" ? false : true,
+          chatMedia: ChatMedia(
+            url: productsChatDetailsList[i].chatMessage,
+            mediaType: const MediaType.audioMediaType(),
+          ),
+        ));
+      }
+    }
+  }
+
+  var isLoadingSendAdoptionChatMessage = false.obs;
+
+  sendChatMessageText({
+    required String IDAnimalProductChat,
+    required String ChatType,
+    required String ChatMessage,
+  }) async {
+    try {
+      isLoadingSendAdoptionChatMessage(true);
+      var response = await ProductsServices.sendProductsChatMessageText(
+        IDAnimalProductChat: IDAnimalProductChat,
+        ChatType: ChatType,
+        ChatMessage: ChatMessage,
+        // context: context,
+      );
+      log(response["Success"].toString());
+      if (response["Success"]) {
+        log(response["Success"].toString());
+      } else {
+        log(response["Success"].toString());
+      }
+    } finally {
+      isLoadingSendAdoptionChatMessage(false);
+    }
+  }
+
+  sendChatMessageFile({
+    required String IDAnimalProductChat,
+    required String ChatType,
+    XFile? ChatMessage,
+    required BuildContext context,
+  }) async {
+    try {
+      isLoadingSendAdoptionChatMessage(true);
+      var response = await ProductsServices.sendProductsChatMessageFile(
+        IDAnimalProductChat: IDAnimalProductChat,
+        ChatType: ChatType,
+        ChatMessage: ChatMessage,
+        context: context,
+      );
+      log(response["Success"].toString());
+      if (response["Success"]) {
+        log(response["Success"].toString());
+      } else {
+        log(response["Success"].toString());
+      }
+    } finally {
+      isLoadingSendAdoptionChatMessage(false);
+    }
+  }
+
+  var isLoadingProductsChatList = false.obs;
+  var productsChatList = <products_chat_list_import.Response>[].obs;
+
+  getProductsChatList() async {
+    try {
+      isLoadingProductsChatList(true);
+      var response = await ProductsServices.getProductsChatList();
+      if (response.success) {
+        productsChatList.value = response.response;
+      }
+    } finally {
+      isLoadingProductsChatList(false);
+    }
+  }
+
+  var isLoadingAddToBookmarks = false.obs;
+
+  addToBookmarks({
+    required String id,
+    required BuildContext context,
+  }) async {
+    try {
+      isLoadingAddToBookmarks(true);
+      var response = await ProductsServices.addToBookmarks(id: id);
+      if (response["Success"]) {
+        getAnimalProducts(idSubCategory.value);
+      }
+    } finally {
+      isLoadingAddToBookmarks(false);
+    }
+  }
+  var isLoadingProductDeliveryRequest = false.obs;
+  var productDeliveryAccepted = true.obs;
+  var productDeliveryRejected = false.obs;
+  var productDeliveryFeesController = TextEditingController().obs;
+  var idAnimalProduct = ''.obs;
+
+  productDeliveryRequest({
+    required String IDAnimalProduct,
+    required String AnimalProductStatus,
+    required BuildContext context,
+    String? DeliveryFees,
+  }) async {
+    try {
+      isLoadingProductDeliveryRequest(true);
+      var response = await ProductsServices.productDeliveryRequest(
+        IDAnimalProduct: IDAnimalProduct,
+        AnimalProductStatus: AnimalProductStatus,
+        DeliveryFees: DeliveryFees,
+      );
+      if (response["Success"]) {
+        Get.back();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+        getProductsAnimalsRequests();
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingProductDeliveryRequest(false);
     }
   }
 
@@ -489,6 +744,7 @@ class ProductsController extends GetxController {
       animalGallery.addAll(pickedFile);
     }
   }
+
   void pickNewAnimalGallery() async {
     List<XFile>? pickedFile = await _picker.pickMultiImage();
     if (pickedFile != null) {

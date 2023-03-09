@@ -15,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../Models/AboutUs_Models/about_us_model.dart' as about_us_import;
 import '../../../Models/AboutUs_Models/chat_support_model.dart'as chat_support_import;
+import '../../../Models/my_bookmarks_model.dart'as my_bookmarks_import;
 import '../../../Routes/routes.dart';
 import '../../../Services/My_Account_Services/change_password_services.dart';
 import '../../../Services/My_Account_Services/my_account_services.dart';
@@ -343,9 +344,11 @@ class MyAccountController extends GetxController {
         isSender: false,
         text: message,
       ));
-      chatSupportScrollController.value.jumpTo(
-        chatSupportScrollController.value.position.maxScrollExtent + 50,
-      );
+      if(inChatScreen.value){
+        chatSupportScrollController.value.jumpTo(
+          chatSupportScrollController.value.position.maxScrollExtent + 50,
+        );
+      }
     }
     if (messageType == "IMAGE") {
       chatSupportMessages.add(ChatMessage(
@@ -355,9 +358,11 @@ class MyAccountController extends GetxController {
           mediaType: const MediaType.imageMediaType(),
         ),
       ));
-      chatSupportScrollController.value.jumpTo(
-        chatSupportScrollController.value.position.maxScrollExtent + 300,
-      );
+      if(inChatScreen.value){
+        chatSupportScrollController.value.jumpTo(
+          chatSupportScrollController.value.position.maxScrollExtent + 300,
+        );
+      }
     }
     if (messageType == "AUDIO") {
       chatSupportMessages.add(ChatMessage(
@@ -367,9 +372,11 @@ class MyAccountController extends GetxController {
           mediaType: const MediaType.audioMediaType(),
         ),
       ));
-      chatSupportScrollController.value.jumpTo(
-        chatSupportScrollController.value.position.maxScrollExtent + 90,
-      );
+      if(inChatScreen.value){
+        chatSupportScrollController.value.jumpTo(
+          chatSupportScrollController.value.position.maxScrollExtent + 90,
+        );
+      }
     }
     if(chatSupportDetails.value.userName==null){
       getChatSupportDetails(chatSupportDetails.value
@@ -408,6 +415,21 @@ class MyAccountController extends GetxController {
       }
     } finally {
       isLoadingEndChatSupport(false);
+    }
+  }
+
+  var isLoadingMyBookmarks = false.obs;
+  var myBookmarksList = <my_bookmarks_import.Response>[].obs;
+
+  getMyBookmarks() async {
+    try {
+      isLoadingMyBookmarks(true);
+      var response = await MyAccountServices.getMyBookmarks();
+      if (response.success) {
+        myBookmarksList.value = response.response;
+      }
+    } finally {
+      isLoadingMyBookmarks(false);
     }
   }
 

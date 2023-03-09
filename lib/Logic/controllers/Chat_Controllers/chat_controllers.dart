@@ -32,9 +32,11 @@ class ConsultationsChatController extends GetxController {
         isSender: false,
         text: message,
       ));
-      scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent + 50,
-      );
+      if(inChatScreen.value){
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 50,
+        );
+      }
     }
     if (messageType == "IMAGE") {
       messages.add(ChatMessage(
@@ -44,9 +46,11 @@ class ConsultationsChatController extends GetxController {
           mediaType: const MediaType.imageMediaType(),
         ),
       ));
-      scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent + 300,
-      );
+      if(inChatScreen.value){
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 300,
+        );
+      }
     }
     if (messageType == "AUDIO") {
       messages.add(ChatMessage(
@@ -56,9 +60,11 @@ class ConsultationsChatController extends GetxController {
           mediaType: const MediaType.audioMediaType(),
         ),
       ));
-      scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent + 90,
-      );
+      if(inChatScreen.value){
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 90,
+        );
+      }
     }
     log("Chat Messages List ----> ${messages.toString()}");
   }

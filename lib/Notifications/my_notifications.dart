@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:bytrh/Logic/controllers/Products_Controllers/products_controller.dart';
 import 'package:bytrh/Notifications/notification_model.dart';
 import 'package:chat_package/models/chat_message.dart';
 import 'package:chat_package/models/media/chat_media.dart';
@@ -161,6 +162,33 @@ Future<void> foregroundHandler() async {
 void handlingOnRefreshScreens(RemoteMessage message) async {
   try {
     log("handlingOnRefreshScreens ----> ${message.data['Screen']}");
+    if (message.data['Screen'] == "/animalProductDeliveryScreen") {
+      Get.put(ProductsController());
+      final productsController = Get.find<ProductsController>();
+      NotificationService().showLocalNotification(
+        title: "Bytrh",
+        body: message.data['Message'].toString(),
+        payload: json.encode(message.data),
+      );
+      onClickNotification(String? payload) async {
+        productsController.idAnimalProduct.value = json.decode(payload!)['IDData'].toString();
+        Get.toNamed(Routes.productSetDeliveryTimeScreen);
+      }
+      await NotificationService().listenNotifications(onClickNotification: onClickNotification);
+
+      // Get.toNamed(Routes.consultationsChatScreenScreen);
+    }
+    if (message.data['Screen'] == "/animalProductChatScreen") {
+      final productsController = Get.find<ProductsController>();
+      productsController.productsReceiveMessageFromChat(
+          message.data['DataType'], message.data['Message']);
+      if(!productsController.inChatScreen.value){
+        NotificationService().showLocalNotification(
+            title: "Bytrh",
+            body: message.data['Message'].toString(),
+            payload: "");
+      }
+    }
     if (message.data['Screen'] == "/chatSupportEndScreen") {
       AppAlerts().chatSupportEndedPop();
       NotificationService().showLocalNotification(

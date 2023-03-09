@@ -19,8 +19,10 @@ import '../../Models/Products_Models/animal_product_bagging_model.dart';
 import '../../Models/Products_Models/animal_product_cutting_model.dart';
 import '../../Models/Products_Models/animal_product_details_model.dart';
 import '../../Models/Products_Models/animal_products_model.dart';
+import '../../Models/Products_Models/products_animals_chat_messages_model.dart';
 import '../../Models/Products_Models/products_animals_requests_model.dart';
 import '../../Models/Products_Models/products_categories_model.dart';
+import '../../Models/Products_Models/products_chat_list_model.dart';
 import '../../Models/Products_Models/products_my_animals_model.dart';
 import '../../Models/Products_Models/products_subCategories_model.dart';
 import '../../Utils/app_constants.dart';
@@ -60,11 +62,15 @@ class ProductsServices {
 
   static Future<AnimalProductsModel> getAnimalProducts(String id) async {
     var response = await http.post(
-        Uri.parse(
-            AppConstants.apiUrl + '/api/client/' + 'store/animalproducts'),
-        body: {
-          "IDAnimalSubCategory": id,
-        });
+      Uri.parse(AppConstants.apiUrl + '/api/client/' + 'store/animalproducts'),
+      body: {
+        "IDAnimalSubCategory": id,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
 
     var jsonData = response.body;
     var decodedData = jsonDecode(jsonData);
@@ -83,6 +89,10 @@ class ProductsServices {
       Uri.parse(AppConstants.apiUrl +
           '/api/client/' +
           'store/animalproducts/details/$id'),
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
     );
     var jsonData = response.body;
     var decodedData = jsonDecode(jsonData);
@@ -368,10 +378,13 @@ class ProductsServices {
     }
   }
 
-  static Future<ProductsAnimalsRequestsModel> getProductsAnimalsRequests() async {
+  static Future<ProductsAnimalsRequestsModel>
+      getProductsAnimalsRequests() async {
     var response = await http.post(
       Uri.parse(
-        AppConstants.apiUrl + '/api/client/' + 'store/animalproducts/myrequests',
+        AppConstants.apiUrl +
+            '/api/client/' +
+            'store/animalproducts/myrequests',
       ),
       headers: {
         'Accept': 'application/json',
@@ -387,6 +400,218 @@ class ProductsServices {
     } else {
       log("Products Animals Requests Api --> $decodedData");
       return productsAnimalsRequestsModelFromJson(jsonData);
+    }
+  }
+
+  static requestProductsAnimalChat(
+    String IDAnimalProduct,
+  ) async {
+    var response = await http.post(
+      Uri.parse(AppConstants.apiUrl +
+          '/api/client' +
+          '/store/animalproducts/chat/request'),
+      body: {
+        'IDAnimalProduct': IDAnimalProduct,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData["Success"]) {
+      log("Request Products Animal Chat Api --> $decodedData");
+      return decodedData;
+    } else {
+      log("Request Products Animal Chat Api --> $decodedData");
+      return decodedData;
+    }
+  }
+
+  static Future<ProductsAnimalsChatMessagesModel> getProductsChatDetails({
+    required String IDAnimalProductChat,
+  }) async {
+    var response = await http.post(
+      Uri.parse(AppConstants.apiUrl +
+          '/api/client' +
+          '/store/animalproducts/chat/details'),
+      body: {
+        'IDAnimalProductChat': IDAnimalProductChat,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("Products Animals Chat Details Api --> $decodedData");
+      return productsAnimalsChatMessagesModelFromJson(jsonData);
+    } else {
+      log("Products Animals Chat Details Api --> $decodedData");
+      return productsAnimalsChatMessagesModelFromJson(jsonData);
+    }
+  }
+
+  static sendProductsChatMessageText({
+    required String IDAnimalProductChat,
+    required String ChatType,
+    required String ChatMessage,
+    // context,
+  }) async {
+    dioImport.Dio dio = dioImport.Dio();
+    dioImport.FormData formData = dioImport.FormData.fromMap({
+      'IDAnimalProductChat': IDAnimalProductChat,
+      'ChatType': ChatType,
+      'ChatMessage': ChatMessage,
+    });
+    try {
+      var response = await dio.post(
+        AppConstants.apiUrl +
+            '/api/client' +
+            '/store/animalproducts/chat/reply',
+        data: formData,
+        options: dioImport.Options(
+          headers: {
+            'Accept': 'application/json',
+            HttpHeaders.authorizationHeader: AppConstants().UserTocken
+          },
+        ),
+      );
+      var jsonData = response.data;
+      log("Send Products Chat Message Text Api --> $jsonData");
+      if (jsonData["Success"]) {
+        return jsonData;
+      } else {
+        return jsonData;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  static sendProductsChatMessageFile({
+    required String IDAnimalProductChat,
+    required String ChatType,
+    XFile? ChatMessage,
+    context,
+  }) async {
+    dioImport.Dio dio = dioImport.Dio();
+    dioImport.FormData formData = dioImport.FormData.fromMap({
+      'IDAnimalProductChat': IDAnimalProductChat,
+      'ChatType': ChatType,
+      "ChatMessage": await dioImport.MultipartFile.fromFile(
+          "${ChatMessage!.path}",
+          filename: "${ChatMessage.path.split('/').last}"),
+    });
+    try {
+      var response = await dio.post(
+        AppConstants.apiUrl +
+            '/api/client' +
+            '/store/animalproducts/chat/reply',
+        data: formData,
+        options: dioImport.Options(
+          headers: {
+            'Accept': 'application/json',
+            HttpHeaders.authorizationHeader: AppConstants().UserTocken
+          },
+        ),
+      );
+      var jsonData = response.data;
+      log("Send Products Chat Message File Api --> $jsonData");
+      if (jsonData["Success"]) {
+        return jsonData;
+      } else {
+        return jsonData;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  static Future<ProductsAnimalsChatsListModel> getProductsChatList() async {
+    var response = await http.post(
+      Uri.parse(
+          AppConstants.apiUrl + '/api/client' + '/store/animalproducts/chat'),
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("Products Chat List Api --> $decodedData");
+      return productsAnimalsChatsListModelFromJson(jsonData);
+    } else {
+      log("Products Chat List Api --> $decodedData");
+      return productsAnimalsChatsListModelFromJson(jsonData);
+    }
+  }
+
+  static addToBookmarks({
+    required String id,
+    context,
+  }) async {
+    dioImport.Dio dio = dioImport.Dio();
+    try {
+      var response = await dio.get(
+        AppConstants.apiUrl +
+            '/api/client' +
+            '/store/animalproducts/bookmark/$id',
+        options: dioImport.Options(
+          headers: {
+            'Accept': 'application/json',
+            HttpHeaders.authorizationHeader: AppConstants().UserTocken
+          },
+        ),
+      );
+      var jsonData = response.data;
+      if (jsonData["Success"]) {
+        log("Add To Bookmarks Api --> $jsonData");
+        return jsonData;
+      } else {
+        log("Add To Bookmarks Api --> $jsonData");
+        return jsonData;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  static productDeliveryRequest({
+    required String IDAnimalProduct,
+    required String AnimalProductStatus,
+     String? DeliveryFees,
+    context,
+  }) async {
+    try {
+      var response = await http.post(
+        Uri.parse(
+            AppConstants.apiUrl + '/api/client' + '/store/animalproducts/accept'),
+        body: {
+          "IDAnimalProduct":IDAnimalProduct,
+          "AnimalProductStatus":AnimalProductStatus,
+          "DeliveryFees":DeliveryFees,
+        },
+        headers: {
+          'Accept': 'application/json',
+          HttpHeaders.authorizationHeader: AppConstants().UserTocken
+        },
+      );
+      var jsonData = response.body;
+      var decodedData = jsonDecode(jsonData);
+      if (decodedData['Success']) {
+        log("Product Delivery Request Api --> $jsonData");
+        return decodedData;
+      } else {
+        log("Product Delivery Request Api --> $jsonData");
+        return decodedData;
+      }
+    } catch (e) {
+      log(e.toString());
     }
   }
 }

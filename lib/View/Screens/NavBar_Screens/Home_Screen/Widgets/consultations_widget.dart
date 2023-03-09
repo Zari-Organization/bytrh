@@ -1,4 +1,5 @@
 import 'package:bytrh/Routes/routes.dart';
+import 'package:bytrh/Utils/app_alerts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,10 +38,11 @@ class ConsultationWidget extends StatelessWidget {
             Expanded(
                 child: InkWell(
                   onTap: () async {
-                    await instantConsultationsController.getGeoLocationPosition();
-                    advertisementsController.advertisementLocation.value = "INNER_PAGES";
-                    advertisementsController.advertisementService.value = "URGENT_CONSULT";
-                    await Get.toNamed(Routes.instantConsultationsScreen);
+                    AppAlerts().setProductDelivery(context);
+                    // await instantConsultationsController.getGeoLocationPosition();
+                    // advertisementsController.advertisementLocation.value = "INNER_PAGES";
+                    // advertisementsController.advertisementService.value = "URGENT_CONSULT";
+                    // await Get.toNamed(Routes.instantConsultationsScreen);
                   },
                   child: SizedBox(
                     height: 150,

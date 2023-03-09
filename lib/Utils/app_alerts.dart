@@ -441,6 +441,67 @@ class AppAlerts {
       return result;
     }
   }
+  Future<bool>? setProductDelivery(BuildContext context) async {
+    // final consultationsChatController = Get.find<ConsultationsChatController>();
+    final result = await Get.defaultDialog(
+      title: 'إرسال شكوي',
+      titleStyle: const TextStyle(color: AppColors.MAIN_COLOR),
+      content:  CustomTextFieldWidget(
+        hintText: "اكتب شكوتك ...",
+        keyboardType: TextInputType.number,
+        maxLines: 1,
+        // controller: consultationsChatController.chatComplaintController.value,
+      ),
+      cancel: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+              side: const BorderSide(
+                color: AppColors.MAIN_COLOR,
+                width: 1,
+              ),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            AppColors.WHITE_COLOR,
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            AppColors.MAIN_COLOR,
+          ),
+        ),
+        onPressed: () {},
+        child: Text("موافق"),
+      ),
+      confirm: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            AppColors.MAIN_COLOR,
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            AppColors.BLACK_COLOR,
+          ),
+        ),
+        onPressed: () {
+          Get.back();
+        },
+        child: Text(
+          "إلغاء",
+          style: const TextStyle(color: AppColors.WHITE_COLOR),
+        ),
+      ),
+    );
+    if (result == null) {
+      return false;
+    } else {
+      return result;
+    }
+  }
 }
 
 Future<bool>? consultationsCreatedSuccessfullyPop() async {

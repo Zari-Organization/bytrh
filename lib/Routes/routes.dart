@@ -52,9 +52,13 @@ import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/aboutUs_screen.
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/change_password_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/contactUs_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/my_animals_screen.dart';
+import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/my_bookmarks_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/personal_data_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/Chat_Screens/products_chat_list_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/Chat_Screens/products_chat_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/product_details_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/product_purchase_options_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/product_set_delivery_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/products_add_animal_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/products_animals_requests_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/products_edit_animal_screen.dart';
@@ -112,6 +116,10 @@ class AppRoutes {
   static const productsAddAnimalScreen = Routes.productsAddAnimalScreen;
   static const productsEditAnimalScreen = Routes.productsEditAnimalScreen;
   static const productsAnimalsRequestsScreen = Routes.productsAnimalsRequestsScreen;
+  static const productsChatScreen = Routes.productsChatScreen;
+  static const productsChatListScreen = Routes.productsChatListScreen;
+  static const myBookmarksScreen = Routes.myBookmarksScreen;
+  static const productSetDeliveryTimeScreen = Routes.productSetDeliveryTimeScreen;
 
   //getPages
   static final routes = [
@@ -355,6 +363,26 @@ class AppRoutes {
       page: () => ProductsAnimalsRequestsScreen(),
       binding: ProductsBinding(),
     ),
+    GetPage(
+      name: Routes.productsChatScreen,
+      page: () => ProductsChatScreen(),
+      binding: ProductsBinding(),
+    ),
+    GetPage(
+      name: Routes.productsChatListScreen,
+      page: () => ProductsChatListScreen(),
+      binding: ProductsBinding(),
+    ),
+    GetPage(
+      name: Routes.myBookmarksScreen,
+      page: () => MyBookmarksScreen(),
+      // binding: ProductsBinding(),
+    ),
+    GetPage(
+      name: Routes.productSetDeliveryTimeScreen,
+      page: () => ProductSetDeliveryTimeScreen(),
+      // binding: ProductsBinding(),
+    ),
   ];
 }
 
@@ -407,4 +435,8 @@ class Routes {
   static const productsAddAnimalScreen = '/productsAddAnimalScreen';
   static const productsEditAnimalScreen = '/productsEditAnimalScreen';
   static const productsAnimalsRequestsScreen = '/productsAnimalsRequestsScreen';
+  static const productsChatScreen = '/productsChatScreen';
+  static const productsChatListScreen = '/productsChatListScreen';
+  static const myBookmarksScreen = '/myBookmarksScreen';
+  static const productSetDeliveryTimeScreen = '/productSetDeliveryTimeScreen';
 }

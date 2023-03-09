@@ -41,9 +41,12 @@ class AdoptionController extends GetxController {
         isSender: false,
         text: message,
       ));
-      scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent + 50,
-      );
+      if(inChatScreen.value){
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 50,
+        );
+      }
+
     }
     if (messageType == "IMAGE") {
       adoptionMessages.add(ChatMessage(
@@ -53,9 +56,11 @@ class AdoptionController extends GetxController {
           mediaType: const MediaType.imageMediaType(),
         ),
       ));
-      scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent + 300,
-      );
+      if(inChatScreen.value){
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 300,
+        );
+      }
     }
     if (messageType == "AUDIO") {
       adoptionMessages.add(ChatMessage(
@@ -65,9 +70,11 @@ class AdoptionController extends GetxController {
           mediaType: const MediaType.audioMediaType(),
         ),
       ));
-      scrollController.value.jumpTo(
-        scrollController.value.position.maxScrollExtent + 90,
-      );
+      if(inChatScreen.value){
+        scrollController.value.jumpTo(
+          scrollController.value.position.maxScrollExtent + 90,
+        );
+      }
     }
     log("Chat Messages List ----> ${adoptionMessages.toString()}");
   }

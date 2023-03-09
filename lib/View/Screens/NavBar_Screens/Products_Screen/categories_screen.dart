@@ -23,10 +23,22 @@ class CategoriesScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text("الفئات"),
         actions: [
-          IconButton(onPressed: (){
-            productsController.getProductsAnimalsRequests();
-            Get.toNamed(Routes.productsAnimalsRequestsScreen);
-          }, icon: SvgPicture.asset(AppIcons.cart_icon),splashRadius: 25,)
+          IconButton(
+            onPressed: () {
+              productsController.getProductsChatList();
+              Get.toNamed(Routes.productsChatListScreen);
+            },
+            icon: SvgPicture.asset(AppIcons.message_icon),
+            splashRadius: 25,
+          ),
+          IconButton(
+            onPressed: () {
+              productsController.getProductsAnimalsRequests();
+              Get.toNamed(Routes.productsAnimalsRequestsScreen);
+            },
+            icon: SvgPicture.asset(AppIcons.cart_icon),
+            splashRadius: 25,
+          ),
         ],
       ),
       body: Obx(() {
@@ -55,9 +67,10 @@ class CategoriesScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () async {
-                        productsController.selectedProductsCategoryName.value = productsController
-                            .productsCategoryList[index].animalCategoryName;
-                         productsController.getProductSubCategories(
+                        productsController.selectedProductsCategoryName.value =
+                            productsController
+                                .productsCategoryList[index].animalCategoryName;
+                        productsController.getProductSubCategories(
                           productsController
                               .productsCategoryList[index].idAnimalCategory
                               .toString(),

@@ -12,6 +12,7 @@ import '../../../../Utils/app_constants.dart';
 import '../../../../Utils/app_images.dart';
 import '../../../Widgets/custom_circle_progress.dart';
 import '../Widgets/advertisements_Widget.dart';
+import 'Widgets/bookmark_button.dart';
 
 class ProductsScreen extends StatelessWidget {
    ProductsScreen({Key? key}) : super(key: key);
@@ -26,9 +27,10 @@ class ProductsScreen extends StatelessWidget {
 
       ),
       body: Obx((){
-        if (productsController.isLoadingAnimalProducts.value) {
-          return const CustomCircleProgress();
-        } else if (productsController.animalProductsList.isEmpty) {
+        // if (productsController.isLoadingAnimalProducts.value) {
+        //   return const CustomCircleProgress();
+        // } else
+          if (productsController.animalProductsList.isEmpty) {
           return const Center(
             child: Text("لا يوجد"),
           );
@@ -36,7 +38,8 @@ class ProductsScreen extends StatelessWidget {
         else{
         return SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(
+          child: Stack(
+            alignment: AlignmentDirectional.center,
             children: [
               GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -97,18 +100,34 @@ class ProductsScreen extends StatelessWidget {
                                           ),
                                     ),
                                   ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: CircleAvatar(
-                                      backgroundColor:
-                                      AppColors.WHITE_COLOR.withOpacity(0.7),
-                                      radius: 17,
-                                      child: SvgPicture.asset(
-                                        AppIcons.favorite_icon,
-                                        color: AppColors.BLACK_COLOR,
-                                      ),
-                                    ),
-                                  ),
+                                  BookMarkButton(
+                                    function: () async {
+                                      productsController.addToBookmarks(
+                                        id: productsController
+                                            .animalProductsList[index].idAnimalProduct
+                                            .toString(),
+                                        context: context,
+                                      );
+                                    },
+                                    statusActive:
+                                    productsController
+                                        .animalProductsList[index].bookmarked ==
+                                        0
+                                        ? false
+                                        : true,
+                                  )
+                                  // IconButton(
+                                  //   onPressed: () {},
+                                  //   icon: CircleAvatar(
+                                  //     backgroundColor:
+                                  //     AppColors.WHITE_COLOR.withOpacity(0.7),
+                                  //     radius: 17,
+                                  //     child: SvgPicture.asset(
+                                  //       AppIcons.favorite_icon,
+                                  //       color: AppColors.BLACK_COLOR,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               const SizedBox(height: 10),
@@ -144,6 +163,8 @@ class ProductsScreen extends StatelessWidget {
                   );
                 },
               ),
+              if(productsController.isLoadingAnimalProducts.value)
+              CustomCircleProgress(),
             ],
           ),
         );
