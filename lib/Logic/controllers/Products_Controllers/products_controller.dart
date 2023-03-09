@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:bytrh/Routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,11 +10,14 @@ import '../../../Models/Products_Models/animal_product_bagging_model.dart'
     as animal_product_bagging_import;
 import '../../../Models/Products_Models/animal_product_details_model.dart'
     as animal_product_details_import;
+import '../../../Models/Products_Models/animal_product_details_model.dart';
 import '../../../Models/Products_Models/animal_products_model.dart'
     as animal_products_import;
+import '../../../Models/Products_Models/products_animals_requests_model.dart'as products_animals_requests_import;
 import '../../../Models/Products_Models/products_categories_model.dart'
     as products_categories_import;
-import '../../../Models/Products_Models/products_my_animals_model.dart' as product_my_animals_import;
+import '../../../Models/Products_Models/products_my_animals_model.dart'
+    as product_my_animals_import;
 import '../../../Models/Products_Models/products_subCategories_model.dart'
     as products_sub_categories_import;
 import '../../../Services/Products_Services/products_services.dart';
@@ -57,7 +61,8 @@ class ProductsController extends GetxController {
       if (response.success) {
         // productsSubCategoriesList.clear();
         productsSubCategoriesList.value = response.response;
-        idSubCategory.value = response.response[0].idAnimalSubCategory.toString();
+        idSubCategory.value =
+            response.response[0].idAnimalSubCategory.toString();
       }
     } finally {
       isLoadingSubCategories(false);
@@ -96,6 +101,11 @@ class ProductsController extends GetxController {
           getAnimalProductBagging(
               id: response.response.idAnimalProduct.toString());
         }
+        editAnimalAgeController.value.text = response.response.animalProductAge.toString();
+        editAnimalSizeController.value.text = response.response.animalProductSize.toString();
+        editAnimalDescriptionController.value.text = response.response.animalProductDescription.toString();
+        editAnimalPriceController.value.text = response.response.animalProductPrice.toString();
+        editAnimalGallery.value = response.response.gallery!;
       }
     } finally {
       isLoadingAnimalProductDetails(false);
@@ -108,6 +118,7 @@ class ProductsController extends GetxController {
   var baggingNotChecked = false.obs;
   var deliveryChecked = true.obs;
   var deliveryNotChecked = false.obs;
+
   // var cuttingValue = ''.obs;
   // var baggingValue = ''.obs;
   var purchaseAnimalNoteController = TextEditingController().obs;
@@ -165,14 +176,16 @@ class ProductsController extends GetxController {
         Note!,
       );
       if (response["Success"]) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(seconds: 2),
-            content: Text(
-              response["ApiMsg"].toString(),
+          getProductsAnimalsRequests();
+          Get.offNamed(Routes.productsAnimalsRequestsScreen);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              duration: Duration(seconds: 2),
+              content: Text(
+                response["ApiMsg"].toString(),
+              ),
             ),
-          ),
-        );
+          );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -202,6 +215,7 @@ class ProductsController extends GetxController {
       Note: purchaseAnimalNoteController.value.text,
     );
   }
+
   var isLoadingAddProductAnimal = false.obs;
   var addAnimalAgeController = TextEditingController().obs;
   var addAnimalPriceController = TextEditingController().obs;
@@ -215,24 +229,23 @@ class ProductsController extends GetxController {
   var productAnimalsTypeList = <String>["SINGLE", "GROUP"].obs;
   var selectedProductAnimalsTypeValue = "SINGLE".obs;
 
-
   addProductAnimal(
       {required String IDAnimalSubCategory,
-        required String IDCity,
-        required String AnimalProductGender,
-        required String AnimalProductAge,
-        String? AnimalProductSize,
-        String? AnimalProductPrice,
-        String? AnimalProductDescription,
-        required String AnimalProductType,
-        required String HasBagging,
-        required String HasCutting,
-        required String HasDelivery,
-        required String AllowPhone,
-        required String AllowWhatsapp,
-        required File AnimalProductImage,
-        List<XFile>? AnimalProductGalleryList,
-        required BuildContext context}) async {
+      required String IDCity,
+      required String AnimalProductGender,
+      required String AnimalProductAge,
+      String? AnimalProductSize,
+      String? AnimalProductPrice,
+      String? AnimalProductDescription,
+      required String AnimalProductType,
+      required String HasBagging,
+      required String HasCutting,
+      required String HasDelivery,
+      required String AllowPhone,
+      required String AllowWhatsapp,
+      required File AnimalProductImage,
+      List<XFile>? AnimalProductGalleryList,
+      required BuildContext context}) async {
     if (animalImageFile.value!.path == "") {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -262,8 +275,19 @@ class ProductsController extends GetxController {
         context: context,
       );
       if (response["Success"]) {
-        log(response["ApiMsg"]);
+        getProductsMyAnimals();
         Get.back();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.MAIN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(response["ApiMsg"].toString()),
+          ),
+        );
+        animalImageFile.value = File("");
+        animalGallery.clear();
+      }
+      else{
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: AppColors.MAIN_COLOR,
@@ -273,12 +297,114 @@ class ProductsController extends GetxController {
         );
       }
     } finally {
-      // animalImageFile.value = File("");
-      // animalGallery.clear();
       isLoadingAddProductAnimal(false);
     }
   }
 
+  var isLoadingEditProductAnimal = false.obs;
+
+  var editAnimalAgeController = TextEditingController().obs;
+  var editAnimalPriceController = TextEditingController().obs;
+  var editAnimalSizeController = TextEditingController().obs;
+  var editAnimalDescriptionController = TextEditingController().obs;
+  var editAnimalGallery = <Gallery>[].obs;
+
+  editProductAnimal(
+      {
+        required String IDAnimalProduct,
+        String? IDAnimalSubCategory,
+         String? IDCity,
+         String? AnimalProductGender,
+         String? AnimalProductAge,
+        String? AnimalProductSize,
+        String? AnimalProductPrice,
+        String? AnimalProductDescription,
+         String? AnimalProductType,
+         String? HasBagging,
+         String? HasCutting,
+         String? HasDelivery,
+         String? AllowPhone,
+         String? AllowWhatsapp,
+         File? AnimalProductImage,
+        List<XFile>? AnimalProductGalleryList,
+        required BuildContext context}) async {
+    try {
+      isLoadingEditProductAnimal(true);
+      var response = await ProductsServices().editProductAnimal(
+        IDAnimalProduct:IDAnimalProduct,
+        IDAnimalSubCategory: IDAnimalSubCategory,
+        IDCity: IDCity,
+        AnimalProductGender: AnimalProductGender,
+        AnimalProductSize: AnimalProductSize,
+        AnimalProductAge: AnimalProductAge,
+        AnimalProductDescription: AnimalProductDescription,
+        AnimalProductType: AnimalProductType,
+        AnimalProductPrice: AnimalProductPrice,
+        HasBagging: HasBagging,
+        HasCutting: HasCutting,
+        HasDelivery: HasDelivery,
+        AllowPhone: AllowPhone,
+        AllowWhatsapp: AllowWhatsapp,
+        AnimalProductImage: AnimalProductImage,
+        AnimalProductGalleryList: AnimalProductGalleryList,
+        context: context,
+      );
+      if (response["Success"]) {
+        getProductsMyAnimals();
+        Get.back();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.MAIN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(response["ApiMsg"].toString()),
+          ),
+        );
+        editAnimalImageFile.value = File("");
+        editAnimalGallery.clear();
+      }
+      else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.MAIN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(response["ApiMsg"].toString()),
+          ),
+        );
+      }
+    } finally {
+      isLoadingEditProductAnimal(false);
+    }
+  }
+
+  var isLoadingRemoveFromAnimalGallery = false.obs;
+
+  removeFromAnimalGallery(
+      int idImage,
+      int index,
+      BuildContext context,
+      ) async {
+    try {
+      isLoadingRemoveFromAnimalGallery(true);
+      var response = await ProductsServices().removeFromAnimalGallery(
+        idImage,
+      );
+      if (response["Success"]) {
+        editAnimalGallery.remove(editAnimalGallery[index]);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            // backgroundColor: AppColors.GREEN_COLOR,
+            duration: const Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingRemoveFromAnimalGallery(false);
+    }
+  }
 
   var isLoadingProductsMyAnimals = false.obs;
   var productsMyAnimalsList = <product_my_animals_import.Response>[].obs;
@@ -295,19 +421,78 @@ class ProductsController extends GetxController {
     }
   }
 
+  var isLoadingAddMyProductAnimalStatus = false.obs;
+
+  addMyProductAnimalStatus(
+    String IDAnimalProduct,
+    String AnimalProductStatus,
+    BuildContext context,
+  ) async {
+    try {
+      isLoadingAddMyProductAnimalStatus(true);
+      var response = await ProductsServices.addMyProductAnimalStatus(
+        IDAnimalProduct,
+        AnimalProductStatus,
+      );
+      if (response["Success"]) {
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingAddMyProductAnimalStatus(false);
+    }
+  }
+
+
+  var isLoadingProductsAnimalsRequests = false.obs;
+  var productsAnimalsRequestsList = <products_animals_requests_import.Response>[].obs;
+
+  getProductsAnimalsRequests() async {
+    try {
+      isLoadingProductsAnimalsRequests(true);
+      var response = await ProductsServices.getProductsAnimalsRequests();
+      if (response.success) {
+        productsAnimalsRequestsList.value = response.response;
+      }
+    } finally {
+      isLoadingProductsAnimalsRequests(false);
+    }
+  }
+
   final ImagePicker _picker = ImagePicker();
   Rx<File?> animalImageFile = File("").obs;
+  Rx<File?> editAnimalImageFile = File("").obs;
 
   void addAnimalImage() async {
     XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     animalImageFile.value = File(pickedFile!.path);
   }
+
+  void editAnimalImage() async {
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    editAnimalImageFile.value = File(pickedFile!.path);
+  }
+
   RxList<XFile> animalGallery = <XFile>[].obs;
+  RxList<XFile> editNewAnimalGallery = <XFile>[].obs;
 
   void addAnimalGallery() async {
     List<XFile>? pickedFile = await _picker.pickMultiImage();
     if (pickedFile != null) {
       animalGallery.addAll(pickedFile);
+    }
+  }
+  void pickNewAnimalGallery() async {
+    List<XFile>? pickedFile = await _picker.pickMultiImage();
+    if (pickedFile != null) {
+      editNewAnimalGallery.addAll(pickedFile);
     }
   }
 }

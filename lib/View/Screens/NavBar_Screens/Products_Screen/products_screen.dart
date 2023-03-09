@@ -23,6 +23,7 @@ class ProductsScreen extends StatelessWidget {
         backgroundColor: AppColors.MAIN_COLOR,
         centerTitle: true,
         title: const Text("المنتجات"),
+
       ),
       body: Obx((){
         if (productsController.isLoadingAnimalProducts.value) {

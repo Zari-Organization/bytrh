@@ -9,6 +9,7 @@ import 'package:dio/dio.dart' as dioImport;
 import 'package:image_picker/image_picker.dart';
 
 import '../../Logic/controllers/Adoption_Controllers/adoption_controller.dart';
+import '../../Logic/controllers/Products_Controllers/products_controller.dart';
 import '../../Models/Adoptions_Models/adoption_animals_categories_model.dart';
 import '../../Models/Adoptions_Models/adoption_chat_messages_model.dart';
 import '../../Models/Adoptions_Models/adoption_chat_list_model.dart';
@@ -18,6 +19,7 @@ import '../../Models/Products_Models/animal_product_bagging_model.dart';
 import '../../Models/Products_Models/animal_product_cutting_model.dart';
 import '../../Models/Products_Models/animal_product_details_model.dart';
 import '../../Models/Products_Models/animal_products_model.dart';
+import '../../Models/Products_Models/products_animals_requests_model.dart';
 import '../../Models/Products_Models/products_categories_model.dart';
 import '../../Models/Products_Models/products_my_animals_model.dart';
 import '../../Models/Products_Models/products_subCategories_model.dart';
@@ -163,23 +165,23 @@ class ProductsServices {
     }
   }
 
-  addProductAnimal({
-    required String IDAnimalSubCategory,
-    required String IDCity,
-    required String AnimalProductGender,
-    required String AnimalProductAge,
-    String? AnimalProductSize,
-    String? AnimalProductPrice,
-    String? AnimalProductDescription,
-    required String AnimalProductType,
-    required String HasBagging,
-    required String HasCutting,
-    required String HasDelivery,
-    required String AllowPhone,
-    required String AllowWhatsapp,
-    required File AnimalProductImage,
-    List<XFile>? AnimalProductGalleryList,
-    context}) async {
+  addProductAnimal(
+      {required String IDAnimalSubCategory,
+      required String IDCity,
+      required String AnimalProductGender,
+      required String AnimalProductAge,
+      String? AnimalProductSize,
+      String? AnimalProductPrice,
+      String? AnimalProductDescription,
+      required String AnimalProductType,
+      required String HasBagging,
+      required String HasCutting,
+      required String HasDelivery,
+      required String AllowPhone,
+      required String AllowWhatsapp,
+      required File AnimalProductImage,
+      List<XFile>? AnimalProductGalleryList,
+      context}) async {
     dioImport.Dio dio = dioImport.Dio();
     List<dynamic>? gallery = [];
     for (int i = 0; i < AnimalProductGalleryList!.length; i++) {
@@ -201,7 +203,8 @@ class ProductsServices {
       'HasDelivery': HasDelivery,
       'AllowPhone': AllowPhone,
       'AllowWhatsapp': AllowWhatsapp,
-      "AnimalProductImage": await dioImport.MultipartFile.fromFile("${AnimalProductImage.path}",
+      "AnimalProductImage": await dioImport.MultipartFile.fromFile(
+          "${AnimalProductImage.path}",
           filename: "${AnimalProductImage.path.split('/').last}"),
       "AnimalProductGallery[]": gallery,
     });
@@ -223,6 +226,96 @@ class ProductsServices {
     } else {
       log("Add Product Animal Api --> $jsonData");
       return jsonData;
+    }
+  }
+
+  editProductAnimal(
+      {required String IDAnimalProduct,
+      String? IDAnimalSubCategory,
+      String? IDCity,
+      String? AnimalProductGender,
+      String? AnimalProductAge,
+      String? AnimalProductSize,
+      String? AnimalProductPrice,
+      String? AnimalProductDescription,
+      String? AnimalProductType,
+      String? HasBagging,
+      String? HasCutting,
+      String? HasDelivery,
+      String? AllowPhone,
+      String? AllowWhatsapp,
+      File? AnimalProductImage,
+      List<XFile>? AnimalProductGalleryList,
+      context}) async {
+    final productsController = Get.find<ProductsController>();
+    dioImport.Dio dio = dioImport.Dio();
+    List<dynamic>? gallery = [];
+    for (int i = 0; i < AnimalProductGalleryList!.length; i++) {
+      var path = AnimalProductGalleryList[i].path;
+      gallery.add(await dioImport.MultipartFile.fromFile(path,
+          filename: path.split('/').last));
+    }
+    dioImport.FormData formData = dioImport.FormData.fromMap({
+      'IDAnimalProduct': IDAnimalProduct,
+      'IDAnimalSubCategory': IDAnimalSubCategory,
+      'IDCity': IDCity,
+      'AnimalProductGender': AnimalProductGender,
+      'AnimalProductSize': AnimalProductSize,
+      'AnimalProductAge': AnimalProductAge,
+      'AnimalProductDescription': AnimalProductDescription,
+      'AnimalProductType': AnimalProductType,
+      'AnimalProductPrice': AnimalProductPrice,
+      'HasBagging': HasBagging,
+      'HasCutting': HasCutting,
+      'HasDelivery': HasDelivery,
+      'AllowPhone': AllowPhone,
+      'AllowWhatsapp': AllowWhatsapp,
+      "AnimalProductImage":
+          productsController.editAnimalImageFile.value!.path.isNotEmpty
+              ? await dioImport.MultipartFile.fromFile(
+                  "${AnimalProductImage!.path}",
+                  filename: "${AnimalProductImage.path.split('/').last}")
+              : AnimalProductImage,
+      "AnimalProductGallery[]": gallery,
+    });
+    var response = await dio.post(
+      AppConstants.apiUrl + '/api/client/' + 'store/animalproducts/edit',
+      data: formData,
+      options: dioImport.Options(
+        headers: {
+          'Accept': 'application/json',
+          HttpHeaders.authorizationHeader: AppConstants().UserTocken
+        },
+      ),
+    );
+    var jsonData = response.data;
+    if (jsonData["Success"]) {
+      log("Edit Product Animal Api --> $jsonData");
+      return jsonData;
+    } else {
+      log("Edit Product Animal Api --> $jsonData");
+      return jsonData;
+    }
+  }
+
+  removeFromAnimalGallery(int idImage) async {
+    var response = await http.get(
+      Uri.parse(AppConstants.apiUrl +
+          '/api/client' +
+          '/store/animalproducts/gallery/remove/$idImage'),
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("Remove From Animal Gallery Api --> $decodedData");
+      return decodedData;
+    } else {
+      log("Remove From Animal Gallery Api --> $decodedData");
+      return decodedData;
     }
   }
 
@@ -248,4 +341,52 @@ class ProductsServices {
     }
   }
 
+  static addMyProductAnimalStatus(
+    String IDAnimalProduct,
+    String AnimalProductStatus,
+  ) async {
+    var response = await http.post(
+      Uri.parse(
+          AppConstants.apiUrl + '/api/client' + '/store/animalproducts/status'),
+      body: {
+        'IDAnimalProduct': IDAnimalProduct,
+        'AnimalProductStatus': AnimalProductStatus,
+      },
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData["Success"]) {
+      log("Add My Products Animal Status Api --> $decodedData");
+      return decodedData;
+    } else {
+      log("Add My Products Animal Status Api --> $decodedData");
+      return decodedData;
+    }
+  }
+
+  static Future<ProductsAnimalsRequestsModel> getProductsAnimalsRequests() async {
+    var response = await http.post(
+      Uri.parse(
+        AppConstants.apiUrl + '/api/client/' + 'store/animalproducts/myrequests',
+      ),
+      headers: {
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: AppConstants().UserTocken
+      },
+    );
+
+    var jsonData = response.body;
+    var decodedData = jsonDecode(jsonData);
+    if (decodedData['Success']) {
+      log("Products Animals Requests Api --> $decodedData");
+      return productsAnimalsRequestsModelFromJson(jsonData);
+    } else {
+      log("Products Animals Requests Api --> $decodedData");
+      return productsAnimalsRequestsModelFromJson(jsonData);
+    }
+  }
 }

@@ -3,10 +3,12 @@ import 'package:bytrh/Utils/app_images.dart';
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../Logic/controllers/Products_Controllers/products_controller.dart';
 import '../../../../Utils/app_colors.dart';
+import '../../../../Utils/app_icons.dart';
 import '../Widgets/advertisements_Widget.dart';
 
 class CategoriesScreen extends StatelessWidget {
@@ -20,6 +22,12 @@ class CategoriesScreen extends StatelessWidget {
         backgroundColor: AppColors.MAIN_COLOR,
         centerTitle: true,
         title: const Text("الفئات"),
+        actions: [
+          IconButton(onPressed: (){
+            productsController.getProductsAnimalsRequests();
+            Get.toNamed(Routes.productsAnimalsRequestsScreen);
+          }, icon: SvgPicture.asset(AppIcons.cart_icon),splashRadius: 25,)
+        ],
       ),
       body: Obx(() {
         if (productsController.isLoadingProductsCategory.value) {

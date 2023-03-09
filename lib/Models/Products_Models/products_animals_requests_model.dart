@@ -1,16 +1,16 @@
 // To parse this JSON data, do
 //
-//     final productsMyAnimalsModel = productsMyAnimalsModelFromJson(jsonString);
+//     final productsAnimalsRequestsModel = productsAnimalsRequestsModelFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-ProductsMyAnimalsModel productsMyAnimalsModelFromJson(String str) => ProductsMyAnimalsModel.fromJson(json.decode(str));
+ProductsAnimalsRequestsModel productsAnimalsRequestsModelFromJson(String str) => ProductsAnimalsRequestsModel.fromJson(json.decode(str));
 
-String productsMyAnimalsModelToJson(ProductsMyAnimalsModel data) => json.encode(data.toJson());
+String productsAnimalsRequestsModelToJson(ProductsAnimalsRequestsModel data) => json.encode(data.toJson());
 
-class ProductsMyAnimalsModel {
-  ProductsMyAnimalsModel({
+class ProductsAnimalsRequestsModel {
+  ProductsAnimalsRequestsModel({
     required this.success,
     required this.apiMsg,
     required this.apiCode,
@@ -22,7 +22,7 @@ class ProductsMyAnimalsModel {
   int apiCode;
   List<Response> response;
 
-  factory ProductsMyAnimalsModel.fromJson(Map<String, dynamic> json) => ProductsMyAnimalsModel(
+  factory ProductsAnimalsRequestsModel.fromJson(Map<String, dynamic> json) => ProductsAnimalsRequestsModel(
     success: json["Success"],
     apiMsg: json["ApiMsg"],
     apiCode: json["ApiCode"],
@@ -41,8 +41,8 @@ class Response {
   Response({
     required this.idAnimalProduct,
     required this.animalProductPrice,
-    required this.animalProductImage,
     required this.animalProductStatus,
+    required this.animalProductImage,
     required this.bookmarked,
   });
 
@@ -55,8 +55,8 @@ class Response {
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     idAnimalProduct: json["IDAnimalProduct"],
     animalProductPrice: json["AnimalProductPrice"],
-    animalProductImage: json["AnimalProductImage"],
     animalProductStatus: json["AnimalProductStatus"],
+    animalProductImage: json["AnimalProductImage"],
     bookmarked: json["Bookmarked"],
   );
 

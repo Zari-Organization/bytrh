@@ -56,6 +56,8 @@ import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/personal_data_s
 import '../View/Screens/NavBar_Screens/Products_Screen/product_details_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/product_purchase_options_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/products_add_animal_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/products_animals_requests_screen.dart';
+import '../View/Screens/NavBar_Screens/Products_Screen/products_edit_animal_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/products_screen.dart';
 import '../View/Screens/NavBar_Screens/Products_Screen/sub_categories_screen.dart';
 import '../View/Screens/Splash_Screen/splash_screen.dart';
@@ -108,6 +110,8 @@ class AppRoutes {
   static const productPurchaseOptionsScreen = Routes.productPurchaseOptionsScreen;
   static const myAnimalsScreen = Routes.myAnimalsScreen;
   static const productsAddAnimalScreen = Routes.productsAddAnimalScreen;
+  static const productsEditAnimalScreen = Routes.productsEditAnimalScreen;
+  static const productsAnimalsRequestsScreen = Routes.productsAnimalsRequestsScreen;
 
   //getPages
   static final routes = [
@@ -341,6 +345,16 @@ class AppRoutes {
       page: () => ProductsAddAnimalScreen(),
       binding: ProductsBinding(),
     ),
+    GetPage(
+      name: Routes.productsEditAnimalScreen,
+      page: () => ProductsEditAnimalScreen(),
+      binding: ProductsBinding(),
+    ),
+    GetPage(
+      name: Routes.productsAnimalsRequestsScreen,
+      page: () => ProductsAnimalsRequestsScreen(),
+      binding: ProductsBinding(),
+    ),
   ];
 }
 
@@ -391,4 +405,6 @@ class Routes {
   static const productPurchaseOptionsScreen = '/productPurchaseOptionsScreen';
   static const myAnimalsScreen = '/myAnimalsScreen';
   static const productsAddAnimalScreen = '/productsAddAnimalScreen';
+  static const productsEditAnimalScreen = '/productsEditAnimalScreen';
+  static const productsAnimalsRequestsScreen = '/productsAnimalsRequestsScreen';
 }

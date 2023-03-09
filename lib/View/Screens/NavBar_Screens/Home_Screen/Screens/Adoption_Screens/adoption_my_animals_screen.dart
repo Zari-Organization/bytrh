@@ -26,7 +26,7 @@ class AdoptionMyAnimalsScreen extends StatelessWidget {
         return CustomCircleProgress();
       } else if (adoptionController.myAdoptionsList.isEmpty) {
         return Center(
-          child: Text("لايوجد حيوانات متاحة للتبني الان"),
+          child: Text("لايوجد لديك حيوانات متاحة للتبني"),
         );
       } else {
         return Stack(
