@@ -13,92 +13,32 @@ import '../../Widgets/consultations_doctors_list_widget.dart';
 
 class LocationScreen extends StatelessWidget {
   LocationScreen({Key? key}) : super(key: key);
-  final termConsultationsController = Get.find<TermConsultationsController>();
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AnimalsCategoryWidgetFilter(),
-                AreaTextFieldWidget(),
-                SizedBox(height: 16),
-                AdvertisementsWidget(),
-                SizedBox(height: 30),
-                Text(
-                  "الأطباء :",
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-                ),
-                SizedBox(height: 16),
-                ConsultationsDoctorsListWidget(),
-                SizedBox(height: 100),
-              ],
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AnimalsCategoryWidgetFilter(),
+            AreaTextFieldWidget(),
+            SizedBox(height: 16),
+            AdvertisementsWidget(),
+            SizedBox(height: 30),
+            Text(
+              "الأطباء :",
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
             ),
-          ),
+            SizedBox(height: 16),
+            ConsultationsDoctorsListWidget(),
+            SizedBox(height: 100),
+          ],
         ),
-        Obx(
-              () => Align(alignment: AlignmentDirectional.bottomCenter,child: ConditionalBuilder(
-                condition:
-                !termConsultationsController.isLoadingTermRequestConsult.value,
-                builder: (context) => Obx(
-                      () => Container(
-                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (termConsultationsController.doctorChecked.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              duration: Duration(seconds: 2),
-                              content: Text(
-                                "اختر دكتور او اكثر لطلب الاستشارة",
-                              ),
-                            ),
-                          );
-                        } else {
-                          termConsultationsController.termRequestConsult(
-                              listDays: termConsultationsController.doctorChecked,
-                              context: context);
-                        }
-                      },
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(vertical: 15),
-                        ),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all(
-                            termConsultationsController.doctorChecked.isEmpty
-                                ? AppColors.GREY_COLOR
-                                : AppColors.SECOND_COLOR),
-                        foregroundColor:
-                        MaterialStateProperty.all(AppColors.WHITE_COLOR),
-                      ),
-                      child: Text(
-                        "طلب إستشارة",
-                      ),
-                    ),
-                  ),
-                ),
-                fallback: (context) => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: CircularProgressIndicator(
-                    color: AppColors.SECOND_COLOR,
-                  ),
-                ),
-              ),),
-        ),
-      ],
+      ),
     );
   }
 }

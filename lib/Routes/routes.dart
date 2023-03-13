@@ -44,6 +44,7 @@ import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Instant_Consultations_Screen/instant_consultations_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Term_Consultation_Screen/Screens/Term_Consultations_Cart_Screen/term_consultations_cart_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Term_Consultation_Screen/Screens/Terms_Consultations_Doctor_Profile_Screen/terms_consultations_doctor_profile_screen.dart';
+import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Term_Consultation_Screen/Screens/Terms_Consultations_List_Screen/terms_consultations_list_screen.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Term_Consultation_Screen/term_consultations_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/card_gift_screen.dart';
 import '../View/Screens/NavBar_Screens/My_Account_Screen/Screens/Wallet_Screens/wallet_payment_screen.dart';
@@ -97,6 +98,7 @@ class AppRoutes {
   static const termConsultationsScreen = Routes.termConsultationsScreen;
   static const termConsultationsDoctorProfileScreen = Routes.termConsultationsDoctorProfileScreen;
   static const termConsultationsCartScreen = Routes.termConsultationsCartScreen;
+  static const termConsultationsListScreen = Routes.termConsultationsListScreen;
   static const adoptionScreen = Routes.adoptionScreen;
   static const adoptionDetailsScreen = Routes.adoptionDetailsScreen;
   static const adoptionAddAnimalScreen = Routes.adoptionAddAnimalScreen;
@@ -267,6 +269,10 @@ class AppRoutes {
       name: Routes.termConsultationsCartScreen,
       page: () => TermConsultationsCartScreen(),
       binding: TermConsultationsBinding(),
+    ),    GetPage(
+      name: Routes.termConsultationsListScreen,
+      page: () => TermConsultationsListScreen(),
+      binding: TermConsultationsBinding(),
     ),
     GetPage(
       name: Routes.adoptionScreen,
@@ -416,6 +422,7 @@ class Routes {
   static const termConsultationsScreen = '/termConsultationsScreen';
   static const termConsultationsDoctorProfileScreen = '/termConsultationsDoctorProfileScreen';
   static const termConsultationsCartScreen = '/termConsultationsCartScreen';
+  static const termConsultationsListScreen = '/TermConsultationsListScreen';
   static const adoptionScreen = '/adoptionScreen';
   static const adoptionDetailsScreen = '/adoptionDetailsScreen';
   static const adoptionAddAnimalScreen = '/adoptionAddAnimalScreen';

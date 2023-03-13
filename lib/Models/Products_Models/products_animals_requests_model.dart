@@ -44,6 +44,7 @@ class Response {
     required this.animalProductStatus,
     required this.animalProductImage,
     required this.bookmarked,
+     this.deliveryFees,
   });
 
   int idAnimalProduct;
@@ -51,6 +52,7 @@ class Response {
   String animalProductStatus;
   String animalProductImage;
   int bookmarked;
+  final deliveryFees;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
     idAnimalProduct: json["IDAnimalProduct"],
@@ -58,6 +60,7 @@ class Response {
     animalProductStatus: json["AnimalProductStatus"],
     animalProductImage: json["AnimalProductImage"],
     bookmarked: json["Bookmarked"],
+    deliveryFees: json["DeliveryFees"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -66,5 +69,6 @@ class Response {
     "AnimalProductStatus": animalProductStatus,
     "AnimalProductImage": animalProductImage,
     "Bookmarked": bookmarked,
+    "DeliveryFees": deliveryFees,
   };
 }

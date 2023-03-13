@@ -51,6 +51,7 @@ class PersonalDataResponse {
      this.accessToken,
      this.countryName,
      this.cityName,
+     this.idAnimalCategory,
   });
 
   final idClient;
@@ -65,6 +66,7 @@ class PersonalDataResponse {
   final idCity;
   final clientStatus;
   final accessToken;
+  final idAnimalCategory;
 
   factory PersonalDataResponse.fromJson(Map<String, dynamic> json) => PersonalDataResponse(
     idClient: json["IDClient"],
@@ -79,6 +81,7 @@ class PersonalDataResponse {
     cityName: json["CityName"],
     clientStatus: json["ClientStatus"],
     accessToken: json["AccessToken"],
+    idAnimalCategory: json["IDAnimalCategory"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -94,5 +97,6 @@ class PersonalDataResponse {
     "IDCity": idCity,
     "ClientStatus": clientStatus,
     "AccessToken": accessToken,
+    "IDAnimalCategory": idAnimalCategory,
   };
 }

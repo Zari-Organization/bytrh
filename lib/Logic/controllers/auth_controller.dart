@@ -11,14 +11,18 @@ import '../../Models/Auth_Models/register_model.dart';
 import '../../Models/Location_Models/countries_model.dart' as countries_import;
 import '../../Models/Location_Models/cities_model.dart' as cities_import;
 import '../../Routes/routes.dart';
+import '../../Services/Consultations_Services/consultations_services.dart';
 import '../../Services/auth_services.dart';
 import '../../Utils/app_colors.dart';
 import 'dart:developer';
 
 import 'My_Account_Controllers/personal_data_controller.dart';
 import 'package:timezone/data/latest.dart' as tz;
+
+import '../../../Models/Consultations_Models/animals_category_model.dart'
+as animals_category_import;
 class AuthController extends GetxController {
-  final personalDataController = Get.find<PersonalDataController>();
+  // final personalDataController = Get.find<PersonalDataController>();
 
   Future? setClientCity() {
     // idCountry.value = personalDataController.countryIDController.value;
@@ -29,6 +33,8 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    await getAnimalsCategory();
+    selectedAnimalsCategoryValue.value =  animalsCategoryList[0].idAnimalCategory.toString();
     await getLocation();
     await getCountries();
     await setClientCity();
@@ -84,6 +90,22 @@ class AuthController extends GetxController {
     }
   }
 
+  var isLoadingAnimalsCategory = false.obs;
+  var animalsCategoryList = <animals_category_import.Response>[].obs;
+  var selectedAnimalsCategoryValue = ''.obs;
+
+  getAnimalsCategory() async {
+    try {
+      isLoadingAnimalsCategory(true);
+      var animalsCategory = await ConsultationsServices.getAnimalsCategory();
+      if (animalsCategory.response.isNotEmpty) {
+        animalsCategoryList.value = animalsCategory.response;
+      }
+    } finally {
+      isLoadingAnimalsCategory(false);
+    }
+  }
+
   var isSecureRegisterPass = true.obs;
   var isSecureRegisterConfirmPass = true.obs;
   var isRegisterLoading = false.obs;
@@ -99,6 +121,8 @@ class AuthController extends GetxController {
   var registerClientDeviceTypeController = TextEditingController().obs;
   var registerClientMobileServiceController = TextEditingController().obs;
 
+
+
   Future register(
     String ClientEmail,
     String ClientPhone,
@@ -110,6 +134,7 @@ class AuthController extends GetxController {
     String ClientDeviceType,
     String ClientMobileService,
     String IDCity,
+    String IDAnimalCategory,
     BuildContext context,
   ) async {
     try {
@@ -125,6 +150,7 @@ class AuthController extends GetxController {
           ClientDeviceType,
           ClientMobileService,
           IDCity,
+          IDAnimalCategory,
           context);
       if (registerModel.success == true) {
         log("registerModel success --> ${registerModel.success}");
@@ -267,6 +293,7 @@ class AuthController extends GetxController {
         "ANDROID",
         "GMS",
         defaultCity.value,
+        selectedAnimalsCategoryValue.value,
         context,
       );
     } else {
@@ -305,6 +332,7 @@ class AuthController extends GetxController {
       "ANDROID",
       "GMS",
       defaultCity.value,
+      selectedAnimalsCategoryValue.value,
       context,
     );
   }

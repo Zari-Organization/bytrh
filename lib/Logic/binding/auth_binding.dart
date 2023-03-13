@@ -7,7 +7,7 @@ class AuthBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(()=>VerificationController());
-    Get.lazyPut(()=>PersonalDataController());
+    // Get.lazyPut(()=>PersonalDataController());
     Get.put(AuthController());
 
   }

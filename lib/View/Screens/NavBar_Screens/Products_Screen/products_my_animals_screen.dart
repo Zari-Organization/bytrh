@@ -72,10 +72,15 @@ class ProductsMyAnimalsScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () async {
-                          productsController.getAnimalProductDetails(
-                            productsController.productsMyAnimalsList[index].idAnimalProduct.toString(),
-                          );
-                          Get.toNamed(Routes.productDetailsScreen);
+                          if(productsController.productsMyAnimalsList[index].animalProductStatus=="RESERVED"){
+                            productsController.idAnimalProduct.value = productsController.productsMyAnimalsList[index].idAnimalProduct.toString();
+                            Get.toNamed(Routes.productSetDeliveryTimeScreen);
+                          }else{
+                            productsController.getAnimalProductDetails(
+                              productsController.productsMyAnimalsList[index].idAnimalProduct.toString(),
+                            );
+                            Get.toNamed(Routes.productDetailsScreen);
+                          }
                         },
                         child: Card(
                           shape: OutlineInputBorder(
@@ -265,6 +270,8 @@ class ProductsMyAnimalsScreen extends StatelessWidget {
         return "تم البيع";
       case "CANCELLED":
         return "غير نشط";
+      case "RESERVED":
+        return "في انتظار قبول الطلب";
       default:
         return "";
     }

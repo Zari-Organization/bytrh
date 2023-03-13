@@ -47,7 +47,14 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                             .areaTextFieldValue.value
                             .toLowerCase())) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      termConsultationsController.setDataDoctorProfileFromAdvertisement(
+                        termConsultationsController
+                            .consultationsDoctorsList[index].idDoctor
+                            .toString(),
+                        "CONSULT",
+                      );
+                    },
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -91,38 +98,18 @@ class ConsultationsDoctorsListWidget extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 16, color: AppColors.SECOND_COLOR),
                         ),
-                        trailing: Column(
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "${termConsultationsController.consultationsDoctorsList[index].doctorPricing}",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                SizedBox(width: 5),
-                                Text(
-                                  "ر.س",
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
+                            Text(
+                              "${termConsultationsController.consultationsDoctorsList[index].doctorPricing}",
+                              style: TextStyle(fontSize: 12),
                             ),
-                            Expanded(
-                              child: Checkbox(
-                                onChanged: (value) {
-                                  termConsultationsController.onSelectedDoctor(
-                                      value!,
-                                      termConsultationsController
-                                          .consultationsDoctorsList[index]
-                                          .idDoctor);
-                                },
-                                activeColor: AppColors.SECOND_COLOR,
-                                value: termConsultationsController.doctorChecked
-                                    .contains(termConsultationsController
-                                        .consultationsDoctorsList[index]
-                                        .idDoctor),
-                              ),
-                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              "ر.س",
+                              style: TextStyle(fontSize: 12),
+                            )
                           ],
                         ),
                       ),

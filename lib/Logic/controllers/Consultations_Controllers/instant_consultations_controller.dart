@@ -34,8 +34,7 @@ class InstantConsultationsController extends GetxController
     await getAreas();
     await getAnimalsCategory();
     selectedAreaValue.value = areasList[0].idArea.toString();
-    selectedAnimalsCategoryValue.value =
-        animalsCategoryList[0].idAnimalCategory.toString();
+    selectedAnimalsCategoryValue.value = animalsCategoryList[0].idAnimalCategory.toString();
     await getConsultationsDoctors();
     await  advertisementsController.getAdvertisements();
   }

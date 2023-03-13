@@ -721,6 +721,49 @@ class ProductsController extends GetxController {
     }
   }
 
+  var isLoadingAddProductDeliveryStatus = false.obs;
+  var acceptDeliveryChecked = true.obs;
+  var acceptDeliveryNotChecked = false.obs;
+
+  addProductDeliveryStatus({
+    required String IDAnimalProduct,
+    required String AnimalProductStatus,
+    required BuildContext context,
+  }) async {
+    try {
+      isLoadingAddProductDeliveryStatus(true);
+      var response = await ProductsServices.addProductDeliveryStatus(
+        IDAnimalProduct: IDAnimalProduct,
+        AnimalProductStatus: AnimalProductStatus,
+      );
+      if (response["Success"]) {
+        Get.back();
+        // Future.delayed(Duration(seconds: 2),()=>Get.back());
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.MAIN_COLOR,
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+        getProductsAnimalsRequests();
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingAddProductDeliveryStatus(false);
+    }
+  }
+
   final ImagePicker _picker = ImagePicker();
   Rx<File?> animalImageFile = File("").obs;
   Rx<File?> editAnimalImageFile = File("").obs;

@@ -38,11 +38,10 @@ class ConsultationWidget extends StatelessWidget {
             Expanded(
                 child: InkWell(
                   onTap: () async {
-                    AppAlerts().setProductDelivery(context);
-                    // await instantConsultationsController.getGeoLocationPosition();
-                    // advertisementsController.advertisementLocation.value = "INNER_PAGES";
-                    // advertisementsController.advertisementService.value = "URGENT_CONSULT";
-                    // await Get.toNamed(Routes.instantConsultationsScreen);
+                    await instantConsultationsController.getGeoLocationPosition();
+                    advertisementsController.advertisementLocation.value = "INNER_PAGES";
+                    advertisementsController.advertisementService.value = "URGENT_CONSULT";
+                    await Get.toNamed(Routes.instantConsultationsScreen);
                   },
                   child: SizedBox(
                     height: 150,

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bytrh/Routes/routes.dart';
+import 'package:bytrh/Utils/app_alerts.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -43,10 +44,9 @@ class ProductsAnimalsRequestsScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: (){
-                    if(productsController.productsAnimalsRequestsList[index].animalProductStatus=="RESERVED"){
-                      productsController.idAnimalProduct.value = productsController.productsAnimalsRequestsList[index].idAnimalProduct.toString();
-                      Get.toNamed(Routes.productSetDeliveryTimeScreen);
+                  onTap: () {
+                    if(productsController.productsAnimalsRequestsList[index].animalProductStatus=="PENDING_FEES"){
+                    AppAlerts().productDeliveryFeesPop(index,context);
                     }
                   },
                   child: Card(
@@ -77,7 +77,8 @@ class ProductsAnimalsRequestsScreen extends StatelessWidget {
                                   // height: double.infinity,
                                   fit: BoxFit.cover,
                                 ),
-                                errorWidget: (context, url, error) => Image.asset(
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
                                   AppImages.placeholder,
                                   width: 100,
                                   // height: double.infinity,
@@ -88,16 +89,35 @@ class ProductsAnimalsRequestsScreen extends StatelessWidget {
                             const SizedBox(width: 10),
                             Text(
                               "${productsController.productsAnimalsRequestsList[index].animalProductPrice} ر.س",
-                              style: const TextStyle(
-                                  color: AppColors.MAIN_COLOR),
+                              style:
+                                  const TextStyle(color: AppColors.MAIN_COLOR),
                             ),
                           ],
                         ),
-                        Padding(padding: EdgeInsets.symmetric(horizontal: 10),child: Text(
-                          getCountDownTitle(productsController.productsAnimalsRequestsList[index].animalProductStatus),
-                          style:  TextStyle(
-                              color: AppColors.GREY_COLOR,fontSize: 12),
-                        ),),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                getCountDownTitle(productsController
+                                    .productsAnimalsRequestsList[index]
+                                    .animalProductStatus),
+                                style: TextStyle(
+                                    color: AppColors.GREY_COLOR, fontSize: 12),
+                              ),
+                              if(productsController
+                                  .productsAnimalsRequestsList[index]
+                                  .animalProductStatus=="PENDING_FEES")
+                              Text(
+                                "${productsController
+                                    .productsAnimalsRequestsList[index]
+                                    .deliveryFees} ر.س",
+                                style: TextStyle(
+                                    color: AppColors.GREY_COLOR, fontSize: 12),
+                              ),
+                            ],
+                          )
+                        ),
                       ],
                     ),
                   ),
@@ -117,8 +137,12 @@ class ProductsAnimalsRequestsScreen extends StatelessWidget {
         return "تم البيع";
       case "RESERVED":
         return "في انتظار قبول الطلب";
+      case "ACTIVE":
+        return "نشط";
+      case "PENDING_FEES":
+        return "تم تحديد قيمة التوصيل";
       default:
-        return "";
+        return status;
     }
   }
 }

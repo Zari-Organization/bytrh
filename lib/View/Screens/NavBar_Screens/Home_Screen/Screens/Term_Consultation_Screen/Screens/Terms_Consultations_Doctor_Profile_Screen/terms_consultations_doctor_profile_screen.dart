@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bytrh/Utils/app_alerts.dart';
 import 'package:bytrh/Utils/app_icons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,6 +13,7 @@ import 'package:bytrh/Logic/controllers/Consultations_Controllers/instant_consul
 import '../../../../../../../../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../../../../../../../../Routes/routes.dart';
 import '../../../../../../../../Utils/app_colors.dart';
+import '../../../../../../../../Utils/app_images.dart';
 import '../../../../../../../Widgets/custom_circle_progress.dart';
 import '../../Widgets/doctor_profile_days_filter_widget.dart';
 import 'Widgets/reservation_day_picker.dart';
@@ -78,7 +80,7 @@ class TermConsultationsDoctorProfileScreen extends StatelessWidget {
                       MaterialStateProperty.all(AppColors.WHITE_COLOR),
                 ),
                 child: Text(
-                  "طلب إستشارة",
+                  "أضف إلي السلة",
                   style: const TextStyle(color: AppColors.WHITE_COLOR),
                 ),
               ),
@@ -113,14 +115,45 @@ class TermConsultationsDoctorProfileScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 40,
                                   backgroundColor: AppColors.MAIN_COLOR,
-                                  backgroundImage: NetworkImage(
-                                    termConsultationsController
-                                        .consultationsDoctorProfileData
-                                        .value
-                                        .doctorPicture ??
-                                        "",
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      imageUrl: termConsultationsController
+                                          .consultationsDoctorProfileData
+                                          .value
+                                          .doctorPicture ??
+                                          "",
+                                      placeholder: (context, url) => Image.asset(
+                                        // fit: BoxFit.cover,
+                                        // width: 100,
+                                        // height: double.infinity,
+                                        // color: AppColors.RED_COLOR,
+                                        AppImages.user_placeholder,
+                                      ),
+                                      errorWidget: (context, url, error) => Image.asset(
+                                        // fit: BoxFit.cover,
+                                        // width: 200,
+                                        color: AppColors.WHITE_COLOR,
+                                        // height: 200,
+                                        AppImages.user_placeholder,
+                                      ),
+                                    ),
                                   ),
                                 ),
+                                // CircleAvatar(
+                                //   radius: 40,
+                                //   backgroundColor: AppColors.MAIN_COLOR,
+                                //   backgroundImage: NetworkImage(
+                                //     termConsultationsController
+                                //         .consultationsDoctorProfileData
+                                //         .value
+                                //         .doctorPicture ??
+                                //         "",
+                                //   ),
+                                // ),
                                 const SizedBox(
                                   width: 10,
                                 ),

@@ -39,6 +39,7 @@ class PersonalDataServices {
       String ClientPhone,
       String ClientPhoneFlag,
       String IDCity,
+      String IDAnimalCategory,
       File? ClientPicture,
       context,
       ) async {
@@ -51,6 +52,7 @@ class PersonalDataServices {
       'ClientPhone': ClientPhone,
       'ClientPhoneFlag': ClientPhoneFlag,
       'IDCity': IDCity,
+      'IDAnimalCategory': IDAnimalCategory,
       "ClientPicture": personalDataController
           .profileImageFile.value!.path.isNotEmpty?await dioImport.MultipartFile.fromFile("${ClientPicture!.path}",
           filename: "${ClientPicture.path.split('/').last}"):ClientPicture,

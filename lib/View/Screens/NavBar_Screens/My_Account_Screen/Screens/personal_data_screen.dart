@@ -4,7 +4,9 @@ import 'package:bytrh/Utils/app_bottom_sheets.dart';
 import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../../../Logic/controllers/My_Account_Controllers/personal_data_controller.dart';
 import '../../../../../Logic/controllers/auth_controller.dart';
+import '../../../../../Utils/app_images.dart';
 import '../../../../Widgets/auth_button.dart';
 import '../../../../Widgets/titled_textField.dart';
 
@@ -46,37 +49,50 @@ class PersonalDataScreen extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.SECOND_COLOR,
-                                  ),
-                              child: personalDataController
-                                  .profileImageFile.value!.path.isEmpty
-                                  ? CircleAvatar(
-                                radius: 60,
-                                backgroundColor: AppColors.SECOND_COLOR,
-                                backgroundImage: NetworkImage(
-                                    personalDataController.clientData
-                                        .value.clientPicture ??
-                                        ""),
-                                child: Text(
-                                  personalDataController.clientData.value
-                                      .clientPicture ==
-                                      null
-                                      ? "أضف صورة"
-                                      : "",
-                                  style: const TextStyle(
-                                    color: AppColors.WHITE_COLOR,
-                                  ),
-                                ),
-                              )
-                                  : CircleAvatar(
-                                radius: 60,
-                                backgroundColor: AppColors.MAIN_COLOR,
-                                backgroundImage: FileImage(
-                                  personalDataController
-                                      .profileImageFile.value!,
-                                ),
+                                shape: BoxShape.circle,
+                                color: AppColors.SECOND_COLOR,
                               ),
+                              child: personalDataController
+                                      .profileImageFile.value!.path.isEmpty
+                                  ? CircleAvatar(
+                                      radius: 50,
+                                      backgroundColor: AppColors.SECOND_COLOR,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          // width: 70,
+                                          // color: AppColors.SECOND_COLOR,
+                                          height: double.infinity,
+                                          imageUrl: personalDataController
+                                                  .clientData
+                                                  .value
+                                                  .clientPicture ??
+                                              "",
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                            width: 60,
+                                            height: double.infinity,
+                                            AppImages.user_placeholder,
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+
+                                            width: 60,
+                                            height: double.infinity,
+                                            AppImages.user_placeholder,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 60,
+                                      backgroundColor: AppColors.MAIN_COLOR,
+                                      backgroundImage: FileImage(
+                                        personalDataController
+                                            .profileImageFile.value!,
+                                      ),
+                                    ),
                             ),
                             InkWell(
                               onTap: () {
@@ -102,7 +118,10 @@ class PersonalDataScreen extends StatelessWidget {
                                 ),
                                 child: CircleAvatar(
                                   backgroundColor: AppColors.SECOND_COLOR,
-                                  child: SvgPicture.asset(AppIcons.camera_icon,color: AppColors.WHITE_COLOR,),
+                                  child: SvgPicture.asset(
+                                    AppIcons.camera_icon,
+                                    color: AppColors.WHITE_COLOR,
+                                  ),
                                 ),
                               ),
                             ),
@@ -118,56 +137,60 @@ class PersonalDataScreen extends StatelessWidget {
                   controller: personalDataController.userNameController.value,
                   fillColor: AppColors.GREY_Light_COLOR,
                 ),
-                Obx(() => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("رقم الجوال"),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Directionality(textDirection: TextDirection.ltr, child: IntlPhoneField(
-                      controller: personalDataController.phoneController.value,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: AppColors.GREY_Light_COLOR,
-                        contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 10),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("رقم الجوال"),
+                      const SizedBox(
+                        height: 10,
                       ),
-                      // style: TextStyle(color: AppColors.WHITE_COLOR),
-                      dropdownTextStyle: const TextStyle(
-                          color: AppColors.BLACK_COLOR),
-                      cursorColor: AppColors.MAIN_COLOR,
-                      initialCountryCode: personalDataController.countryFlag.value,
-                      onChanged: (phone) {
-                        if (phone.number.length == 1) {
-                          if (phone.number[0] == "0") {
-                            personalDataController.phoneController
-                                .value
-                                .clear();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 2),
-                                content: Text("num_without_zero".tr),
+                      Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: IntlPhoneField(
+                            controller:
+                                personalDataController.phoneController.value,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: AppColors.GREY_Light_COLOR,
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            );
-                          }
-                        } else {
-                          personalDataController.completePhoneNumber.value.text =
-                              phone.completeNumber.toString();
-                          personalDataController.phoneCodeController.value
-                              .text = phone.countryCode.toString();
-                          log("completePhoneNumber -->${personalDataController.completePhoneNumber.value.text}");
-                          log("phoneCodeController -->${personalDataController.phoneCodeController.value.text}");
-                        }
-                      },
-                    ))
-                  ],
-                ),),
-
+                            ),
+                            // style: TextStyle(color: AppColors.WHITE_COLOR),
+                            dropdownTextStyle:
+                                const TextStyle(color: AppColors.BLACK_COLOR),
+                            cursorColor: AppColors.MAIN_COLOR,
+                            initialCountryCode:
+                                personalDataController.countryFlag.value,
+                            onChanged: (phone) {
+                              if (phone.number.length == 1) {
+                                if (phone.number[0] == "0") {
+                                  personalDataController.phoneController.value
+                                      .clear();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      duration: const Duration(seconds: 2),
+                                      content: Text("num_without_zero".tr),
+                                    ),
+                                  );
+                                }
+                              } else {
+                                personalDataController.completePhoneNumber.value
+                                    .text = phone.completeNumber.toString();
+                                personalDataController.phoneCodeController.value
+                                    .text = phone.countryCode.toString();
+                                log("completePhoneNumber -->${personalDataController.completePhoneNumber.value.text}");
+                                log("phoneCodeController -->${personalDataController.phoneCodeController.value.text}");
+                              }
+                            },
+                          ))
+                    ],
+                  ),
+                ),
                 Form(
                   autovalidateMode: AutovalidateMode.always,
                   child: TitledTextField(
@@ -186,7 +209,7 @@ class PersonalDataScreen extends StatelessWidget {
                     AppBottomSheets().countriesBottomSheet(context);
                   },
                   title:
-                  Text(personalDataController.countryNameController.value),
+                      Text(personalDataController.countryNameController.value),
                   tileColor: AppColors.GREY_Light_COLOR,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -202,34 +225,89 @@ class PersonalDataScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                 ),
+                const SizedBox(height: 10),
+                Obx(
+                  () {
+                    if (personalDataController.isLoadingAnimalsCategory.value) {
+                      return const CustomCircleProgress();
+                    } else {
+                      if (personalDataController.animalsCategoryList.isEmpty) {
+                        return const SizedBox();
+                      } else if (personalDataController
+                              .selectedAnimalsCategoryValue.value ==
+                          "") {
+                        return const CustomCircleProgress();
+                      } else {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("فئتك المفضلة"),
+                            DropdownButtonHideUnderline(
+                              child: Container(
+                                color: AppColors.GREY_Light_COLOR,
+                                child: DropdownButton2(
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'اختر التصنيف',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                                  ),
+                                  items: personalDataController
+                                      .animalsCategoryList
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item.idAnimalCategory
+                                                .toString(),
+                                            child: Text(
+                                              item.animalCategoryName,
+                                              style: const TextStyle(),
+                                            ),
+                                          ))
+                                      .toList(),
+                                  value: personalDataController
+                                      .selectedAnimalsCategoryValue.value,
+                                  onChanged: (value) {
+                                    personalDataController
+                                        .selectedAnimalsCategoryValue
+                                        .value = value as String;
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      }
+                    }
+                  },
+                ),
                 const SizedBox(height: 16),
                 ConditionalBuilder(
                   condition: !personalDataController.isLoadingEditData.value,
-                  builder: (context) =>
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: CustomButton(
-                          title: "حفظ",
-                          foregroundColor: AppColors.WHITE_COLOR,
-                          overlayColor: AppColors.WHITE_COLOR,
-                          onPress: () {
-                            personalDataController.editClientInfo(
-                              personalDataController.userNameController.value
-                                  .text,
-                              personalDataController.emailController.value.text,
-                              personalDataController.completePhoneNumber.value.text,
-                              personalDataController.phoneCodeController.value
-                                  .text,
-                              personalDataController.cityID.value == ""
-                                  ? authController.defaultCity.value
-                                  : personalDataController.cityID.value,
-                              personalDataController.profileImageFile.value,
-                              context,
-                            );
-                          },
-                        ),
-                      ),
+                  builder: (context) => SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: CustomButton(
+                      title: "حفظ",
+                      foregroundColor: AppColors.WHITE_COLOR,
+                      overlayColor: AppColors.WHITE_COLOR,
+                      onPress: () {
+                        personalDataController.editClientInfo(
+                          personalDataController.userNameController.value.text,
+                          personalDataController.emailController.value.text,
+                          personalDataController.completePhoneNumber.value.text,
+                          personalDataController.phoneCodeController.value.text,
+                          personalDataController.cityID.value == ""
+                              ? authController.defaultCity.value
+                              : personalDataController.cityID.value,
+                          personalDataController
+                              .selectedAnimalsCategoryValue.value,
+                          personalDataController.profileImageFile.value,
+                          context,
+                        );
+                      },
+                    ),
+                  ),
                   fallback: (context) => const CustomCircleProgress(),
                 ),
                 const SizedBox(height: 16),

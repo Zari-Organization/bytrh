@@ -5,6 +5,7 @@ import 'package:bytrh/Utils/app_colors.dart';
 import 'package:bytrh/Utils/app_icons.dart';
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -46,6 +47,59 @@ class SignUpScreen extends StatelessWidget {
                 // controller: profileController.brandNameEnController.value,
               ),
               Obx(
+                () {
+                  if (authController.isLoadingAnimalsCategory.value) {
+                    return const CustomCircleProgress();
+                  } else {
+                    if (authController.animalsCategoryList.isEmpty) {
+                      return const SizedBox();
+                    } else if (authController
+                            .selectedAnimalsCategoryValue.value ==
+                        "") {
+                      return const CustomCircleProgress();
+                    } else {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("فئتك المفضلة"),
+                          DropdownButtonHideUnderline(
+                            child: Container(
+                              color: AppColors.GREY_Light_COLOR,
+                              child: DropdownButton2(
+                                isExpanded: true,
+                                hint: Text(
+                                  'اختر التصنيف',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context).hintColor,
+                                  ),
+                                ),
+                                items: authController.animalsCategoryList
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value:
+                                              item.idAnimalCategory.toString(),
+                                          child: Text(
+                                            item.animalCategoryName,
+                                            style: const TextStyle(),
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: authController
+                                    .selectedAnimalsCategoryValue.value,
+                                onChanged: (value) {
+                                  authController.selectedAnimalsCategoryValue
+                                      .value = value as String;
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    }
+                  }
+                },
+              ),
+              Obx(
                 () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,53 +130,62 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               Obx(
-                    () {
-                  if(authController.isLoadingLocation.value){
+                () {
+                  if (authController.isLoadingLocation.value) {
                     return const SizedBox();
-                  }else{
+                  } else {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("رقم الجوال"),
                         const SizedBox(height: 10),
-                        Directionality(textDirection: TextDirection.ltr, child: IntlPhoneField(
-                          controller:
-                          authController.loginPhoneWithoutCodeController.value,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: AppColors.GREY_Light_COLOR,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10),
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: IntlPhoneField(
+                            controller: authController
+                                .loginPhoneWithoutCodeController.value,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: AppColors.GREY_Light_COLOR,
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
-                          ),
-                          // style: TextStyle(color: AppColors.WHITE_COLOR),
-                          dropdownTextStyle: TextStyle(color: AppColors.BLACK_COLOR),
-                          cursorColor: AppColors.MAIN_COLOR,
-                          initialCountryCode: authController.locationCountryCode.value,
-                          onChanged: (phone) {
-                            if (phone.number.length == 1) {
-                              if (phone.number[0] == "0") {
-                                authController.loginPhoneWithoutCodeController.value
-                                    .clear();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    duration: const Duration(seconds: 2),
-                                    content: Text("num_without_zero".tr),
-                                  ),
-                                );
+                            // style: TextStyle(color: AppColors.WHITE_COLOR),
+                            dropdownTextStyle:
+                                TextStyle(color: AppColors.BLACK_COLOR),
+                            cursorColor: AppColors.MAIN_COLOR,
+                            initialCountryCode:
+                                authController.locationCountryCode.value,
+                            onChanged: (phone) {
+                              if (phone.number.length == 1) {
+                                if (phone.number[0] == "0") {
+                                  authController
+                                      .loginPhoneWithoutCodeController.value
+                                      .clear();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      duration: const Duration(seconds: 2),
+                                      content: Text("num_without_zero".tr),
+                                    ),
+                                  );
+                                }
+                              } else {
+                                authController
+                                    .registerClientPhoneController
+                                    .value
+                                    .text = phone.completeNumber.toString();
+                                authController.registerClientPhoneCodeController
+                                    .value.text = phone.countryCode.toString();
+                                log(authController
+                                    .registerClientPhoneController.value.text);
                               }
-                            } else {
-                              authController.registerClientPhoneController.value.text =
-                                  phone.completeNumber.toString();
-                              authController.registerClientPhoneCodeController.value
-                                  .text = phone.countryCode.toString();
-                              log(authController
-                                  .registerClientPhoneController.value.text);
-                            }
-                          },
-                        ),)
+                            },
+                          ),
+                        )
                       ],
                     );
                   }
@@ -139,7 +202,8 @@ class SignUpScreen extends StatelessWidget {
                 autovalidateMode: AutovalidateMode.always,
                 child: TitledTextField(
                   validator: validateEmail,
-                  controller: authController.registerClientEmailController.value,
+                  controller:
+                      authController.registerClientEmailController.value,
                   textDirection: TextDirection.ltr,
                   title: "الإيميل",
                   hintText: "الإيميل......",
@@ -147,56 +211,61 @@ class SignUpScreen extends StatelessWidget {
                   // controller: profileController.brandNameEnController.value,
                 ),
               ),
+              Obx(() => Form(
+                    autovalidateMode: AutovalidateMode.always,
+                    child: TitledTextField(
+                      validator: validatePassword,
+                      obscureText: authController.isSecureRegisterPass.value,
+                      controller:
+                          authController.registerClientPasswordController.value,
+                      title: "كلمة المرور",
+                      hintText: "كلمة المرور........",
+                      fillColor: AppColors.GREY_Light_COLOR,
+                      suffixIcon: IconButton(
+                        splashRadius: 20,
+                        onPressed: () {
+                          authController.isSecureRegisterPass.value =
+                              !authController.isSecureRegisterPass.value;
+                        },
+                        icon: SvgPicture.asset(
+                          authController.isSecureRegisterPass.value
+                              ? AppIcons.hide_pass_icon
+                              : AppIcons.show_pass_icon,
+                          color: AppColors.GREY_COLOR,
+                        ),
+                        color: AppColors.GREY_COLOR,
+                      ),
+                      // controller: profileController.brandNameEnController.value,
+                    ),
+                  )),
               Obx(
-                () => Form(autovalidateMode: AutovalidateMode.always,child: TitledTextField(
-                  validator: validatePassword,
-                  obscureText: authController.isSecureRegisterPass.value,
-                  controller:
-                  authController.registerClientPasswordController.value,
-                  title: "كلمة المرور",
-                  hintText: "كلمة المرور........",
-                  fillColor: AppColors.GREY_Light_COLOR,
-                  suffixIcon: IconButton(
-                    splashRadius: 20,
-                    onPressed: () {
-                      authController.isSecureRegisterPass.value =
-                      !authController.isSecureRegisterPass.value;
-                    },
-                    icon: SvgPicture.asset(
-                      authController.isSecureRegisterPass.value
-                          ? AppIcons.hide_pass_icon
-                          : AppIcons.show_pass_icon,
+                () => Form(
+                  autovalidateMode: AutovalidateMode.always,
+                  child: TitledTextField(
+                    validator: validatePassword,
+                    obscureText:
+                        authController.isSecureRegisterConfirmPass.value,
+                    controller: authController
+                        .registerClientPasswordConfirmController.value,
+                    title: "تأكيد كلمة المرور",
+                    hintText: "كلمة المرور........",
+                    fillColor: AppColors.GREY_Light_COLOR,
+                    suffixIcon: IconButton(
+                      splashRadius: 20,
+                      onPressed: () {
+                        authController.isSecureRegisterConfirmPass.value =
+                            !authController.isSecureRegisterConfirmPass.value;
+                      },
+                      icon: SvgPicture.asset(
+                        authController.isSecureRegisterConfirmPass.value
+                            ? AppIcons.hide_pass_icon
+                            : AppIcons.show_pass_icon,
+                        color: AppColors.GREY_COLOR,
+                      ),
                       color: AppColors.GREY_COLOR,
                     ),
-                    color: AppColors.GREY_COLOR,
                   ),
-                  // controller: profileController.brandNameEnController.value,
-                ),)
-              ),
-              Obx(
-                () => Form(autovalidateMode: AutovalidateMode.always,child: TitledTextField(
-                  validator: validatePassword,
-                  obscureText: authController.isSecureRegisterConfirmPass.value,
-                  controller: authController
-                      .registerClientPasswordConfirmController.value,
-                  title: "تأكيد كلمة المرور",
-                  hintText: "كلمة المرور........",
-                  fillColor: AppColors.GREY_Light_COLOR,
-                  suffixIcon: IconButton(
-                    splashRadius: 20,
-                    onPressed: () {
-                      authController.isSecureRegisterConfirmPass.value =
-                      !authController.isSecureRegisterConfirmPass.value;
-                    },
-                    icon: SvgPicture.asset(
-                      authController.isSecureRegisterConfirmPass.value
-                          ? AppIcons.hide_pass_icon
-                          : AppIcons.show_pass_icon,
-                      color: AppColors.GREY_COLOR,
-                    ),
-                    color: AppColors.GREY_COLOR,
-                  ),
-                ),),
+                ),
               ),
               Obx(
                 () => Row(
@@ -314,8 +383,8 @@ class SignUpScreen extends StatelessWidget {
                     },
                     child: const Text(
                       "تسجيل الدخول",
-                      style:
-                          TextStyle(fontSize: 12, color: AppColors.SECOND_COLOR),
+                      style: TextStyle(
+                          fontSize: 12, color: AppColors.SECOND_COLOR),
                     ),
                   )
                 ],
@@ -397,6 +466,7 @@ class SignUpScreen extends StatelessWidget {
         authController.cityID.value == ""
             ? authController.defaultCity.value
             : authController.cityID.value,
+        authController.selectedAnimalsCategoryValue.value,
         context,
       );
       log(authController.defaultCity.value);
@@ -417,6 +487,7 @@ class SignUpScreen extends StatelessWidget {
         ? 'من فضلك ادخل البريد الالكتروني صحيح'
         : null;
   }
+
   String? validatePassword(String? value) {
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{5,}$';

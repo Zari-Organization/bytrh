@@ -37,8 +37,7 @@ class ProductDetailsScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (productsController.animalProductDetails
-                    .value.sameClient ==
+                if (productsController.animalProductDetails.value.sameClient ==
                     0)
                   ElevatedButton(
                       onPressed: () {
@@ -53,9 +52,9 @@ class ProductDetailsScreen extends StatelessWidget {
                           ),
                         ),
                         backgroundColor:
-                        MaterialStateProperty.all(AppColors.SECOND_COLOR),
+                            MaterialStateProperty.all(AppColors.SECOND_COLOR),
                         foregroundColor:
-                        MaterialStateProperty.all(AppColors.WHITE_COLOR),
+                            MaterialStateProperty.all(AppColors.WHITE_COLOR),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -107,15 +106,16 @@ class ProductDetailsScreen extends StatelessWidget {
                             child: Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15),
-                                    )),
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
+                                )),
                                 margin: EdgeInsets.only(bottom: 50),
                                 elevation: 0,
                                 child: Padding(
                                   padding: EdgeInsets.all(16),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         " ${productsController.animalProductDetails.value.animalProductPrice} ر.س",
@@ -158,83 +158,89 @@ class ProductDetailsScreen extends StatelessWidget {
                                       ),
                                       SizedBox(height: 20),
                                       productsController.animalProductDetails
-                                          .value.gallery!.isEmpty
+                                              .value.gallery!.isEmpty
                                           ? SizedBox()
                                           : Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "الألبوم",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight:
-                                                FontWeight.bold),
-                                          ),
-                                          SizedBox(height: 5),
-                                          SizedBox(
-                                            height: 100,
-                                            child: ListView.separated(
-                                              itemCount: productsController
-                                                  .animalProductDetails
-                                                  .value
-                                                  .gallery!
-                                                  .length,
-                                              shrinkWrap: true,
-                                              scrollDirection:
-                                              Axis.horizontal,
-                                              physics:
-                                              const BouncingScrollPhysics(),
-                                              itemBuilder:
-                                                  (context, index) {
-                                                return ClipRRect(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      17),
-                                                  child: CachedNetworkImage(
-                                                    fit: BoxFit.cover,
-                                                    height: 70,
-                                                    width: 100,
-                                                    imageUrl: productsController
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "الألبوم",
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                SizedBox(height: 5),
+                                                SizedBox(
+                                                  height: 100,
+                                                  child: ListView.separated(
+                                                    itemCount: productsController
                                                         .animalProductDetails
                                                         .value
-                                                        .gallery![index]
-                                                        .animalProductGalleryPath,
-                                                    placeholder:
-                                                        (context, url) =>
-                                                        Image.asset(
-                                                          AppImages.placeholder,
+                                                        .gallery!
+                                                        .length,
+                                                    shrinkWrap: true,
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    physics:
+                                                        const BouncingScrollPhysics(),
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(17),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          fit: BoxFit.cover,
                                                           height: 70,
                                                           width: 100,
-                                                          fit: BoxFit.cover,
+                                                          imageUrl: productsController
+                                                              .animalProductDetails
+                                                              .value
+                                                              .gallery![index]
+                                                              .animalProductGalleryPath,
+                                                          placeholder:
+                                                              (context, url) =>
+                                                                  Image.asset(
+                                                            AppImages
+                                                                .placeholder,
+                                                            height: 70,
+                                                            width: 100,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Image.asset(
+                                                            AppImages
+                                                                .placeholder,
+                                                            height: 70,
+                                                            width: 100,
+                                                            fit: BoxFit.cover,
+                                                          ),
                                                         ),
-                                                    errorWidget: (context,
-                                                        url, error) =>
-                                                        Image.asset(
-                                                          AppImages.placeholder,
-                                                          height: 70,
-                                                          width: 100,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                      );
+                                                    },
+                                                    separatorBuilder:
+                                                        (context, index) =>
+                                                            const SizedBox(
+                                                                width: 8),
                                                   ),
-                                                );
-                                              },
-                                              separatorBuilder: (context,
-                                                  index) =>
-                                              const SizedBox(width: 8),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
                                       SizedBox(height: 20),
-                                      if (productsController.animalProductDetails
-                                          .value.sameClient ==
+                                      if (productsController
+                                              .animalProductDetails
+                                              .value
+                                              .sameClient ==
                                           0)
                                         ListTile(
                                           contentPadding: EdgeInsets.zero,
                                           leading: ClipRRect(
                                             borderRadius:
-                                            BorderRadius.circular(50),
+                                                BorderRadius.circular(50),
                                             child: CachedNetworkImage(
                                               fit: BoxFit.cover,
                                               width: 60,
@@ -245,17 +251,17 @@ class ProductDetailsScreen extends StatelessWidget {
                                                   .clientPicture,
                                               placeholder: (context, url) =>
                                                   Image.asset(
-                                                    width: 60,
-                                                    height: double.infinity,
-                                                    AppImages.user_placeholder,
-                                                  ),
+                                                width: 60,
+                                                height: double.infinity,
+                                                AppImages.user_placeholder,
+                                              ),
                                               errorWidget:
                                                   (context, url, error) =>
-                                                  Image.asset(
-                                                    width: 60,
-                                                    height: double.infinity,
-                                                    AppImages.user_placeholder,
-                                                  ),
+                                                      Image.asset(
+                                                width: 60,
+                                                height: double.infinity,
+                                                AppImages.user_placeholder,
+                                              ),
                                             ),
                                           ),
                                           title: Text(
@@ -267,17 +273,22 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 fontSize: 17,
                                                 color: AppColors.SECOND_COLOR,
                                                 fontWeight: FontWeight.bold,
-                                                overflow: TextOverflow.ellipsis),
+                                                overflow:
+                                                    TextOverflow.ellipsis),
                                           ),
-                                          subtitle: Row(
+                                          subtitle: productsController
+                                              .animalProductDetails
+                                              .value
+                                              .allowPhone==1?Row(
                                             children: [
-                                              SvgPicture.asset(AppIcons.call_icon,
+                                              SvgPicture.asset(
+                                                  AppIcons.call_icon,
                                                   color: AppColors.GREY_COLOR,
                                                   width: 16),
                                               SizedBox(width: 5),
                                               Directionality(
                                                   textDirection:
-                                                  TextDirection.ltr,
+                                                      TextDirection.ltr,
                                                   child: Text(
                                                     productsController
                                                         .animalProductDetails
@@ -289,7 +300,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                             .ellipsis),
                                                   ))
                                             ],
-                                          ),
+                                          ):null,
                                           trailing: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -299,23 +310,24 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 child: TextButton(
                                                   style: ButtonStyle(
                                                       padding:
-                                                      MaterialStateProperty
-                                                          .all(EdgeInsets
-                                                          .symmetric(
-                                                          vertical:
-                                                          15)),
-                                                      shape: MaterialStateProperty
-                                                          .all(
+                                                          MaterialStateProperty
+                                                              .all(EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          15)),
+                                                      shape:
+                                                          MaterialStateProperty
+                                                              .all(
                                                         RoundedRectangleBorder(
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                15)),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15)),
                                                       ),
                                                       backgroundColor:
-                                                      MaterialStateProperty
-                                                          .all(AppColors
-                                                          .SECOND_COLOR)),
+                                                          MaterialStateProperty
+                                                              .all(AppColors
+                                                                  .SECOND_COLOR)),
                                                   onPressed: () {
                                                     productsController
                                                         .requestProductAnimalChat(
@@ -324,7 +336,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                                           .value
                                                           .idAnimalProduct
                                                           .toString(),
-                                                      context,);
+                                                      context,
+                                                    );
                                                   },
                                                   child: SvgPicture.asset(
                                                       AppIcons.message_icon,
@@ -333,35 +346,40 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               SizedBox(width: 5),
+                                              if(productsController
+                                                  .animalProductDetails
+                                                  .value
+                                                  .allowPhone==1)
                                               SizedBox(
                                                 height: 50,
                                                 width: 50,
                                                 child: TextButton(
                                                   style: ButtonStyle(
                                                       padding: MaterialStateProperty
-                                                          .all(
-                                                          EdgeInsets
+                                                          .all(EdgeInsets
                                                               .symmetric(
-                                                              vertical:
-                                                              15)),
+                                                                  vertical:
+                                                                      15)),
                                                       shape: MaterialStateProperty
                                                           .all(RoundedRectangleBorder(
-                                                          side: BorderSide(
-                                                              color: AppColors
-                                                                  .SECOND_COLOR),
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              15)))),
+                                                              side: BorderSide(
+                                                                  color: AppColors
+                                                                      .SECOND_COLOR),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)))),
                                                   onPressed: () {
-                                                    Uri.parse(
-                                                      "tel:${productsController.animalProductDetails.value.clientPhone}",
+                                                    launchUrl(
+                                                      Uri.parse(
+                                                        "tel:${productsController.animalProductDetails.value.clientPhone}",
+                                                      ),
                                                     );
                                                   },
                                                   child: SvgPicture.asset(
                                                       AppIcons.call_icon,
-                                                      color:
-                                                      AppColors.SECOND_COLOR,
+                                                      color: AppColors
+                                                          .SECOND_COLOR,
                                                       width: 16),
                                                 ),
                                               )

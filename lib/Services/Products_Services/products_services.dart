@@ -614,4 +614,36 @@ class ProductsServices {
       log(e.toString());
     }
   }
+
+  static addProductDeliveryStatus({
+    required String IDAnimalProduct,
+    required String AnimalProductStatus,
+    context,
+  }) async {
+    try {
+      var response = await http.post(
+        Uri.parse(
+            AppConstants.apiUrl + '/api/client' + '/store/animalproducts/accept/delivery'),
+        body: {
+          "IDAnimalProduct":IDAnimalProduct,
+          "AnimalProductStatus":AnimalProductStatus,
+        },
+        headers: {
+          'Accept': 'application/json',
+          HttpHeaders.authorizationHeader: AppConstants().UserTocken
+        },
+      );
+      var jsonData = response.body;
+      var decodedData = jsonDecode(jsonData);
+      if (decodedData['Success']) {
+        log("Add Product Delivery Status Api --> $jsonData");
+        return decodedData;
+      } else {
+        log("Add Product Delivery Status Api --> $jsonData");
+        return decodedData;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

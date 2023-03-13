@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:bytrh/Utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -8,8 +9,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import '../../../Models/Consultations_Models/animals_category_model.dart'
     as animals_category_import;
-import '../../../Models/Consultations_Models/consultations_cart_model.dart'
+import '../../../Models/Consultations_Models/terms_consultations_cart_model.dart'
     as consultations_cart_import;
+import '../../../Models/Consultations_Models/consultations_cart_model.dart'
+    as consultations_list_import;
 import '../../../Models/Consultations_Models/consultations_doctor_profile_model.dart'
     as consultations_doctor_profile_import;
 import '../../../Models/Consultations_Models/consultations_doctor_reservation_time_model.dart'
@@ -225,6 +228,25 @@ class TermConsultationsController extends GetxController
     }
   }
 
+  var isLoadingConsultationsList = false.obs;
+  var consultationsList = <consultations_list_import.Response>[].obs;
+
+  getConsultationsList() async {
+    try {
+      isLoadingConsultationsList(true);
+      var response = await ConsultationsServices.getConsultationsList(
+        ConsultType: "NORMAL",
+      );
+      log("Consultations List Controller --> ${response.response.length}");
+      if (response.response.isNotEmpty) {
+        consultationsList.value = response.response;
+        log("Consultations List Controller --> ${consultationsCartList.length}");
+      }
+    } finally {
+      isLoadingConsultationsList(false);
+    }
+  }
+
   var isLoadingRequestConsultation = false.obs;
 
   requestConsultation(String idDoctor, BuildContext context) async {
@@ -263,16 +285,49 @@ class TermConsultationsController extends GetxController
   getConsultationsCart() async {
     try {
       isLoadingConsultationsCart(true);
-      var response = await ConsultationsServices.getConsultationsCart(
-        ConsultType: "NORMAL",
-      );
+      var response = await ConsultationsServices.getTermsConsultationsCart();
       log("Consultations Cart Controller --> ${response.response.length}");
-      if (response.response.isNotEmpty) {
+      if (response.success) {
         consultationsCartList.value = response.response;
         log("Consultations Cart Controller --> ${consultationsCartList.length}");
       }
     } finally {
       isLoadingConsultationsCart(false);
+    }
+  }
+
+  var isLoadingRemoveConsultationsCart = false.obs;
+
+  removeConsultationsCart({ required String IDConsultCart , required BuildContext context}) async {
+    try {
+      isLoadingRemoveConsultationsCart(true);
+      var response =
+      await ConsultationsServices.removeConsultationCart(
+        IDConsultCart: IDConsultCart,
+      );
+      if (response["Success"]) {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     backgroundColor: AppColors.MAIN_COLOR,
+        //     duration: Duration(seconds: 2),
+        //     content: Text(
+        //       response["ApiMsg"].toString(),
+        //     ),
+        //   ),
+        // );
+        getConsultationsCart();
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
+      }
+    } finally {
+      isLoadingRemoveConsultationsCart(false);
     }
   }
 
@@ -323,7 +378,7 @@ class TermConsultationsController extends GetxController
   var doctorHourId = ''.obs;
 
   setDoctorConsultTime(String ConsultDate, BuildContext context) {
-    selectDoctorConsultationTime(IDDoctorConsult.value, doctorHourId.value, ConsultDate, context);
+    selectDoctorConsultationTime(IDDoctor.value, doctorHourId.value, ConsultDate, context);
     log(doctorHourId.value);
   }
 
@@ -336,12 +391,11 @@ class TermConsultationsController extends GetxController
 
   var isLoadingSelectConsultationTime = false.obs;
 
-  selectDoctorConsultationTime(String IDConsult, String IDDoctorHour,
-      String ConsultDate, BuildContext context) async {
+  selectDoctorConsultationTime(String IDDoctor, String IDDoctorHour, String ConsultDate, BuildContext context) async {
     try {
       isLoadingSelectConsultationTime(true);
       var response = await ConsultationsServices.selectDoctorConsultationTime(
-        IDConsult: IDConsult,
+        IDDoctor: IDDoctor,
         IDDoctorHour: IDDoctorHour,
         ConsultDate: ConsultDate,
       );
@@ -453,20 +507,26 @@ class TermConsultationsController extends GetxController
   }
 
   var isLoadingTermRequestConsult = false.obs;
+  var requestConsultNoteController = TextEditingController(text: "").obs;
 
-  termRequestConsult({
-    dynamic listDays,
-    required BuildContext context,
-  }) async {
+  termRequestConsult({required String ConsultNote,required BuildContext context}) async {
     try {
       isLoadingTermRequestConsult(true);
-      var response = await ConsultationsServices().termRequestConsult(
-        listDays,
+      var response = await ConsultationsServices.termRequestConsult(
+          ConsultNote : ConsultNote
       );
       if (response["Success"]) {
-        getConsultationsCart();
-        await Get.toNamed(Routes.termConsultationsCartScreen);
+        Get.back();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 2),
+            content: Text(
+              response["ApiMsg"].toString(),
+            ),
+          ),
+        );
       } else {
+        Get.back();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: Duration(seconds: 2),
@@ -478,7 +538,34 @@ class TermConsultationsController extends GetxController
       }
     } finally {
       isLoadingTermRequestConsult(false);
-      doctorChecked.clear();
     }
   }
+
+  // termRequestConsult({
+  //   dynamic listDays,
+  //   required BuildContext context,
+  // }) async {
+  //   try {
+  //     isLoadingTermRequestConsult(true);
+  //     var response = await ConsultationsServices().termRequestConsult(
+  //       listDays,
+  //     );
+  //     if (response["Success"]) {
+  //       getConsultationsCart();
+  //       await Get.toNamed(Routes.termConsultationsCartScreen);
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           duration: Duration(seconds: 2),
+  //           content: Text(
+  //             response["ApiMsg"].toString(),
+  //           ),
+  //         ),
+  //       );
+  //     }
+  //   } finally {
+  //     isLoadingTermRequestConsult(false);
+  //     doctorChecked.clear();
+  //   }
+  // }
 }

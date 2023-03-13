@@ -84,6 +84,7 @@ class AuthServices {
       String ClientDeviceType,
       String ClientMobileService,
       String IDCity,
+      String IDAnimalCategory,
       context) async {
     final verificationController = Get.find<VerificationController>();
     dioImport.Dio dio = dioImport.Dio();
@@ -98,6 +99,7 @@ class AuthServices {
       'ClientDeviceType': ClientDeviceType,
       'ClientMobileService': ClientMobileService,
       'IDCity': IDCity,
+      'IDAnimalCategory': IDAnimalCategory,
     });
 
     var response = await dio.post(

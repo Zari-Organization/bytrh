@@ -65,7 +65,8 @@ class AuthTypeScreenScreen extends StatelessWidget {
                           borderSideColor: AppColors.SECOND_COLOR,
                           overlayColor: AppColors.MAIN_COLOR,
                           onPress: () {
-                            Get.toNamed(Routes.signUpTypeScreen);
+                            // Get.toNamed(Routes.signUpTypeScreen);
+                            Get.toNamed(Routes.signUpScreen);
                           },
                         ),
                       ],

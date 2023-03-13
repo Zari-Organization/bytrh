@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bytrh/Routes/routes.dart';
+import 'package:bytrh/View/Widgets/auth_button.dart';
 import 'package:bytrh/View/Widgets/custom_circle_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,9 @@ import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:get/get.dart';
 
 import '../Logic/controllers/Chat_Controllers/chat_controllers.dart';
+import '../Logic/controllers/Consultations_Controllers/term_consultations_controller.dart';
 import '../Logic/controllers/My_Account_Controllers/my_account_controller.dart';
+import '../Logic/controllers/Products_Controllers/products_controller.dart';
 import '../Models/Consultations_Models/consultations_doctor_profile_model.dart';
 import '../View/Screens/NavBar_Screens/Home_Screen/Screens/Adoption_Screens/Widgets/custom_textField_widget.dart';
 import 'app_colors.dart';
@@ -101,7 +104,7 @@ class AppAlerts {
         ),
         onPressed: () async {
           Get.back();
-          await Future.delayed(Duration(seconds: 1))
+          await Future.delayed(const Duration(seconds: 1))
               .then((value) => Get.back());
         },
         child: Text("Yes".tr),
@@ -217,7 +220,7 @@ class AppAlerts {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             bankMsg,
             style: TextStyle(
@@ -226,7 +229,7 @@ class AppAlerts {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Image.asset(AppImages.saudi_man_image),
         ],
       ),
@@ -248,15 +251,15 @@ class AppAlerts {
       title: "",
       content: Column(
         children: [
-          Text(
+          const Text(
             "تم إرسال طلب إستشارتك",
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.MAIN_COLOR,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Image.asset(AppImages.saudi_man_image),
         ],
       ),
@@ -278,14 +281,15 @@ class AppAlerts {
       title: "",
       content: Column(
         children: [
-          Text("تم الطلب بنجاح",
-            style: const TextStyle(
+          const Text(
+            "تم الطلب بنجاح",
+            style: TextStyle(
               color: AppColors.MAIN_COLOR,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Image.asset(AppImages.saudi_man_image),
         ],
       ),
@@ -300,7 +304,8 @@ class AppAlerts {
     }
   }
 
-  Future<bool>? consultationsCountDownPop(String consultId, String consultStatus) async {
+  Future<bool>? consultationsCountDownPop(
+      String consultId, String consultStatus) async {
     Get.put(ConsultationsChatController());
     final result = await Get.defaultDialog(
       title: '',
@@ -319,8 +324,8 @@ class AppAlerts {
           ),
         ),
       ),
-      cancel: SizedBox(),
-      confirm: SizedBox(),
+      cancel: const SizedBox(),
+      confirm: const SizedBox(),
     );
     if (result == null) {
       return false;
@@ -328,12 +333,13 @@ class AppAlerts {
       return result;
     }
   }
-  Future<bool>? chatComplaintPop(String idConsult ,BuildContext context) async {
+
+  Future<bool>? chatComplaintPop(String idConsult, BuildContext context) async {
     final consultationsChatController = Get.find<ConsultationsChatController>();
     final result = await Get.defaultDialog(
       title: 'إرسال شكوي',
       titleStyle: const TextStyle(color: AppColors.MAIN_COLOR),
-      content:  CustomTextFieldWidget(
+      content: CustomTextFieldWidget(
         hintText: "اكتب شكوتك ...",
         maxLines: 3,
         controller: consultationsChatController.chatComplaintController.value,
@@ -357,9 +363,12 @@ class AppAlerts {
           ),
         ),
         onPressed: () {
-          consultationsChatController.sendComplaintConsultChat(idConsult, consultationsChatController.chatComplaintController.value.text, context);
+          consultationsChatController.sendComplaintConsultChat(
+              idConsult,
+              consultationsChatController.chatComplaintController.value.text,
+              context);
         },
-        child: Text("إرسال"),
+        child: const Text("إرسال"),
       ),
       confirm: ElevatedButton(
         style: ButtonStyle(
@@ -378,9 +387,9 @@ class AppAlerts {
         onPressed: () {
           Get.back();
         },
-        child: Text(
+        child: const Text(
           "إلغاء",
-          style: const TextStyle(color: AppColors.WHITE_COLOR),
+          style: TextStyle(color: AppColors.WHITE_COLOR),
         ),
       ),
     );
@@ -390,6 +399,7 @@ class AppAlerts {
       return result;
     }
   }
+
   Future<bool>? chatSupportEndedPop() async {
     final result = await Get.defaultDialog(
       barrierDismissible: false,
@@ -398,19 +408,20 @@ class AppAlerts {
       title: "",
       content: Column(
         children: [
-          Text(
+          const Text(
             "تم انتهاء المحادثة مع الدعم",
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.MAIN_COLOR,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
       cancel: const SizedBox(),
-      confirm: Expanded(child: ElevatedButton(
+      confirm: Expanded(
+          child: ElevatedButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
@@ -428,9 +439,9 @@ class AppAlerts {
           Timer(const Duration(seconds: 1), () => Get.back());
           Timer(const Duration(seconds: 1), () => Get.back());
         },
-        child: Text(
+        child: const Text(
           "موافق",
-          style: const TextStyle(color: AppColors.WHITE_COLOR),
+          style: TextStyle(color: AppColors.WHITE_COLOR),
         ),
       )),
       confirmTextColor: AppColors.WHITE_COLOR,
@@ -441,12 +452,13 @@ class AppAlerts {
       return result;
     }
   }
+
   Future<bool>? setProductDelivery(BuildContext context) async {
     // final consultationsChatController = Get.find<ConsultationsChatController>();
     final result = await Get.defaultDialog(
       title: 'إرسال شكوي',
       titleStyle: const TextStyle(color: AppColors.MAIN_COLOR),
-      content:  CustomTextFieldWidget(
+      content: CustomTextFieldWidget(
         hintText: "اكتب شكوتك ...",
         keyboardType: TextInputType.number,
         maxLines: 1,
@@ -471,7 +483,7 @@ class AppAlerts {
           ),
         ),
         onPressed: () {},
-        child: Text("موافق"),
+        child: const Text("موافق"),
       ),
       confirm: ElevatedButton(
         style: ButtonStyle(
@@ -490,9 +502,190 @@ class AppAlerts {
         onPressed: () {
           Get.back();
         },
-        child: Text(
+        child: const Text(
           "إلغاء",
-          style: const TextStyle(color: AppColors.WHITE_COLOR),
+          style: TextStyle(color: AppColors.WHITE_COLOR),
+        ),
+      ),
+    );
+    if (result == null) {
+      return false;
+    } else {
+      return result;
+    }
+  }
+
+  Future<bool>? productDeliveryFeesPop(int index, BuildContext context) async {
+    final productsController = Get.find<ProductsController>();
+    final result = await Get.defaultDialog(
+      contentPadding: EdgeInsets.symmetric(vertical: 5),
+      titlePadding: EdgeInsets.zero,
+      title: "",
+      content: Obx(
+        () => Column(
+          children: [
+            Text(
+              "تم تحديد قيمة التوصيل",
+              style: TextStyle(
+                color: AppColors.GREY_COLOR,
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "${productsController.productsAnimalsRequestsList[index].deliveryFees} ر.س",
+              style: const TextStyle(
+                color: AppColors.MAIN_COLOR,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Checkbox(
+                  side: const BorderSide(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)),
+                  value: productsController.acceptDeliveryChecked.value,
+                  onChanged: (_) {
+                    productsController.acceptDeliveryNotChecked.value = false;
+                    productsController.acceptDeliveryChecked.value = true;
+                    log(productsController.acceptDeliveryChecked.value
+                        .toString());
+                    log(productsController.acceptDeliveryNotChecked.value
+                        .toString());
+                  },
+                  activeColor: AppColors.SECOND_COLOR,
+                ),
+                const Text(
+                  "موافق",
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  side: const BorderSide(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)),
+                  value: productsController.acceptDeliveryNotChecked.value,
+                  onChanged: (_) {
+                    productsController.acceptDeliveryChecked.value = false;
+                    productsController.acceptDeliveryNotChecked.value = true;
+                    log(productsController.acceptDeliveryChecked.value
+                        .toString());
+                    log(productsController.acceptDeliveryNotChecked.value
+                        .toString());
+                  },
+                  activeColor: AppColors.SECOND_COLOR,
+                ),
+                const Text(
+                  "غير موافق",
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      cancel: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: CustomButton(
+          title: "تم",
+          foregroundColor: AppColors.WHITE_COLOR,
+          onPress: () {
+            productsController.addProductDeliveryStatus(
+              IDAnimalProduct: productsController
+                  .productsAnimalsRequestsList[index].idAnimalProduct
+                  .toString(),
+              AnimalProductStatus:
+                  productsController.acceptDeliveryChecked.value
+                      ? "ACCEPTED"
+                      : "REJECTED",
+              context: context,
+            );
+          },
+        ),
+      ),
+      confirm: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: CustomButton(
+          title: "إلغاء",
+          backgroundColor: AppColors.WHITE_COLOR,
+          onPress: () {
+            Get.back();
+          },
+        ),
+      ),
+      confirmTextColor: AppColors.WHITE_COLOR,
+    );
+    if (result == null) {
+      return false;
+    } else {
+      return result;
+    }
+  }
+
+  Future<bool>? termsRequestConsultationsNotePop(BuildContext context) async {
+    final termConsultationsController = Get.find<TermConsultationsController>();
+    final result = await Get.defaultDialog(
+      title: 'ملاحظات',
+      titleStyle: const TextStyle(color: AppColors.MAIN_COLOR),
+      content: CustomTextFieldWidget(
+        hintText: "أكتب ملاحظاتك مع طلب الإستشارة ...",
+        maxLines: 3,
+        controller:
+            termConsultationsController.requestConsultNoteController.value,
+      ),
+      cancel: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+              side: const BorderSide(
+                color: AppColors.MAIN_COLOR,
+                width: 1,
+              ),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            AppColors.WHITE_COLOR,
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            AppColors.MAIN_COLOR,
+          ),
+        ),
+        onPressed: () {
+          termConsultationsController.termRequestConsult(
+            ConsultNote: termConsultationsController
+                .requestConsultNoteController.value.text,
+            context: context,
+          );
+        },
+        child: const Text("طلب"),
+      ),
+      confirm: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            AppColors.MAIN_COLOR,
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            AppColors.BLACK_COLOR,
+          ),
+        ),
+        onPressed: () {
+          Get.back();
+        },
+        child: const Text(
+          "إلغاء",
+          style: TextStyle(color: AppColors.WHITE_COLOR),
         ),
       ),
     );
@@ -511,15 +704,15 @@ Future<bool>? consultationsCreatedSuccessfullyPop() async {
     title: "",
     content: Column(
       children: [
-        Text(
+        const Text(
           "تم إرسال طلب إستشارتك",
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColors.MAIN_COLOR,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Image.asset(AppImages.saudi_man_image),
       ],
     ),

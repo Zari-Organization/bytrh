@@ -1,12 +1,17 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:bytrh/Utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../Models/personal_data_model.dart';
+import '../../../Services/Consultations_Services/consultations_services.dart';
 import '../../../Services/My_Account_Services/personal_data_services.dart';
+import '../auth_controller.dart';
 import '../verification_controller.dart';
+import '../../../Models/Consultations_Models/animals_category_model.dart'
+    as animals_category_import;
 
 class PersonalDataController extends GetxController {
   @override
@@ -20,6 +25,30 @@ class PersonalDataController extends GetxController {
     countryNameController.value = clientData.value.countryName;
     cityNameController.value = clientData.value.cityName;
     countryIDController.value = clientData.value.iDCountry.toString();
+    await getAnimalsCategory();
+    if (clientData.value.idAnimalCategory == null) {
+      selectedAnimalsCategoryValue.value =
+          animalsCategoryList[0].idAnimalCategory.toString();
+    } else {
+      selectedAnimalsCategoryValue.value =
+          clientData.value.idAnimalCategory.toString();
+    }
+  }
+
+  var isLoadingAnimalsCategory = false.obs;
+  var animalsCategoryList = <animals_category_import.Response>[].obs;
+  var selectedAnimalsCategoryValue = ''.obs;
+
+  getAnimalsCategory() async {
+    try {
+      isLoadingAnimalsCategory(true);
+      var animalsCategory = await ConsultationsServices.getAnimalsCategory();
+      if (animalsCategory.response.isNotEmpty) {
+        animalsCategoryList.value = animalsCategory.response;
+      }
+    } finally {
+      isLoadingAnimalsCategory(false);
+    }
   }
 
   var isLoading = false.obs;
@@ -59,6 +88,7 @@ class PersonalDataController extends GetxController {
     String ClientPhone,
     String ClientPhoneFlag,
     String IDCity,
+    String IDAnimalCategory,
     File? ClientPicture,
     BuildContext context,
   ) async {
@@ -70,6 +100,7 @@ class PersonalDataController extends GetxController {
           ClientPhone,
           ClientPhoneFlag,
           IDCity,
+          IDAnimalCategory,
           ClientPicture!,
           context);
       if (editData["Success"]) {
@@ -81,6 +112,7 @@ class PersonalDataController extends GetxController {
               verificationController.phoneController.value.text, context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              backgroundColor: AppColors.MAIN_COLOR,
               duration: const Duration(seconds: 2),
               content: Text(editData["ApiMsg"].toString()),
             ),

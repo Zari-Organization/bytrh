@@ -6,7 +6,6 @@ import '../../controllers/verification_controller.dart';
 class PersonalDataBinding extends Bindings {
   @override
   void dependencies() {
-    // Get.lazyPut(()=>VerificationController());
     Get.put(PersonalDataController());
   }
 }

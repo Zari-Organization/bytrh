@@ -9,16 +9,29 @@ import '../../../../../Utils/app_icons.dart';
 
 class TermConsultationsCartIcon extends StatelessWidget {
   TermConsultationsCartIcon({Key? key}) : super(key: key);
-   final termConsultationsController = Get.find<TermConsultationsController>();
+  final termConsultationsController = Get.find<TermConsultationsController>();
+
   @override
   Widget build(BuildContext context) {
-    return  IconButton(
-        splashRadius: 25,
-        onPressed: () async {
-          termConsultationsController.getConsultationsCart();
-          await Get.toNamed(Routes.termConsultationsCartScreen);
-        },
-        icon: SvgPicture.asset(AppIcons.message_icon),
+    return Row(
+      children: [
+        IconButton(
+          splashRadius: 25,
+          onPressed: () async {
+            termConsultationsController.getConsultationsList();
+            await Get.toNamed(Routes.termConsultationsListScreen);
+          },
+          icon: SvgPicture.asset(AppIcons.message_icon),
+        ),
+        IconButton(
+          splashRadius: 25,
+          onPressed: () async {
+            termConsultationsController.getConsultationsCart();
+            await Get.toNamed(Routes.termConsultationsCartScreen);
+          },
+          icon: SvgPicture.asset(AppIcons.cart_icon),
+        )
+      ],
     );
   }
 }

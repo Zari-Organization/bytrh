@@ -98,8 +98,8 @@ void handlingOnClickNotification(NotificationsModel value) async {
   if (value.screen == "/normalconsultScreen") {
     Get.put(TermConsultationsController());
     final termConsultationsController = Get.find<TermConsultationsController>();
-    await termConsultationsController.getConsultationsCart();
-    Get.toNamed(Routes.termConsultationsCartScreen);
+    await termConsultationsController.getConsultationsList();
+    Get.toNamed(Routes.termConsultationsListScreen);
   }
   if (value.screen == "/normaltimeScreen") {
     Get.put(TermConsultationsController());
@@ -112,7 +112,7 @@ void handlingOnClickNotification(NotificationsModel value) async {
     Get.put(ConsultationsChatController());
     final termConsultationsController = Get.find<TermConsultationsController>();
     final consultationsChatController = Get.find<ConsultationsChatController>();
-    await termConsultationsController.getConsultationsCart();
+    await termConsultationsController.getConsultationsList();
     consultationsChatController.consultStatus.value = "ONGOING";
     await consultationsChatController.getConsultationsChatDetails(
       value.idData,
